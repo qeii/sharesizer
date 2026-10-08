@@ -61,6 +61,12 @@ $("#cvButton").addEventListener("click", async () => {
     return;
   }
 
+  // Some browsers silently return a different format (for example PNG) when they cannot encode WebP.
+  if (blob.type && blob.type !== format) {
+    alert("This browser cannot create that format and returned a different one. Try another browser, or choose PNG or JPEG.");
+    return;
+  }
+
   if (cv.resultUrl) URL.revokeObjectURL(cv.resultUrl);
   cv.resultUrl = URL.createObjectURL(blob);
 

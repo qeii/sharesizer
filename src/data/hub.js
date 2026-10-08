@@ -1,3 +1,4 @@
+import { converterCards } from './tool-pages.js';
 import { SIZE_PAGES, resolveVariants } from './size-pages.js';
 import { ratioLabel } from './platforms.js';
 // Menu of tools: WHAT -> SIZE -> WHAT IT DOES -> ACTION. Sizes are read from the size data so they never drift.
@@ -22,4 +23,5 @@ export const PLATFORMS = [
   { name: 'TikTok', icon: '♪', cards: [fromPage('tiktok-image-size', 'TikTok Image', 'Resize and preview')] },
   { name: 'Facebook', icon: 'f', cards: [fromPage('facebook-cover-photo-size', 'Cover Photo', 'Resize for desktop and mobile')] },
   { name: 'LinkedIn', icon: 'in', cards: [fromPage('linkedin-banner-size', 'LinkedIn Banner', 'Resize for profile or company page')] },
+  { name: 'Image Converter', icon: '⇄', cards: converterCards },
 ];

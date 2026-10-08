@@ -1,0 +1,53 @@
+---
+import Base from './Base.astro';
+import ConverterTool from '../components/ConverterTool.astro';
+import { CONVERTERS, UPDATED } from '../data/tool-pages.js';
+const { slug } = Astro.props;
+const c = CONVERTERS.find((x) => x.slug === slug);
+const related = c.related.map((s) => CONVERTERS.find((x) => x.slug === s));
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const ld = [
+  { '@context': 'https://schema.org', '@type': 'WebApplication', name: c.h1, url, applicationCategory: 'MultimediaApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, description: c.description },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Sharesizer', item: new URL('/', Astro.site).href }, { '@type': 'ListItem', position: 2, name: c.h1, item: url }] },
+];
+---
+<Base title={c.title} description={c.description} ld={ld}>
+  <section class="hero">
+    <p class="crumb"><a href="/">Tools</a> › Image converter</p>
+    <h1>{c.h1}</h1>
+    <p>{c.intro}</p>
+  </section>
+  <div style="margin-top:26px"><ConverterTool target={c.toMime} accept={c.fromMime} /></div>
+  <script>import '../scripts/tools/converter.js'; import '../scripts/converter-preset.js';</script>
+
+  <article class="prose">
+    <h2>How to convert {c.fromLabel} to {c.toLabel}</h2>
+    <ol>
+      <li>Click the upload box above, or drop your {c.fromLabel} file onto it.</li>
+      <li>Check that <strong>Convert to</strong> shows {c.toLabel}{c.to !== 'png' ? ', and choose a quality' : ''}.</li>
+      <li>Click <strong>Convert image</strong> and compare the new file size.</li>
+      <li>Click <strong>Download converted image</strong>.</li>
+    </ol>
+
+    <h2>What changes when you convert {c.fromLabel} to {c.toLabel}</h2>
+    <ul>{c.changes.map((t) => <li>{t}</li>)}</ul>
+
+    <h2>Tips</h2>
+    <ul>{c.tips.map((t) => <li>{t}</li>)}</ul>
+
+    <h2>Frequently asked questions</h2>
+    {c.faq.map(([q, a]) => <><h3>{q}</h3><p>{a}</p></>)}
+
+    <h2>Is my image private?</h2>
+    <p>Yes. Everything runs in your browser. Your image is not uploaded to any server, and there is no account, watermark or limit.</p>
+    <p class="meta">Last reviewed {UPDATED}.</p>
+
+    <h2>Related tools</h2>
+    <ul>
+      {related.map((r) => <li><a href={`/${r.slug}`}>{r.h1}</a></li>)}
+      <li><a href="/">Resize, crop and compress images</a></li>
+      <li><a href="/size-tools">Social media image size guides</a></li>
+    </ul>
+  </article>
+</Base>
