@@ -1,0 +1,47 @@
+<section id="panel-color" class="panel">
+  <div class="tool-grid">
+    <div class="card">
+      <h2>Image Color Picker</h2>
+      <p class="muted">Upload an image and click any pixel to sample its color.</p>
+
+      <label id="coDrop" class="dropzone">
+        <input id="coFile" type="file" accept="image/*" hidden />
+        <strong>Click or drop image here</strong>
+        <span class="muted">Colors are sampled locally</span>
+      </label>
+
+      <div class="color-preview" id="coSwatch"></div>
+
+      <div class="color-values">
+        <div class="color-row">
+          <code id="coHex">#000000</code>
+          <button id="coCopyHex" class="btn secondary copy-btn">Copy</button>
+        </div>
+        <div class="color-row">
+          <code id="coRgb">rgb(0, 0, 0)</code>
+          <button id="coCopyRgb" class="btn secondary copy-btn">Copy</button>
+        </div>
+        <div class="color-row">
+          <code id="coHsl">hsl(0, 0%, 0%)</code>
+          <button id="coCopyHsl" class="btn secondary copy-btn">Copy</button>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top: 18px;">
+        <label class="label">History</label>
+        <div id="coHistory" class="swatches"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Canvas</h2>
+      <div class="preview" id="coPreview">
+        <div id="coEmpty" class="muted">Upload an image, then click on it to pick a color.</div>
+        <canvas id="coCanvas" class="hidden"></canvas>
+      </div>
+      <div class="notice">
+        If the image is very large, it is scaled down for faster color sampling.
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+---
+const { variants } = Astro.props;
+---
+<div id="sizeTool" class="card" data-variants={JSON.stringify(variants)}>
+  <h2>Resize your image</h2>
+  <div class="yp-top">
+    <div>
+      <label class="dropzone" data-drop>
+        <input type="file" accept="image/*" hidden data-file />
+        <strong>Click or drop your image here</strong>
+        <span class="muted">Processed in your browser. Nothing is uploaded.</span>
+      </label>
+      <p class="hint" data-info></p>
+    </div>
+    <div data-controls hidden>
+      {variants.length > 1 && (
+        <div class="field"><label class="label">Size</label>
+          <select data-variant>{variants.map((v, i) => <option value={i}>{v.name} — {v.w}×{v.h}</option>)}</select></div>
+      )}
+      <div class="two-col">
+        <div class="field"><label class="label">Fit mode</label>
+          <select data-fit><option value="cover">Cover (crop to fill)</option><option value="contain">Contain (add padding)</option></select></div>
+        <div class="field"><label class="label">Padding color</label><input type="color" value="#000000" data-bg /></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label class="label">Format</label>
+          <select data-format><option value="image/jpeg">JPEG (smaller)</option><option value="image/png">PNG (sharper text)</option></select></div>
+        <div class="field"><label class="label">JPEG quality</label><input type="range" min="0.6" max="1" step="0.01" value="0.92" data-quality /></div>
+      </div>
+      <div class="field checkbox"><input type="checkbox" checked data-guides id="stGuides" /><label for="stGuides">Show safe-area guides</label></div>
+      <button class="btn" type="button" data-download>Download resized image</button>
+      <p class="hint" data-result></p>
+    </div>
+  </div>
+  <div data-preview hidden style="margin-top:18px;text-align:center">
+    <canvas data-canvas style="max-width:100%;height:auto;border-radius:12px;cursor:crosshair;touch-action:none;background:var(--preview-bg)"></canvas>
+    <p class="hint" data-hint>Cover mode: click or drag on the preview to choose which part of the image to keep.</p>
+    <p class="hint warn" data-warn hidden></p>
+  </div>
+</div>

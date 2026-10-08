@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../data/site.js';
+if (!CONTACT_EMAIL) console.warn('\n[sharesizer] Set CONTACT_EMAIL in src/data/site.js before publishing: the Contact page has no email yet.\n');
+---
+<Base title="Contact | Sharesizer" description="Contact Sharesizer to report an outdated size, a bug, or to suggest a tool.">
+  <article class="prose">
+    <h1>Contact</h1>
+    <p>Found an outdated size, a bug, or want to suggest a tool? We'd like to hear from you.</p>
+    {CONTACT_EMAIL ? <p>Email: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p> : <p class="note">Contact email not set yet. Add it in <code>src/data/site.js</code>.</p>}
+    <p>When reporting a problem, please include the page, your browser, and what you expected to happen. Do not send private images by email.</p>
+  </article>
+</Base>

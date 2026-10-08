@@ -1,0 +1,14 @@
+---
+import Base from './Base.astro';
+const { frontmatter: f } = Astro.props;
+const ld = { '@context': 'https://schema.org', '@type': 'Article', headline: f.title, description: f.description, datePublished: f.date, dateModified: f.updated || f.date, author: { '@type': 'Organization', name: 'Sharesizer' } };
+---
+<Base title={`${f.title} | Sharesizer`} description={f.description}>
+  <article class="prose">
+    <p class="crumb"><a href="/blog">← Creator Guides</a></p>
+    <h1>{f.title}</h1>
+    <p class="meta">Updated {f.updated || f.date} · {f.readTime}</p>
+    <slot />
+  </article>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+</Base>

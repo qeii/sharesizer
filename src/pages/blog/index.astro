@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+const posts = Object.values(import.meta.glob('./*.md', { eager: true })).sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date));
+---
+<Base title="Creator Guides | Sharesizer" description="Practical, honest guides for content creators: faceless channels, AI workflows, thumbnails and growth.">
+  <section class="hero">
+    <h1>Creator Guides</h1>
+    <p>Practical guides for building a channel with AI tools, with honest numbers and no hype.</p>
+  </section>
+  <div class="post-list" style="max-width:760px;margin:28px auto 0">
+    {posts.map((p) => (
+      <a class="card post-card" href={p.url}>
+        <h2>{p.frontmatter.title}</h2>
+        <p>{p.frontmatter.description}</p>
+        <p class="meta">{p.frontmatter.date} · {p.frontmatter.readTime}</p>
+      </a>
+    ))}
+  </div>
+</Base>

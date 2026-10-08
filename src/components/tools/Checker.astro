@@ -1,0 +1,48 @@
+<section id="panel-checker" class="panel">
+  <div class="tool-grid">
+    <div class="card">
+      <h2>Social Media Checker</h2>
+      <p class="muted">Check whether your image matches common social platform recommendations.</p>
+
+      <label id="chDrop" class="dropzone">
+        <input id="chFile" type="file" accept="image/*" hidden />
+        <strong>Click or drop image here</strong>
+        <span class="muted">Checks dimensions, ratio, type, and file size</span>
+      </label>
+
+      <div class="field">
+        <label class="label" for="chPlatform">Platform</label>
+        <select id="chPlatform"></select>
+      </div>
+
+      <div class="notice">
+        Platform requirements can change. Use this as a fast pre-publish checklist, not as an official platform API check.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Results</h2>
+      <div id="chSummary" class="summary"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Platform</th>
+              <th>Recommended</th>
+              <th>Your image</th>
+              <th>File</th>
+              <th>Status</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="chBody">
+            <tr>
+              <td colspan="6">Upload an image to check platform requirements.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

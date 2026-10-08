@@ -1,0 +1,11 @@
+---
+import Base from './Base.astro';
+const { frontmatter: f } = Astro.props;
+---
+<Base title={`${f.title} | Sharesizer`} description={f.description}>
+  <article class="prose">
+    <h1>{f.title}</h1>
+    {f.updated && <p class="meta">Last updated {f.updated}</p>}
+    <slot />
+  </article>
+</Base>

@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import { PLATFORMS } from '../../data/hub.js';
+---
+<Base title="Size Tools: Resize Images for YouTube, Instagram, TikTok and More | Sharesizer" description="Free tools that resize and crop your image to the right size for YouTube, Instagram, TikTok, Facebook and LinkedIn. Pick a platform and open the tool.">
+  <section class="hero">
+    <h1>Size Tools</h1>
+    <p>Pick a platform, then an image type. Each one opens a free tool that resizes and crops your image for you.</p>
+    <p class="hub-cue" aria-hidden="true">↓ Choose your platform</p>
+  </section>
+  <div class="hub">
+    {PLATFORMS.map((p) => (
+      <section class="hub-group" aria-labelledby={`h-${p.name}`}>
+        <div class="hub-head"><span class="hub-badge" aria-hidden="true">{p.icon}</span><div><h2 id={`h-${p.name}`}>{p.name}</h2><p>Choose an image type</p></div></div>
+        <div class="hub-grid">
+          {p.cards.map((c) => (
+            <a class="tool-card" href={c.href} aria-label={`Open ${c.name} tool`}>
+              <span class="tc-badge" aria-hidden="true">{p.icon}</span>
+              <h3>{c.name}</h3>
+              <p class="tc-size">{c.sizes.map((s) => <span>{s}</span>)}</p>
+              <p class="tc-does">{c.does}</p>
+              <span class="tc-cta">Open tool <b aria-hidden="true">→</b></span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>

@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import YouTubePack from '../components/tools/YouTubePack.astro';
+import { YOUTUBE_SIZES, ratioLabel as ratio } from '../data/platforms.js';
+import { UPDATED } from '../data/size-pages.js';
+const faq = [
+  ['What are all the YouTube image sizes?', 'Thumbnail 1280×720, channel banner 2560×1440 (safe area 1546×423), profile picture 800×800, Shorts and vertical 1080×1920, Full HD frame 1920×1080, community post 1080×1080, and video watermark 150×150. The table above lists each one.'],
+  ['What is the focus point?', 'Different sizes have different shapes, so each crop has to cut something off. Click on the part of your image that matters, such as a face or logo, and every crop favors that spot.'],
+  ['Why do some files get a lower quality setting?', 'YouTube limits thumbnails to 2 MB, banners to 6 MB and profile pictures to 4 MB. In JPEG mode, Sharesizer lowers quality just enough to stay under each limit.'],
+  ['Does my design leave my computer?', 'No. Everything is processed in your browser and the ZIP is built on your device.'],
+];
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const ld = [
+  { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'YouTube Image Sizes Pack', url, applicationCategory: 'MultimediaApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Sharesizer', item: new URL('/', Astro.site).href }, { '@type': 'ListItem', position: 2, name: 'Size tools', item: new URL('/size-tools', Astro.site).href }, { '@type': 'ListItem', position: 3, name: 'YouTube image sizes', item: url }] },
+];
+---
+<Base title="YouTube Image Sizes 2026: Resize Thumbnail, Banner and More at Once | Sharesizer" description="Upload one image and download every YouTube size as a ZIP: thumbnail, channel banner, profile picture, Shorts and more. Free, with safe-area previews, in your browser." ld={ld}>
+  <section class="hero">
+    <p class="crumb"><a href="/size-tools">Size tools</a> › YouTube</p>
+    <h1>YouTube Image Sizes: Resize Everything at Once</h1>
+    <p>Upload one design from Photoshop or Illustrator and get your thumbnail, banner, profile picture and Shorts frame in one ZIP.</p>
+  </section>
+  <div style="margin-top:26px"><YouTubePack /></div>
+  <script>import '../scripts/tools/yt-pack.js';</script>
+
+  <article class="prose">
+    <h2>Every YouTube image size</h2>
+    <table><thead><tr><th>Image</th><th>Size</th><th>Ratio</th><th>Notes</th></tr></thead>
+    <tbody>{YOUTUBE_SIZES.map((s) => <tr><td>{s.name}</td><td>{s.w} × {s.h}</td><td>{ratio(s.w, s.h)}</td><td>{s.note}</td></tr>)}</tbody></table>
+    <p class="meta">Checked {UPDATED} against several current guides. YouTube can change these, so confirm in YouTube Studio before a big launch.</p>
+
+    <h2>How to use it</h2>
+    <ol>
+      <li>Export your design as PNG or JPG. Browsers can't open PSD or AI files directly.</li>
+      <li>Drop it above, then click the part of the image that matters most.</li>
+      <li>Check the previews. The banner shows its safe area and the profile picture shows its circle.</li>
+      <li>Untick any sizes you don't need, then download one by one or as a ZIP.</li>
+    </ol>
+
+    <h2>Tips</h2>
+    <ul>
+      <li>Start from a large image, ideally 2560 px wide or more, so the banner stays sharp.</li>
+      <li>Choose Contain instead of Cover if you can't afford to lose any edge of the design.</li>
+      <li>For thumbnails, compare options first with the <a href="/youtube-thumbnail-tester">thumbnail tester</a>.</li>
+    </ul>
+
+    <h2>Frequently asked questions</h2>
+    {faq.map(([q, a]) => <><h3>{q}</h3><p>{a}</p></>)}
+
+    <h2>Related tools</h2>
+    <ul>
+      <li><a href="/youtube-thumbnail-size">YouTube Thumbnail Size: 1280×720</a></li>
+      <li><a href="/youtube-banner-size">YouTube Channel Banner Size</a></li>
+      <li><a href="/youtube-thumbnail-tester">YouTube Thumbnail Tester</a></li>
+      <li><a href="/size-tools">All size tools</a></li>
+    </ul>
+  </article>
+</Base>

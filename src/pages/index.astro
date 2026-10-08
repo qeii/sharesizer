@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import { TOOLS } from '../data/tools.js';
+import PhotoEditor from '../components/tools/PhotoEditor.astro';
+import Resizer from '../components/tools/Resizer.astro';
+import Compressor from '../components/tools/Compressor.astro';
+import Cropper from '../components/tools/Cropper.astro';
+import Converter from '../components/tools/Converter.astro';
+import AspectRatio from '../components/tools/AspectRatio.astro';
+import SocialMaker from '../components/tools/SocialMaker.astro';
+import Checker from '../components/tools/Checker.astro';
+import ColorPicker from '../components/tools/ColorPicker.astro';
+import QrCode from '../components/tools/QrCode.astro';
+import { PLATFORMS } from '../data/hub.js';
+---
+<Base>
+  <section class="hero">
+    <h1>Free image tools for content creators</h1>
+    <p>Resize, crop, compress, convert and check social media sizes. Everything runs in your browser, so your files never leave your device.</p>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Image tools">
+    {TOOLS.map((t, i) => (
+      <button class={`tab${i === 0 ? ' active' : ''}`} data-panel={t.id} role="tab" aria-selected={i === 0 ? 'true' : 'false'}>{t.label}</button>
+    ))}
+  </div>
+
+  <PhotoEditor />
+  <Resizer />
+  <Compressor />
+  <Cropper />
+  <Converter />
+  <AspectRatio />
+  <SocialMaker />
+  <Checker />
+  <ColorPicker />
+  <QrCode />
+  <section class="prose" style="margin-top:40px">
+    <h2>Size tools by platform</h2>
+    <p>Need the exact size for a platform? <a href="/size-tools">Open a size tool</a>, upload your image, and download it resized.</p>
+    <ul>{PLATFORMS.flatMap((pl) => pl.cards.map((c) => <li><a href={c.href}>{pl.name}: {c.name}</a></li>))}</ul>
+  </section>
+  <script>import '../scripts/tools/index.js';</script>
+</Base>

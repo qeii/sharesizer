@@ -1,0 +1,68 @@
+<section id="panel-resizer" class="panel">
+  <div class="tool-grid">
+    <div class="card">
+      <h2>Image Resizer</h2>
+      <p class="muted">Resize to exact pixel dimensions for ads, banners, and social placements.</p>
+
+      <label id="rzDrop" class="dropzone">
+        <input id="rzFile" type="file" accept="image/*" hidden />
+        <strong>Click or drop image here</strong>
+        <span class="muted">JPG, PNG, WebP, GIF</span>
+      </label>
+
+      <div class="meta-list">
+        <div class="meta-item"><span>File size</span><strong id="rzFileSize">—</strong></div>
+        <div class="meta-item"><span>Original dimensions</span><strong id="rzOrig">—</strong></div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label class="label" for="rzWidth">Width px</label>
+          <input id="rzWidth" type="number" min="1" value="1920" />
+        </div>
+        <div class="field">
+          <label class="label" for="rzHeight">Height px</label>
+          <input id="rzHeight" type="number" min="1" value="1080" />
+        </div>
+      </div>
+
+      <div class="field checkbox">
+        <input id="rzLock" type="checkbox" checked />
+        <label for="rzLock">Lock aspect ratio</label>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label class="label" for="rzFormat">Format</label>
+          <select id="rzFormat">
+            <option value="image/jpeg">JPEG</option>
+            <option value="image/png">PNG</option>
+            <option value="image/webp">WebP</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="rzQuality">Quality <span id="rzQualityValue">0.92</span></label>
+          <input id="rzQuality" type="range" min="0.1" max="1" step="0.01" value="0.92" />
+        </div>
+      </div>
+
+      <button id="rzButton" class="btn">Resize image</button>
+    </div>
+
+    <div class="card">
+      <h2>Output</h2>
+      <div id="rzPreview" class="preview">
+        <div class="muted">Upload an image to preview.</div>
+      </div>
+
+      <div id="rzResult" class="hidden">
+        <div class="meta-list">
+          <div class="meta-item"><span>Result</span><strong id="rzResultSize">—</strong></div>
+        </div>
+        <div class="actions">
+          <a id="rzDownload" class="btn" download>Download resized image</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

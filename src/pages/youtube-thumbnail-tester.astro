@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import ThumbTester from '../components/ThumbTester.astro';
+const faq = [
+  ['Is this thumbnail tester free?', 'Yes. There is no account, watermark or limit, and everything runs in your browser.'],
+  ['Does it tell me which thumbnail will get more clicks?', 'No. It measures things like contrast, brightness and how much detail survives at small size. Clicks depend on your topic, title and audience, so treat the results as a checklist, not a prediction.'],
+  ['Can it check whether my text is readable?', 'Not automatically, because that needs text recognition. The detail-kept score and the 168 px and 100 px previews help you judge it by eye.'],
+  ['How do I test against competitors?', 'Take screenshots of thumbnails in your niche and add them under "Add competitor thumbnails". They are placed in the simulated feed next to yours and never leave your device.'],
+  ['Does YouTube have its own thumbnail testing?', 'YouTube Studio offers thumbnail testing for eligible channels, which uses real viewers. Check Studio for availability. Use this tool to prepare your options before that.'],
+];
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const ld = [
+  { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'YouTube Thumbnail Tester', url, applicationCategory: 'MultimediaApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+];
+---
+<Base title="YouTube Thumbnail Tester: Compare, Preview and Check | Sharesizer" description="Free YouTube thumbnail tester. Compare 2–4 thumbnails, preview them in a simulated feed at mobile size, and check contrast, brightness, size and cropping. Private, in your browser." ld={ld}>
+  <section class="hero">
+    <p class="crumb"><a href="/size-tools">Size tools</a> › YouTube</p>
+    <h1>YouTube Thumbnail Tester and Previewer</h1>
+    <p>Upload up to four thumbnails to see how they look in a feed at real size, and get objective checks for contrast, brightness, detail, file size and cropping.</p>
+  </section>
+  <div style="margin-top:26px"><ThumbTester /></div>
+  <script>import '../scripts/thumb-tester.js';</script>
+
+  <article class="prose">
+    <h2>What the checks measure</h2>
+    <ul>
+      <li><strong>Brightness and tonal range:</strong> how light the image is and how far apart its darkest and lightest areas are. Low range often looks flat in a busy feed.</li>
+      <li><strong>Detail kept at 168 px:</strong> we shrink your thumbnail to 168 pixels wide, enlarge it back, and measure how much detail was lost. Bold shapes keep their detail; thin text and tiny objects do not.</li>
+      <li><strong>Busy corner and edges:</strong> flags detail under the bottom-right video length badge and content that runs to the edges.</li>
+      <li><strong>Size, ratio, file size and format:</strong> compared with YouTube's published guidance: 1280×720, 16:9, under 2 MB, JPG or PNG.</li>
+    </ul>
+    <p class="note">The thresholds behind the warnings are rules of thumb, not YouTube rules. Use them to spot problems, then trust your own eyes and your audience.</p>
+
+    <h2>What this tool cannot do</h2>
+    <p>It does not read the text in your thumbnail, detect faces, or predict clicks. The simulated feeds use blank placeholders (or your own competitor screenshots), not real videos, and the layouts are simplified.</p>
+
+    <h2>How to get more from a test</h2>
+    <ul>
+      <li>Check each option at 168 px first. If you can't tell what it shows, simplify it.</li>
+      <li>Add real competitor thumbnails from your niche so you can see whether yours stands out or blends in.</li>
+      <li>Try both light and dark feeds, since many viewers use dark mode.</li>
+      <li>Need the right dimensions? Use the <a href="/youtube-thumbnail-size">YouTube thumbnail resizer</a>.</li>
+    </ul>
+
+    <h2>Frequently asked questions</h2>
+    {faq.map(([q, a]) => <><h3>{q}</h3><p>{a}</p></>)}
+
+    <h2>Is my image private?</h2>
+    <p>Yes. Analysis happens in your browser on your own device. Your thumbnails are never uploaded.</p>
+
+    <h2>Related tools</h2>
+    <ul>
+      <li><a href="/youtube-thumbnail-size">YouTube Thumbnail Size: 1280×720</a></li>
+      <li><a href="/youtube-banner-size">YouTube Channel Banner Size</a></li>
+      <li><a href="/">All Sharesizer tools</a></li>
+    </ul>
+  </article>
+</Base>

@@ -1,0 +1,112 @@
+---
+const sliders = [
+  ['brightness','Brightness',-100,100,0],['contrast','Contrast',-100,100,0],['saturation','Saturation',-100,100,0],
+  ['warmth','Warmth',-100,100,0],['grayscale','Grayscale',0,100,0],['sepia','Sepia',0,100,0],['blur','Blur (px)',0,20,0],
+];
+const rows = (list) => list;
+---
+<section id="panel-editor" class="panel active">
+  <div class="tool-grid">
+    <div class="card">
+      <h2>Photo Editor</h2>
+      <p class="muted">Resize, crop, rotate, flip, add text or logo overlays and apply filters. Nothing is uploaded.</p>
+      <label id="peDrop" class="dropzone">
+        <input id="peFile" type="file" accept="image/*" hidden />
+        <strong>Click or drop image here</strong>
+        <span class="muted">JPG, PNG, WebP, GIF</span>
+      </label>
+      <p id="peInfo" class="hint"></p>
+
+      <div id="peControls" hidden>
+        <div class="group"><h3>Rotate &amp; flip</h3>
+          <div class="btn-row">
+            <button class="btn secondary" id="peRotL" type="button">⟲ 90°</button>
+            <button class="btn secondary" id="peRotR" type="button">⟳ 90°</button>
+            <button class="btn secondary" id="peFlipH" type="button">⇋ Flip H</button>
+            <button class="btn secondary" id="peFlipV" type="button">⇅ Flip V</button>
+          </div>
+        </div>
+
+        <div class="group"><h3>Resize</h3>
+          <div class="two-col">
+            <div class="field"><label class="label" for="peW">Width px</label><input id="peW" type="number" min="1" max="8000" /></div>
+            <div class="field"><label class="label" for="peH">Height px</label><input id="peH" type="number" min="1" max="8000" /></div>
+          </div>
+          <div class="field checkbox"><input id="peLock" type="checkbox" checked /><label for="peLock">Lock aspect ratio</label></div>
+          <button class="btn secondary" id="peApplyResize" type="button">Apply resize</button>
+        </div>
+
+        <div class="group"><h3>Crop</h3>
+          <div class="field"><label class="label" for="peRatio">Shape (then drag on the image)</label>
+            <select id="peRatio">
+              <option value="0">Free</option><option value="1">1:1 square</option><option value="1.7778">16:9</option>
+              <option value="0.5625">9:16</option><option value="0.8">4:5</option><option value="1.5">3:2</option>
+            </select></div>
+          <div class="btn-row">
+            <button class="btn secondary" id="peApplyCrop" type="button" disabled>Apply crop</button>
+            <button class="btn secondary" id="peClearCrop" type="button">Clear selection</button>
+          </div>
+        </div>
+
+        <div class="group"><h3>Filters</h3>
+          <div class="chips" style="margin-bottom:12px">
+            {['Original','Black & white','Vintage','Vivid','Cool','Warm'].map(n => <button class="btn secondary" type="button" data-preset={n}>{n}</button>)}
+          </div>
+          {sliders.map(([id,label,min,max,def]) => (
+            <div class="range-row"><div class="top"><label for={`pe_${id}`}>{label}</label><output id={`out_${id}`}>{def}</output></div>
+            <input id={`pe_${id}`} type="range" min={min} max={max} value={def} /></div>
+          ))}
+          <p id="peBlurNote" class="hint warn" hidden>Blur isn't supported by this browser.</p>
+        </div>
+
+        <div class="group"><h3>Text overlay</h3>
+          <div class="field"><label class="label" for="pe_text">Text</label><input id="pe_text" type="text" placeholder="Your text or watermark" /></div>
+          <div class="two-col">
+            <div class="field"><label class="label" for="pe_font">Font</label>
+              <select id="pe_font"><option value="Arial, sans-serif">Sans</option><option value="Georgia, serif">Serif</option><option value="Impact, sans-serif">Impact</option><option value="'Courier New', monospace">Mono</option></select></div>
+            <div class="field"><label class="label" for="pe_color">Color</label><input id="pe_color" type="color" value="#ffffff" /></div>
+          </div>
+          <div class="field checkbox"><input id="pe_bold" type="checkbox" checked /><label for="pe_bold">Bold</label></div>
+          {[['tsize','Size % of width',2,30,8],['topacity','Opacity %',5,100,100],['tx','Position X %',0,100,50],['ty','Position Y %',0,100,50]].map(([id,label,min,max,def]) => (
+            <div class="range-row"><div class="top"><label for={`pe_${id}`}>{label}</label><output id={`out_${id}`}>{def}</output></div>
+            <input id={`pe_${id}`} type="range" min={min} max={max} value={def} /></div>
+          ))}
+        </div>
+
+        <div class="group"><h3>Image / logo overlay</h3>
+          <div class="btn-row" style="margin-bottom:12px">
+            <label class="btn secondary" for="peLogoFile" style="cursor:pointer">Choose logo</label>
+            <input id="peLogoFile" type="file" accept="image/*" hidden />
+            <button class="btn secondary" id="peLogoClear" type="button">Remove</button>
+          </div>
+          {[['lsize','Size % of width',3,100,20],['lopacity','Opacity %',5,100,100],['lx','Position X %',0,100,85],['ly','Position Y %',0,100,88]].map(([id,label,min,max,def]) => (
+            <div class="range-row"><div class="top"><label for={`pe_${id}`}>{label}</label><output id={`out_${id}`}>{def}</output></div>
+            <input id={`pe_${id}`} type="range" min={min} max={max} value={def} /></div>
+          ))}
+        </div>
+
+        <div class="group"><h3>Export</h3>
+          <div class="two-col">
+            <div class="field"><label class="label" for="peFormat">Format</label>
+              <select id="peFormat"><option value="image/png">PNG</option><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></div>
+            <div class="field"><label class="label" for="peQuality">Quality</label><input id="peQuality" type="range" min="0.5" max="1" step="0.01" value="0.92" /></div>
+          </div>
+          <div class="btn-row">
+            <button class="btn" id="peDownload" type="button">Download image</button>
+            <button class="btn secondary" id="peUndo" type="button">Undo</button>
+            <button class="btn secondary" id="peReset" type="button">Reset all</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Preview</h2>
+      <div id="peEmpty" class="preview"><p class="muted">Upload an image to start editing.</p></div>
+      <div id="peStage" hidden style="text-align:center">
+        <div class="pe-stage"><canvas id="peCanvas"></canvas><canvas id="peCrop"></canvas></div>
+        <p class="hint">Drag on the image to select a crop area, then click “Apply crop”.</p>
+      </div>
+    </div>
+  </div>
+</section>

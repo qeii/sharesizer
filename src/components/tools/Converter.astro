@@ -1,0 +1,52 @@
+<section id="panel-converter" class="panel">
+  <div class="tool-grid">
+    <div class="card">
+      <h2>Image Converter</h2>
+      <p class="muted">Convert between PNG, JPEG, and WebP locally.</p>
+
+      <label id="cvDrop" class="dropzone">
+        <input id="cvFile" type="file" accept="image/*" hidden />
+        <strong>Click or drop image here</strong>
+        <span class="muted">No upload to server</span>
+      </label>
+
+      <div class="meta-list">
+        <div class="meta-item"><span>File size</span><strong id="cvFileSize">—</strong></div>
+        <div class="meta-item"><span>Dimensions</span><strong id="cvOrig">—</strong></div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label class="label" for="cvFormat">Convert to</label>
+          <select id="cvFormat">
+            <option value="image/png">PNG</option>
+            <option value="image/jpeg">JPEG</option>
+            <option value="image/webp">WebP</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="cvQuality">Quality <span id="cvQualityValue">0.92</span></label>
+          <input id="cvQuality" type="range" min="0.1" max="1" step="0.01" value="0.92" />
+        </div>
+      </div>
+
+      <button id="cvButton" class="btn">Convert image</button>
+    </div>
+
+    <div class="card">
+      <h2>Output</h2>
+      <div id="cvPreview" class="preview">
+        <div class="muted">Upload an image to preview.</div>
+      </div>
+
+      <div id="cvResult" class="hidden">
+        <div class="meta-list">
+          <div class="meta-item"><span>Result</span><strong id="cvResultSize">—</strong></div>
+        </div>
+        <div class="actions">
+          <a id="cvDownload" class="btn" download>Download converted image</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

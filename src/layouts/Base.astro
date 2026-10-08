@@ -1,0 +1,60 @@
+---
+import '../styles/tools.css';
+import '../styles/theme.css';
+import '../styles/editor.css';
+import '../styles/blog.css';
+import '../styles/thumb.css';
+import '../styles/hub.css';
+const { title = 'Sharesizer — Free Image Tools for Creators', description = 'Resize, crop, compress, convert and check social media image sizes in your browser. Files never leave your device.', ld = [] } = Astro.props;
+---
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta property="og:site_name" content="Sharesizer" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).href} />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  {ld.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
+  <script is:inline>
+    (function(){try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t}catch(e){}})();
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a class="logo" href="/" style="text-decoration:none;color:inherit">
+        <div class="logo-badge" style="color:#fff">SS</div>
+        <div>Sharesizer<span class="logo-sub">Image tools for creators</span></div>
+      </a>
+      <div class="header-actions">
+        <nav class="nav" aria-label="Main"><a href="/">Tools</a><a href="/youtube-thumbnail-tester">Thumbnail Tester</a><a href="/size-tools">Size Tools</a><a href="/blog">Creator Guides</a></nav>
+        <div class="header-badge">Files stay in your browser</div>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch light/dark theme">◐</button>
+      </div>
+    </div>
+  </header>
+  <main class="container"><slot /></main>
+  <footer>
+    <div class="container">
+      <strong>Sharesizer</strong>
+      <nav class="nav" aria-label="Footer"><a href="/about">About</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></nav>
+      <span>All processing happens locally in your browser. Social specs are recommendations and may change.</span>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('themeToggle')?.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<div class="card">
+  <h2>Upload once, get every size</h2>
+
+  <div class="yp-top">
+    <div>
+      <label id="ypDrop" class="dropzone">
+        <input id="ypFile" type="file" accept="image/*" hidden />
+        <strong>Click or drop your design here</strong>
+        <span class="muted">Export from Photoshop / Illustrator as PNG or JPG. Bigger is better.</span>
+      </label>
+      <p id="ypInfo" class="hint"></p>
+    </div>
+    <div id="ypCtl" hidden>
+      <div class="two-col">
+        <div class="field"><label class="label" for="ypFit">Fit mode</label>
+          <select id="ypFit"><option value="cover">Cover (crop to fill)</option><option value="contain">Contain (add padding)</option></select></div>
+        <div class="field"><label class="label" for="ypBg">Padding color</label><input id="ypBg" type="color" value="#000000" /></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label class="label" for="ypFormat">Format</label>
+          <select id="ypFormat"><option value="image/jpeg">JPEG (smaller)</option><option value="image/png">PNG (sharper text)</option></select></div>
+        <div class="field"><label class="label" for="ypQuality">JPEG quality</label><input id="ypQuality" type="range" min="0.6" max="1" step="0.01" value="0.92" /></div>
+      </div>
+      <div class="field checkbox"><input id="ypSafe" type="checkbox" checked /><label for="ypSafe">Show banner safe area and profile circle</label></div>
+    </div>
+  </div>
+
+  <div id="ypWork" hidden>
+    <div class="yp-focus">
+      <div><strong>Focus point</strong><p class="hint" style="margin:4px 0 10px">Click on your image where the important part is (face, logo, text). Every crop will favour that spot.</p></div>
+      <canvas id="ypSrc"></canvas>
+    </div>
+    <div id="ypGrid" class="yp-grid"></div>
+    <div class="btn-row" style="margin-top:18px">
+      <button id="ypZip" class="btn" type="button">Download all as ZIP</button>
+    </div>
+    <ul id="ypReport" class="yp-report"></ul>
+    <p class="hint">Sizes follow YouTube's current recommendations (checked October 2026) and can change. File-size limits: thumbnail 2 MB, banner 6 MB, profile picture 4 MB. JPEG quality is lowered automatically to stay under them.</p>
+  </div>
+</div>

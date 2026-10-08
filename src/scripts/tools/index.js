@@ -1,0 +1,11 @@
+import "./tabs.js";
+import "./photo-editor.js";
+import "./resizer.js";
+import "./compressor.js";
+import "./cropper.js";
+import "./converter.js";
+import "./aspect.js";
+import "./social.js";
+import "./color.js";
+import "./checker.js";
+import "./qr.js";

@@ -1,0 +1,57 @@
+<section id="panel-qr" class="panel">
+  <div class="tool-grid">
+    <div class="card">
+      <h2>QR Code Generator</h2>
+      <p class="muted">Static QR codes that never expire. Generated in your browser, no tracking.</p>
+      <div class="field"><label class="label" for="qrMode">Type</label>
+        <select id="qrMode"><option value="text">Link or text</option><option value="wifi">Wi-Fi</option><option value="email">Email</option></select></div>
+
+      <div id="qrf-text"><div class="field"><label class="label" for="qrText">Link or text</label><textarea id="qrText">https://</textarea></div></div>
+      <div id="qrf-wifi" hidden>
+        <div class="field"><label class="label" for="qrSsid">Network name</label><input id="qrSsid" type="text" /></div>
+        <div class="two-col">
+          <div class="field"><label class="label" for="qrPass">Password</label><input id="qrPass" type="text" /></div>
+          <div class="field"><label class="label" for="qrSec">Security</label><select id="qrSec"><option>WPA</option><option>WEP</option><option value="nopass">None</option></select></div>
+        </div>
+        <div class="field checkbox"><input id="qrHidden" type="checkbox" /><label for="qrHidden">Hidden network</label></div>
+      </div>
+      <div id="qrf-email" hidden>
+        <div class="field"><label class="label" for="qrTo">To</label><input id="qrTo" type="email" /></div>
+        <div class="field"><label class="label" for="qrSubj">Subject</label><input id="qrSubj" type="text" /></div>
+        <div class="field"><label class="label" for="qrBody">Message</label><textarea id="qrBody"></textarea></div>
+      </div>
+
+      <div class="group"><h3>Style</h3>
+        <div class="two-col">
+          <div class="field"><label class="label" for="qrFg">Code color</label><input id="qrFg" type="color" value="#000000" /></div>
+          <div class="field"><label class="label" for="qrBg">Background</label><input id="qrBg" type="color" value="#ffffff" /></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label class="label" for="qrShape">Modules</label><select id="qrShape"><option value="square">Square</option><option value="round">Rounded</option></select></div>
+          <div class="field"><label class="label" for="qrEcc">Error correction</label><select id="qrEcc"><option value="L">Low</option><option value="M" selected>Medium</option><option value="Q">Quartile</option><option value="H">High</option></select></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label class="label" for="qrSize">Size px</label><select id="qrSize"><option>512</option><option selected>1024</option><option>2048</option></select></div>
+          <div class="field"><label class="label" for="qrMargin">Quiet zone</label><select id="qrMargin"><option>2</option><option>3</option><option selected>4</option><option>6</option></select></div>
+        </div>
+        <div class="btn-row">
+          <label class="btn secondary" for="qrLogoFile" style="cursor:pointer">Add center logo</label>
+          <input id="qrLogoFile" type="file" accept="image/*" hidden />
+          <button class="btn secondary" id="qrLogoClear" type="button">Remove logo</button>
+        </div>
+        <p class="hint">With a logo, error correction is set to High automatically.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Preview</h2>
+      <div class="qr-box"><canvas id="qrCanvas"></canvas></div>
+      <p id="qrNote" class="hint"></p>
+      <div class="btn-row" style="margin-top:14px">
+        <button class="btn" id="qrPng" type="button">Download PNG</button>
+        <button class="btn secondary" id="qrSvg" type="button">Download SVG</button>
+      </div>
+      <p class="hint">Always test-scan the code with your phone before printing or publishing.</p>
+    </div>
+  </div>
+</section>

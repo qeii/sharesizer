@@ -1,0 +1,31 @@
+<div id="thumbTester" class="card">
+  <h2>Test your thumbnails</h2>
+  <label class="dropzone" data-drop>
+    <input type="file" accept="image/*" multiple hidden data-file />
+    <strong>Click or drop 1–4 thumbnails here</strong>
+    <span class="muted">Add two or more to compare them. Nothing is uploaded.</span>
+  </label>
+  <p class="hint" data-msg></p>
+  <div data-summary class="notice" hidden></div>
+  <div data-results class="tt-results"></div>
+
+  <div data-feedwrap hidden>
+    <h2 style="margin-top:28px">See it in a feed</h2>
+    <div class="two-col">
+      <div class="field"><label class="label">Where it appears</label>
+        <select data-ctx><option value="home">Home feed (desktop)</option><option value="search">Search results</option><option value="upnext">Up next sidebar</option><option value="mobile">Mobile feed</option></select></div>
+      <div class="field"><label class="label">Thumbnail to place</label><select data-which></select></div>
+    </div>
+    <div class="two-col">
+      <div class="field"><label class="label">Other videos look like</label>
+        <select data-pal><option value="neutral">Muted</option><option value="vivid">Bright and colorful</option><option value="dark">Dark and moody</option></select></div>
+      <div class="field checkbox" style="align-self:end"><input type="checkbox" id="ttDark" data-dark /><label for="ttDark">Dark mode feed</label></div>
+    </div>
+    <div class="btn-row" style="margin-bottom:12px">
+      <label class="btn secondary" style="cursor:pointer">Add competitor thumbnails (optional)<input type="file" accept="image/*" multiple hidden data-comp /></label>
+      <button class="btn secondary" type="button" data-compclear>Clear competitors</button>
+    </div>
+    <p class="hint">The other cards are blank placeholders. For a realistic test, add 3–8 screenshots of thumbnails from your niche. They stay on your device.</p>
+    <div class="tt-feed" data-feed data-ctx="home"></div>
+  </div>
+</div>

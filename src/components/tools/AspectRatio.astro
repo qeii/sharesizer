@@ -1,0 +1,44 @@
+<section id="panel-aspect" class="panel">
+  <div class="tool-grid">
+    <div class="card">
+      <h2>Aspect Ratio Calculator</h2>
+      <p class="muted">Calculate ratio, decimal, common match, and target dimensions.</p>
+
+      <div class="two-col">
+        <div class="field">
+          <label class="label" for="arWidth">Width</label>
+          <input id="arWidth" type="number" min="1" value="1920" />
+        </div>
+        <div class="field">
+          <label class="label" for="arHeight">Height</label>
+          <input id="arHeight" type="number" min="1" value="1080" />
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label class="label" for="arTargetWidth">Calculate height from width</label>
+          <input id="arTargetWidth" type="number" min="1" placeholder="e.g. 1080" />
+        </div>
+        <div class="field">
+          <label class="label" for="arTargetHeight">Calculate width from height</label>
+          <input id="arTargetHeight" type="number" min="1" placeholder="e.g. 1350" />
+        </div>
+      </div>
+
+      <div class="notice">
+        Enter source width and height first, then use one target field to calculate the matching side.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Result</h2>
+      <div class="meta-list">
+        <div class="meta-item"><span>Ratio</span><strong id="arRatio">—</strong></div>
+        <div class="meta-item"><span>Decimal</span><strong id="arDecimal">—</strong></div>
+        <div class="meta-item"><span>Closest common ratio</span><strong id="arCommon">—</strong></div>
+        <div class="meta-item"><span>Megapixels</span><strong id="arMP">—</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
