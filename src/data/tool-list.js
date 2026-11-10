@@ -49,7 +49,7 @@ export const TOOL_LIST = [
     short: 'Upload once, download every YouTube size.',
     long: 'Upload one design and get every YouTube image size in a single ZIP: thumbnail, channel banner, profile picture, Shorts, community post and more. Choose a focus point so each crop keeps your subject.',
     points: ['7 sizes in one ZIP', 'Focus point for crops', 'Stays under YouTube file limits'] },
-  { id: 'size-tools', name: 'Size Tools by Platform', icon: '▤', href: '/size-tools',
+  { id: 'size-tools', name: 'Size Tools by Platform', icon: '▤', href: '/#size-tools',
     short: 'YouTube, Instagram, TikTok, Facebook and more.',
     long: 'Browse ready-made resizers by platform: YouTube, Instagram, TikTok, Facebook, LinkedIn, X and Pinterest. Each page lists the exact recommended sizes and opens a tool that resizes and crops your image for that placement.',
     points: ['7+ platforms', 'Exact recommended sizes', 'Resize and crop in one step'] },

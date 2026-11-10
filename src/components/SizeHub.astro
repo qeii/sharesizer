@@ -1,0 +1,53 @@
+---
+import { PLATFORMS } from "../data/hub.js";
+---
+
+<section class="size-hub" id="size-tools" aria-labelledby="size-hub-h">
+  <h2 id="size-hub-h">Size tools by platform</h2>
+  <p class="size-hub-intro">
+    Pick a platform, then an image type. Each one opens a free tool that
+    resizes and crops your image for you.
+  </p>
+  <div class="hub">
+    {
+      PLATFORMS.map((p) => (
+        <section class="hub-group" aria-labelledby={`h-${p.name}`}>
+          <div class="hub-head">
+            <span class="hub-badge" aria-hidden="true">{p.icon}</span>
+            <div>
+              <h3 id={`h-${p.name}`}>{p.name}</h3>
+              <p>Choose an image type</p>
+            </div>
+          </div>
+          <div class="hub-grid">
+            {p.cards.map((c) => (
+              <a class="tool-card" href={c.href}>
+                <h4>{c.name}</h4>
+                <p class="tc-size">
+                  {c.sizes.map((s) => (
+                    <span>{s}</span>
+                  ))}
+                </p>
+                <p class="tc-does">
+                  {c.does} <b aria-hidden="true">→</b>
+                </p>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .size-hub { max-width: 1040px; margin: 56px auto 0; scroll-margin-top: 90px; }
+  .size-hub > h2 { font-size: 1.5rem; letter-spacing: -.02em; margin: 0 0 4px; }
+  .size-hub-intro { margin: 0; color: var(--muted); font-size: 15px; }
+  .size-hub :global(.hub) { max-width: none; margin-top: 22px; }
+  .size-hub :global(.hub-head h3) { margin: 0; font-size: 1.25rem; letter-spacing: -.02em; }
+  .size-hub :global(.tool-card h4) { margin: 0 0 8px; font-size: 1.08rem; color: var(--text); }
+  .size-hub :global(.tc-does) { margin: 0; }
+  .size-hub :global(.tc-does b) { display: inline-block; color: var(--violet-text); font-weight: 700; transition: transform .15s; }
+  .size-hub :global(.tool-card:hover .tc-does b), .size-hub :global(.tool-card:focus-visible .tc-does b) { transform: translateX(4px); }
+</style>

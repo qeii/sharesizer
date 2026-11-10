@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { TOOL_LIST } from "../data/tool-list.js";
+import SizeHub from "../components/SizeHub.astro";
 ---
 
 <Base>
@@ -16,13 +17,14 @@ import { TOOL_LIST } from "../data/tool-list.js";
     {
       TOOL_LIST.map((t) => (
         <a class="ti-card" href={t.href}>
-          <span class="ti-icon" aria-hidden="true">{t.icon}</span>
           <span class="ti-name">{t.name}</span>
           <span class="ti-short">{t.short}</span>
         </a>
       ))
     }
   </nav>
+
+  <SizeHub />
 
   <section class="tool-about" aria-labelledby="about-h">
     <h2 id="about-h">What each tool does</h2>
@@ -47,8 +49,7 @@ import { TOOL_LIST } from "../data/tool-list.js";
   .ti-card { display:flex; flex-direction:column; gap:6px; padding:18px; border-radius:18px; border:1px solid var(--line); background:var(--panel); color:inherit; text-decoration:none; transition:transform .15s,border-color .15s,box-shadow .15s; }
   :global(:root[data-theme="light"]) .ti-card, :global(:root[data-theme="light"]) .ta-item { background:#fff; }
   .ti-card:hover, .ti-card:focus-visible { transform:translateY(-3px); border-color:var(--accent); box-shadow:var(--shadow); outline:none; }
-  .ti-icon, .ta-icon { display:inline-grid; place-items:center; width:38px; height:38px; border-radius:12px; font-size:18px; font-weight:800; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent-2)); }
-  .ti-icon { margin-bottom:6px; }
+  .ta-icon { display:inline-grid; place-items:center; width:38px; height:38px; border-radius:12px; font-size:18px; font-weight:800; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent-2)); }
   .ti-name { font-weight:700; font-size:1.05rem; color:var(--text); }
   .ti-short { font-size:14px; color:var(--muted); }
   .tool-about { max-width:1040px; margin:56px auto 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; }

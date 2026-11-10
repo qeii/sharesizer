@@ -16,12 +16,12 @@ const url = new URL(Astro.url.pathname, Astro.site).href;
 const ld = [
   { '@context': 'https://schema.org', '@type': 'WebApplication', name: p.h1, url, applicationCategory: 'MultimediaApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, description: p.description },
   { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: p.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
-  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Sharesizer', item: new URL('/', Astro.site).href }, { '@type': 'ListItem', position: 2, name: 'Size tools', item: new URL('/size-tools', Astro.site).href }, { '@type': 'ListItem', position: 3, name: p.h1, item: url }] },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Sharesizer', item: new URL('/', Astro.site).href }, { '@type': 'ListItem', position: 2, name: 'Size tools', item: new URL("/", Astro.site).href }, { '@type': 'ListItem', position: 3, name: p.h1, item: url }] },
 ];
 ---
 <Base title={p.title} description={p.description} ld={ld}>
   <section class="hero">
-    <p class="crumb"><a href="/size-tools">Size tools</a> › {p.platform}</p>
+    <p class="crumb"><a href="/#size-tools">Size tools</a> › {p.platform}</p>
     <h1>{p.h1}</h1>
     <p>{p.intro}</p>
   </section>

@@ -14,7 +14,7 @@ export const UTILITIES = [
       { h: 'Will resizing hurt quality?', p: ['Making an image smaller usually keeps it looking sharp. Making it larger cannot add detail, so it will look softer. Start from the largest original you have.'] },
     ],
     faq: [['How do I resize an image without stretching it?', 'Keep "Lock aspect ratio" on and change only the width or the height. The other value updates automatically.'], ['Can I resize to an exact size for a form or an ad?', 'Yes. Turn the lock off, type the exact width and height, and resize. If the proportions differ from your original, the image will be stretched, so crop it first if you need to keep its shape.'], ['Which formats can I save as?', 'JPEG, PNG or WebP. Which files you can open depends on your browser, but current browsers handle all three.'], ['Is there a limit?', 'There is no account, watermark or daily limit. Very large photos depend on your device\'s memory.']],
-    related: [['/compress-image', 'Compress an image'], ['/crop-image', 'Crop an image'], ['/aspect-ratio-calculator', 'Aspect ratio calculator'], ['/size-tools', 'Social media image sizes']],
+    related: [['/compress-image', 'Compress an image'], ['/crop-image', 'Crop an image'], ['/aspect-ratio-calculator', 'Aspect ratio calculator'], ['/#size-tools', 'Social media image sizes']],
   },
   {
     slug: 'crop-image', crumb: 'Image cropper',
@@ -27,7 +27,7 @@ export const UTILITIES = [
       { h: 'Need an exact shape?', p: ['This cropper is freeform. For a specific shape such as 1:1, 16:9, 4:5 or 9:16, use the Photo Editor on the <a href="/">home page</a>, which has ratio shapes. Or use a size guide, such as <a href="/youtube-thumbnail-size">YouTube thumbnails</a> or <a href="/instagram-post-size">Instagram posts</a>, which crop to the platform size for you.'] },
     ],
     faq: [['Does cropping reduce image quality?', 'No. The pixels inside the box are kept exactly as they were. Quality only drops if you save as JPEG or WebP at a low quality setting.'], ['How do I crop an image to a square?', 'Use the Photo Editor\'s 1:1 shape on the home page, or the Instagram post size guide, which crops to 1080×1080.'], ['Can I undo a crop?', 'Your original file is never changed. If you are not happy with the result, upload the original again and start over.']],
-    related: [['/resize-image', 'Resize an image'], ['/compress-image', 'Compress an image'], ['/', 'Photo Editor with ratio shapes'], ['/size-tools', 'Social media image sizes']],
+    related: [['/resize-image', 'Resize an image'], ['/compress-image', 'Compress an image'], ['/', 'Photo Editor with ratio shapes'], ['/#size-tools', 'Social media image sizes']],
   },
   {
     slug: 'compress-image', crumb: 'Image compressor',
@@ -53,7 +53,7 @@ export const UTILITIES = [
       { h: 'Worked examples', ul: ['1920×1080 is 16:9. Scaled to 1280 wide, the height is 720.', '4000×3000 is 4:3. Scaled to 1600 wide, the height is 1200.', '1080×1350 is 4:5, the Instagram portrait shape.'] },
       { h: 'How to calculate an aspect ratio by hand', p: ['Divide the width and the height by their greatest common divisor. For 1920×1080 that divisor is 120, which gives 16:9. To find a new height, multiply the new width by the original height and divide by the original width.'] },
     ],
-    faq: [['What is the difference between aspect ratio and resolution?', 'Resolution is the number of pixels, like 1920×1080. Aspect ratio is the shape, like 16:9. Many different resolutions share one ratio.'], ['What if my image does not match the ratio I need?', 'You can crop it to the new shape or add padding. The <a href="/size-tools">size guides</a> do this for each platform.'], ['Does changing the size change the ratio?', 'Not if you scale the width and height by the same factor. That is what this calculator does.']],
+    faq: [['What is the difference between aspect ratio and resolution?', 'Resolution is the number of pixels, like 1920×1080. Aspect ratio is the shape, like 16:9. Many different resolutions share one ratio.'], ['What if my image does not match the ratio I need?', 'You can crop it to the new shape or add padding. The <a href="/#size-tools">size guides</a> do this for each platform.'], ['Does changing the size change the ratio?', 'Not if you scale the width and height by the same factor. That is what this calculator does.']],
     related: [['/resize-image', 'Resize an image'], ['/crop-image', 'Crop an image'], ['/youtube-thumbnail-size', 'YouTube thumbnail size (16:9)'], ['/instagram-story-size', 'Instagram Story size (9:16)']],
   },
 ];

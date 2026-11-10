@@ -13,12 +13,12 @@ const url = new URL(Astro.url.pathname, Astro.site).href;
 const ld = [
   { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'YouTube Image Sizes Pack', url, applicationCategory: 'MultimediaApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
   { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
-  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Sharesizer', item: new URL('/', Astro.site).href }, { '@type': 'ListItem', position: 2, name: 'Size tools', item: new URL('/size-tools', Astro.site).href }, { '@type': 'ListItem', position: 3, name: 'YouTube image sizes', item: url }] },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Sharesizer', item: new URL('/', Astro.site).href }, { '@type': 'ListItem', position: 2, name: 'Size tools', item: new URL("/", Astro.site).href }, { '@type': 'ListItem', position: 3, name: 'YouTube image sizes', item: url }] },
 ];
 ---
 <Base title="YouTube Image Sizes 2026: Resize Thumbnail, Banner and More at Once | Sharesizer" description="Upload one image and download every YouTube size as a ZIP: thumbnail, channel banner, profile picture, Shorts and more. Free, with safe-area previews, in your browser." ld={ld}>
   <section class="hero">
-    <p class="crumb"><a href="/size-tools">Size tools</a> › YouTube</p>
+    <p class="crumb"><a href="/#size-tools">Size tools</a> › YouTube</p>
     <h1>YouTube Image Sizes: Resize Everything at Once</h1>
     <p>Upload one design from Photoshop or Illustrator and get your thumbnail, banner, profile picture and Shorts frame in one ZIP.</p>
   </section>
@@ -54,7 +54,7 @@ const ld = [
       <li><a href="/youtube-thumbnail-size">YouTube Thumbnail Size: 1280×720</a></li>
       <li><a href="/youtube-banner-size">YouTube Channel Banner Size</a></li>
       <li><a href="/youtube-thumbnail-tester">YouTube Thumbnail Tester</a></li>
-      <li><a href="/size-tools">All size tools</a></li>
+      <li><a href="/#size-tools">All size tools</a></li>
     </ul>
   </article>
 </Base>
