@@ -1,0 +1,32 @@
+---
+// Wrapper for tools that previously only existed as tabs on the home page.
+import Base from './Base.astro';
+import '../styles/utility.css';
+import { TOOL_LIST, PAGE_INFO } from '../data/tool-list.js';
+const { id } = Astro.props;
+const tool = TOOL_LIST.find((t) => t.id === id);
+const info = PAGE_INFO[id];
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const ld = [
+  { '@context': 'https://schema.org', '@type': 'WebApplication', name: info.h1, url, applicationCategory: 'MultimediaApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, description: info.description },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Sharesizer', item: new URL('/', Astro.site).href }, { '@type': 'ListItem', position: 2, name: info.h1, item: url }] },
+];
+const strip = (s) => s.replace(/<[^>]+>/g, '');
+const others = TOOL_LIST.filter((t) => t.id !== id).slice(0, 4);
+---
+<Base title={info.title} description={info.description} ld={ld}>
+  <section class="hero">
+    <p class="crumb"><a href="/">Tools</a> › {info.h1}</p>
+    <h1>{info.h1}</h1>
+    <p>{strip(tool.long)}</p>
+  </section>
+  <div class="solo" style="margin-top:26px"><slot /></div>
+  <article class="prose">
+    <h2>How to use it</h2>
+    <ol>{info.steps.map((s) => <li>{s}</li>)}</ol>
+    <h2>Is my image private?</h2>
+    <p>Yes. Everything runs in your browser on your own device. Your files are not uploaded to any server, and there is no account, watermark or limit.</p>
+    <h2>More tools</h2>
+    <ul>{others.map((t) => <li><a href={t.href}>{t.name}</a></li>)}<li><a href="/">All tools</a></li></ul>
+  </article>
+</Base>

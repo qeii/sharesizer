@@ -6,13 +6,17 @@ export const SOCIAL_SPECS = [
   { id: "instagram-portrait", name: "Instagram Portrait", width: 1080, height: 1350, maxMB: 8, types: IMAGE_TYPES },
   { id: "instagram-story", name: "Instagram Story / Reel", width: 1080, height: 1920, maxMB: 8, types: IMAGE_TYPES },
   { id: "facebook-feed", name: "Facebook Feed", width: 1200, height: 630, maxMB: 8, types: IMAGE_TYPES },
+  { id: "facebook-square", name: "Facebook Square Post", width: 1080, height: 1080, maxMB: 8, types: IMAGE_TYPES },
+  { id: "facebook-portrait", name: "Facebook Portrait Post", width: 1080, height: 1350, maxMB: 8, types: IMAGE_TYPES },
   { id: "facebook-cover", name: "Facebook Cover Photo", width: 1640, height: 720, maxMB: 8, types: IMAGE_TYPES },
   { id: "linkedin-feed", name: "LinkedIn Feed", width: 1200, height: 627, maxMB: 8, types: IMAGE_TYPES },
   { id: "linkedin-banner", name: "LinkedIn Profile Banner", width: 1584, height: 396, maxMB: 8, types: IMAGE_TYPES },
   { id: "linkedin-company-cover", name: "LinkedIn Company Cover", width: 1128, height: 191, maxMB: 3, types: IMAGE_TYPES },
   { id: "x-post", name: "X / Twitter Post", width: 1600, height: 900, maxMB: 5, types: IMAGE_TYPES },
+  { id: "x-header", name: "X Header", width: 1500, height: 500, maxMB: 5, types: IMAGE_TYPES },
   { id: "youtube-thumbnail", name: "YouTube Thumbnail", width: 1280, height: 720, maxMB: 2, types: ["image/jpeg", "image/png"] },
   { id: "pinterest-pin", name: "Pinterest Pin", width: 1000, height: 1500, maxMB: 8, types: IMAGE_TYPES },
+  { id: "pinterest-square", name: "Pinterest Square Pin", width: 1000, height: 1000, maxMB: 8, types: IMAGE_TYPES },
   { id: "tiktok-cover", name: "TikTok Cover", width: 1080, height: 1920, maxMB: 8, types: IMAGE_TYPES }
 ];
 

@@ -1,44 +1,64 @@
 ---
-import Base from '../layouts/Base.astro';
-import { TOOLS } from '../data/tools.js';
-import PhotoEditor from '../components/tools/PhotoEditor.astro';
-import Resizer from '../components/tools/Resizer.astro';
-import Compressor from '../components/tools/Compressor.astro';
-import Cropper from '../components/tools/Cropper.astro';
-import Converter from '../components/tools/Converter.astro';
-import AspectRatio from '../components/tools/AspectRatio.astro';
-import SocialMaker from '../components/tools/SocialMaker.astro';
-import Checker from '../components/tools/Checker.astro';
-import ColorPicker from '../components/tools/ColorPicker.astro';
-import QrCode from '../components/tools/QrCode.astro';
-import { PLATFORMS } from '../data/hub.js';
+import Base from "../layouts/Base.astro";
+import { TOOL_LIST } from "../data/tool-list.js";
 ---
+
 <Base>
   <section class="hero">
     <h1>Free image tools for content creators</h1>
-    <p>Resize, crop, compress, convert and check social media sizes. Everything runs in your browser, so your files never leave your device.</p>
+    <p>
+      Resize, crop, compress, convert and check social media sizes. Everything
+      runs in your browser, so your files never leave your device.
+    </p>
   </section>
 
-  <div class="tabs" role="tablist" aria-label="Image tools">
-    {TOOLS.map((t, i) => (
-      <button class={`tab${i === 0 ? ' active' : ''}`} data-panel={t.id} role="tab" aria-selected={i === 0 ? 'true' : 'false'}>{t.label}</button>
-    ))}
-  </div>
+  <nav class="tool-index" aria-label="All tools">
+    {
+      TOOL_LIST.map((t) => (
+        <a class="ti-card" href={t.href}>
+          <span class="ti-icon" aria-hidden="true">{t.icon}</span>
+          <span class="ti-name">{t.name}</span>
+          <span class="ti-short">{t.short}</span>
+        </a>
+      ))
+    }
+  </nav>
 
-  <PhotoEditor />
-  <Resizer />
-  <Compressor />
-  <Cropper />
-  <Converter />
-  <AspectRatio />
-  <SocialMaker />
-  <Checker />
-  <ColorPicker />
-  <QrCode />
-  <section class="prose" style="margin-top:40px">
-    <h2>Size tools by platform</h2>
-    <p>Need the exact size for a platform? <a href="/size-tools">Open a size tool</a>, upload your image, and download it resized.</p>
-    <ul>{PLATFORMS.flatMap((pl) => pl.cards.map((c) => <li><a href={c.href}>{pl.name}: {c.name}</a></li>))}</ul>
+  <section class="tool-about" aria-labelledby="about-h">
+    <h2 id="about-h">What each tool does</h2>
+    {
+      TOOL_LIST.map((t) => (
+        <article class="ta-item" id={t.id}>
+          <div class="ta-head">
+            <span class="ta-icon" aria-hidden="true">{t.icon}</span>
+            <h3>{t.name}</h3>
+          </div>
+          <p set:html={t.long} />
+          <ul>{t.points.map((p) => <li>{p}</li>)}</ul>
+          <a class="ta-link" href={t.href}>Open {t.name} <b>→</b></a>
+        </article>
+      ))
+    }
   </section>
-  <script>import '../scripts/tools/index.js';</script>
 </Base>
+
+<style>
+  .tool-index { max-width:1040px; margin:28px auto 0; display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+  .ti-card { display:flex; flex-direction:column; gap:6px; padding:18px; border-radius:18px; border:1px solid var(--line); background:var(--panel); color:inherit; text-decoration:none; transition:transform .15s,border-color .15s,box-shadow .15s; }
+  :global(:root[data-theme="light"]) .ti-card, :global(:root[data-theme="light"]) .ta-item { background:#fff; }
+  .ti-card:hover, .ti-card:focus-visible { transform:translateY(-3px); border-color:var(--accent); box-shadow:var(--shadow); outline:none; }
+  .ti-icon, .ta-icon { display:inline-grid; place-items:center; width:38px; height:38px; border-radius:12px; font-size:18px; font-weight:800; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent-2)); }
+  .ti-icon { margin-bottom:6px; }
+  .ti-name { font-weight:700; font-size:1.05rem; color:var(--text); }
+  .ti-short { font-size:14px; color:var(--muted); }
+  .tool-about { max-width:1040px; margin:56px auto 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; }
+  .tool-about > h2 { grid-column:1 / -1; font-size:1.5rem; letter-spacing:-.02em; margin:0 0 4px; }
+  .ta-item { display:flex; flex-direction:column; padding:22px; border-radius:18px; border:1px solid var(--line); background:var(--panel); scroll-margin-top:90px; }
+  .ta-head { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .ta-head h3 { margin:0; font-size:1.15rem; }
+  .ta-item p { margin:0 0 12px; color:var(--text-2); font-size:15px; }
+  .ta-item p :global(a) { color:var(--violet-text); }
+  .ta-item ul { margin:0 0 16px; padding-left:18px; color:var(--muted); font-size:14px; flex:1; }
+  .ta-link { align-self:flex-start; font-weight:600; font-size:14px; color:var(--violet-text); text-decoration:none; }
+  .ta-link:hover b { display:inline-block; transform:translateX(4px); }
+</style>
