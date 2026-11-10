@@ -29,6 +29,7 @@ bindFilePicker("smDrop", "smFile", async (file) => {
     $("#smOrig").textContent = `${data.img.naturalWidth} × ${data.img.naturalHeight}`;
     $("#smPreview").innerHTML = `<img src="${data.url}" alt="Preview" />`;
     $("#smResult").classList.add("hidden");
+    $("#smButton").click(); // process right away
   } catch (error) {
     alert("Could not load image.");
   }

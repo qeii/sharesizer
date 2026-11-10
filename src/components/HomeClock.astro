@@ -1,0 +1,10 @@
+---
+import '../styles/clock.css';
+---
+<a class="home-clock" href="/time" aria-label="Current time. Open the full-screen clock">
+  <div class="clock-stage">
+    <div class="lcd lcd-time"><span id="hc-t">--:--:--</span><span id="hc-ap" class="lcd-ampm"></span></div>
+    <div id="hc-d" class="lcd-date">&nbsp;</div>
+  </div>
+</a>
+<script>import '../scripts/clock/home.js';</script>

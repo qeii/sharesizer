@@ -14,8 +14,6 @@ export const PLATFORMS = [
   { name: 'YouTube', icon: '▶', cards: [
     fromPage('youtube-thumbnail-size', 'YouTube Thumbnail', 'Resize, crop and compress'),
     fromPage('youtube-banner-size', 'Channel Banner', 'Resize with a safe-area preview'),
-    { href: '/youtube-image-sizes', name: 'All YouTube Sizes', sizes: ['7 sizes in one ZIP'], does: 'Upload once, download every size' },
-    { href: '/youtube-thumbnail-tester', name: 'Thumbnail Tester', sizes: ['Compare up to 4'], does: 'Preview in a feed and check contrast' },
   ] },
   { name: 'Instagram', icon: '◎', cards: [
     fromPage('instagram-post-size', 'Instagram Post', 'Resize and crop for the feed'),
@@ -30,6 +28,5 @@ export const PLATFORMS = [
   { name: 'LinkedIn', icon: 'in', cards: [fromPage('linkedin-banner-size', 'LinkedIn Banner', 'Resize for profile or company page')] },
      { name: 'X (Twitter)', icon: 'X', cards: [fromPage('x-twitter-image-size', 'X Post and Header', 'Resize for posts and the header')] },
      { name: 'Pinterest', icon: 'P', cards: [fromPage('pinterest-pin-size', 'Pinterest Pin', 'Resize to the standard pin')] },
-     { name: 'Image Tools', icon: '▣', cards: utilityCards },
      { name: 'Image Converter', icon: '⇄', cards: converterCards },
 ];

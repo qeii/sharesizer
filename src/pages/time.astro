@@ -1,0 +1,17 @@
+---
+import ClockPage from '../layouts/ClockPage.astro';
+---
+<ClockPage slug="time">
+  <div id="stage" class="clock-stage">
+    <div class="lcd lcd-time"><span id="t">--:--:--</span><span id="ap" class="lcd-ampm"></span></div>
+    <div id="d" class="lcd-date"></div>
+    <p id="zone" class="clock-note"></p>
+  </div>
+  <div class="clock-controls">
+    <button id="h24" class="chip" type="button" aria-pressed="false">12-hour</button>
+    <button id="sec" class="chip" type="button" aria-pressed="true">Seconds: on</button>
+    <select id="tz" aria-label="Time zone"></select>
+    <button id="fs" class="btn secondary" type="button">Full screen</button>
+  </div>
+</ClockPage>
+<script>import '../scripts/clock/time.js';</script>

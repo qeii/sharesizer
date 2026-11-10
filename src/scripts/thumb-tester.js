@@ -1,3 +1,4 @@
+import { attachIntake } from "./shared.js";
 import { analyze, summarize, WORK, SMALL } from "./thumb-analysis.js";
 const root = document.getElementById("thumbTester");
 if (root) {
@@ -79,6 +80,7 @@ if (root) {
   ["dragover", "dragenter"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add("dragover"); }));
   ["dragleave", "drop"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.remove("dragover"); }));
   drop.addEventListener("drop", (e) => addFiles(e.dataTransfer.files));
+  attachIntake(drop, (f) => addFiles([f]));
   q("[data-results]").addEventListener("click", (e) => { const i = e.target.dataset.rm; if (i === undefined) return; URL.revokeObjectURL(cands[i].url); cands.splice(Number(i), 1); renderResults(); });
   q("[data-comp]").addEventListener("change", (e) => { [...e.target.files].filter((f) => f.type.startsWith("image/")).slice(0, 8).forEach((f) => comps.push(URL.createObjectURL(f))); comps = comps.slice(0, 8); e.target.value = ""; renderFeed(); });
   q("[data-compclear]").addEventListener("click", () => { comps.forEach(URL.revokeObjectURL); comps = []; renderFeed(); });

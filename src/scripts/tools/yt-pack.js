@@ -1,4 +1,5 @@
 import { zipSync } from "fflate";
+import { attachIntake } from "../shared.js";
 const $ = (id) => document.getElementById(id);
 import { YOUTUBE_SIZES as SIZES } from "../../data/platforms.js";
 let img = null, base = "youtube", focus = { x: 0.5, y: 0.5 }, raf = 0;
@@ -76,6 +77,7 @@ const drop = $("ypDrop");
 ["dragover", "dragenter"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add("dragover"); }));
 ["dragleave", "drop"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.remove("dragover"); }));
 drop.addEventListener("drop", (e) => load(e.dataTransfer.files[0]));
+attachIntake(drop, load);
 $("ypSrc").addEventListener("pointerdown", (e) => {
   const r = e.target.getBoundingClientRect();
   focus = { x: Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), y: Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)) }; schedule();

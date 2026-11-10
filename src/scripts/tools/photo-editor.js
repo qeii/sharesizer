@@ -1,3 +1,4 @@
+import { attachIntake } from "../shared.js";
 const $ = (id) => document.getElementById(id);
 const out = $("peCanvas"), layer = $("peCrop"), lctx = layer.getContext("2d");
 const MAX = 4000, PREVIEW = 1400;
@@ -123,6 +124,7 @@ $("peFile").addEventListener("change", (e) => load(e.target.files[0]));
 ["dragover", "dragenter"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add("dragover"); }));
 ["dragleave", "drop"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.remove("dragover"); }));
 drop.addEventListener("drop", (e) => load(e.dataTransfer.files[0]));
+attachIntake(drop, load);
 
 $("peRotL").onclick = () => edit((b) => rot(b, -1));
 $("peRotR").onclick = () => edit((b) => rot(b, 1));

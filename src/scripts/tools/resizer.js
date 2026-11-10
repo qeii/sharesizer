@@ -31,6 +31,7 @@ bindFilePicker("rzDrop", "rzFile", async (file) => {
     $("#rzHeight").value = data.img.naturalHeight;
     $("#rzPreview").innerHTML = `<img src="${data.url}" alt="Preview" />`;
     $("#rzResult").classList.add("hidden");
+    $("#rzButton").click(); // process right away
   } catch (error) {
     alert("Could not load image.");
   }

@@ -1,3 +1,4 @@
+import { attachIntake } from "./shared.js";
 const root = document.getElementById("sizeTool");
 if (root) {
   const q = (s) => root.querySelector(s);
@@ -55,6 +56,7 @@ if (root) {
   ["dragover", "dragenter"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add("dragover"); }));
   ["dragleave", "drop"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.remove("dragover"); }));
   drop.addEventListener("drop", (e) => load(e.dataTransfer.files[0]));
+  attachIntake(drop, load);
 
   const setFocus = (e) => { const r = cv.getBoundingClientRect(); focus = { x: Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), y: Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)) }; schedule(); };
   cv.addEventListener("pointerdown", (e) => { if (q("[data-fit]").value !== "cover") return; drag = true; cv.setPointerCapture(e.pointerId); setFocus(e); });

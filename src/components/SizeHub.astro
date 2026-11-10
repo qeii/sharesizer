@@ -11,13 +11,10 @@ import { PLATFORMS } from "../data/hub.js";
   <div class="hub">
     {
       PLATFORMS.map((p) => (
-        <section class="hub-group" aria-labelledby={`h-${p.name}`}>
+        <section class={`hub-group span-${Math.min(4, p.cards.length)}`} aria-labelledby={`h-${p.name}`}>
           <div class="hub-head">
             <span class="hub-badge" aria-hidden="true">{p.icon}</span>
-            <div>
-              <h3 id={`h-${p.name}`}>{p.name}</h3>
-              <p>Choose an image type</p>
-            </div>
+            <h3 id={`h-${p.name}`}>{p.name}</h3>
           </div>
           <div class="hub-grid">
             {p.cards.map((c) => (
@@ -44,10 +41,29 @@ import { PLATFORMS } from "../data/hub.js";
   .size-hub { max-width: 1040px; margin: 56px auto 0; scroll-margin-top: 90px; }
   .size-hub > h2 { font-size: 1.5rem; letter-spacing: -.02em; margin: 0 0 4px; }
   .size-hub-intro { margin: 0; color: var(--muted); font-size: 15px; }
-  .size-hub :global(.hub) { max-width: none; margin-top: 22px; }
-  .size-hub :global(.hub-head h3) { margin: 0; font-size: 1.25rem; letter-spacing: -.02em; }
-  .size-hub :global(.tool-card h4) { margin: 0 0 8px; font-size: 1.08rem; color: var(--text); }
-  .size-hub :global(.tc-does) { margin: 0; }
-  .size-hub :global(.tc-does b) { display: inline-block; color: var(--violet-text); font-weight: 700; transition: transform .15s; }
-  .size-hub :global(.tool-card:hover .tc-does b), .size-hub :global(.tool-card:focus-visible .tc-does b) { transform: translateX(4px); }
+  .hub { max-width: none; margin-top: 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-flow: row dense; gap: 22px 14px; align-items: start; }
+  .hub-group { min-width: 0; }
+  .span-1 { grid-column: span 1; } .span-2 { grid-column: span 2; } .span-3 { grid-column: span 3; } .span-4 { grid-column: span 4; }
+  .hub-head { margin-bottom: 10px; gap: 10px; }
+  .hub-head h3 { margin: 0; font-size: 1.1rem; letter-spacing: -.02em; }
+  .hub-badge { width: 34px; height: 34px; font-size: 15px; }
+  .hub-grid { gap: 12px; grid-template-columns: repeat(1, minmax(0, 1fr)); }
+  .span-2 .hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .span-3 .hub-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .span-4 .hub-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tool-card { padding: 16px; }
+  .tool-card h4 { margin: 0 0 8px; font-size: 1.02rem; color: var(--text); }
+  .tc-does { margin: 0; }
+  .tc-does b { display: inline-block; color: var(--violet-text); font-weight: 700; transition: transform .15s; }
+  .tool-card:hover .tc-does b, .tool-card:focus-visible .tc-does b { transform: translateX(4px); }
+  @media (max-width: 900px) {
+    .hub { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .span-3, .span-4 { grid-column: span 2; }
+    .span-3 .hub-grid, .span-4 .hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .hub { grid-template-columns: minmax(0, 1fr); }
+    .span-2, .span-3, .span-4 { grid-column: span 1; }
+    .span-2 .hub-grid, .span-3 .hub-grid, .span-4 .hub-grid { grid-template-columns: minmax(0, 1fr); }
+  }
 </style>

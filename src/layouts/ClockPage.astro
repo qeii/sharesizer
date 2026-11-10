@@ -1,0 +1,32 @@
+---
+import Base from './Base.astro';
+import '../styles/utility.css';
+import '../styles/clock.css';
+import { CLOCKS, UPDATED } from '../data/clock-pages.js';
+const { slug } = Astro.props;
+const c = CLOCKS.find((x) => x.slug === slug);
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const others = CLOCKS.filter((x) => x.slug !== slug);
+const ld = [
+  { '@context': 'https://schema.org', '@type': 'WebApplication', name: c.h1, url, applicationCategory: 'UtilitiesApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, description: c.description },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Sharesizer', item: new URL('/', Astro.site).href }, { '@type': 'ListItem', position: 2, name: c.h1, item: url }] },
+];
+---
+<Base title={c.title} description={c.description} ld={ld}>
+  <section class="hero">
+    <p class="crumb"><a href="/">Tools</a> › {c.crumb}</p>
+    <h1>{c.h1}</h1>
+    <p>{c.intro}</p>
+  </section>
+  <slot />
+  <article class="prose">
+    <h2>How to use it</h2>
+    <ol>{c.steps.map((s) => <li>{s}</li>)}</ol>
+    <h2>Frequently asked questions</h2>
+    {c.faq.map(([q, a]) => <><h3>{q}</h3><p>{a}</p></>)}
+    <p class="meta">Last reviewed {UPDATED}.</p>
+    <h2>More tools</h2>
+    <ul>{others.map((o) => <li><a href={`/${o.slug}`}>{o.h1}</a></li>)}<li><a href="/">All tools</a></li></ul>
+  </article>
+</Base>

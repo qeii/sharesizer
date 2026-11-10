@@ -1,0 +1,30 @@
+---
+import ClockPage from '../layouts/ClockPage.astro';
+---
+<ClockPage slug="timer">
+  <div id="stage" class="clock-stage">
+    <div id="t" class="lcd lcd-time">00:05:00</div>
+    <p id="msg" class="lcd-date" role="status"></p>
+  </div>
+  <div class="clock-panel">
+    <div class="hms">
+      <label>Hours<input id="ih" type="number" min="0" max="99" value="0" inputmode="numeric" /></label>
+      <label>Minutes<input id="im" type="number" min="0" max="59" value="5" inputmode="numeric" /></label>
+      <label>Seconds<input id="is" type="number" min="0" max="59" value="0" inputmode="numeric" /></label>
+    </div>
+    <div class="clock-controls">
+      <button class="chip" data-preset="1" type="button">1 min</button>
+      <button class="chip" data-preset="5" type="button">5 min</button>
+      <button class="chip" data-preset="10" type="button">10 min</button>
+      <button class="chip" data-preset="15" type="button">15 min</button>
+      <button class="chip" data-preset="30" type="button">30 min</button>
+      <button class="chip" data-preset="60" type="button">1 hour</button>
+    </div>
+    <div class="clock-controls" style="margin-top:16px">
+      <button id="go" class="btn" type="button">Start</button>
+      <button id="reset" class="btn secondary" type="button">Reset</button>
+      <button id="fs" class="btn secondary" type="button">Full screen</button>
+    </div>
+  </div>
+</ClockPage>
+<script>import '../scripts/clock/timer.js';</script>

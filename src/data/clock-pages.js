@@ -1,0 +1,28 @@
+// Content for the four clock pages (alarm, timer, stopwatch, time).
+export const UPDATED = '2026-11-10';
+export const CLOCKS = [
+  { slug: 'alarm', h1: 'Online Alarm Clock', crumb: 'Alarm',
+    title: 'Online Alarm Clock: Free, Big Display, No Download | Sharesizer',
+    description: 'A free online alarm clock with a big display. Set one or more alarms, repeat daily or on weekdays, and snooze. Works in your browser.',
+    intro: 'Set one or more alarms and keep this tab open. A big clock shows the time and the alarm rings with a loud beep.',
+    steps: ['Pick a time, add an optional label and choose Once, Every day or Weekdays.', 'Click Add alarm. You will see how long is left until it rings.', 'Keep this tab open. When the time comes the alarm beeps and a big Stop button appears.', 'Press Snooze to be reminded again in 5 minutes.'],
+    faq: [['Does the alarm work if I close the tab?', 'No. The alarm runs in this page, so the tab must stay open and your device must stay awake with the sound on. Nothing is sent to a server.'], ['Are my alarms saved?', 'Yes, in this browser on this device, so they are still here when you come back.'], ['Why did my alarm not ring on my phone?', 'Phones may pause web pages when the screen is off. For an important wake-up call, use your phone\'s built-in alarm as well.']] },
+  { slug: 'timer', h1: 'Online Timer', crumb: 'Timer',
+    title: 'Online Timer: Free Countdown Timer with Big Display | Sharesizer',
+    description: 'A free countdown timer with a big display and an alarm sound. Set hours, minutes and seconds, use quick presets, and go full screen.',
+    intro: 'Set hours, minutes and seconds, press Start, and get a loud beep when time is up. Use full screen for a class, workout or presentation.',
+    steps: ['Type the hours, minutes and seconds, or tap a preset such as 5 or 10 minutes.', 'Press Start. Press Pause to hold it and Resume to carry on.', 'When it reaches zero the timer flashes and beeps. Press Stop alarm to silence it.', 'Press Full screen to show a large timer on a projector or second screen.'],
+    faq: [['Is the timer accurate if I switch tabs?', 'Yes. It counts to a fixed end time, so it stays correct even when the browser slows down a background tab. The alarm sound may be delayed by a second or so.'], ['Can I run more than one timer?', 'Open the page in a second tab to run another timer at the same time.'], ['Does it need an internet connection?', 'Only to load the page. Once it is open, the timer runs on your device.']] },
+  { slug: 'stopwatch', h1: 'Online Stopwatch', crumb: 'Stopwatch',
+    title: 'Online Stopwatch: Free, with Lap Times and Big Display | Sharesizer',
+    description: 'A free online stopwatch with a big display, lap and split times, and full screen. Accurate to a hundredth of a second.',
+    intro: 'Start, stop and record laps with a big, easy-to-read display that shows hundredths of a second.',
+    steps: ['Press Start (or the Space bar) to begin timing.', 'Press Lap (or L) to record a lap. Each lap shows its split time and the total.', 'Press Stop to pause and Resume to continue. Press Reset (or R) to clear.', 'Press Full screen for a large display.'],
+    faq: [['How accurate is it?', 'It uses your browser\'s high-resolution clock and shows hundredths of a second. It stays accurate when the tab is in the background.'], ['What do the green and red laps mean?', 'With three or more laps, the fastest split is shown in green and the slowest in red.'], ['Can it run for hours?', 'Yes. Hours appear automatically once you pass 60 minutes.']] },
+  { slug: 'time', h1: 'Current Time', crumb: 'Time',
+    title: 'Current Time: Big Online Clock with Seconds and Time Zones | Sharesizer',
+    description: 'A big online clock showing the current time and date. Switch between 12 and 24 hours, show or hide seconds, pick a time zone and go full screen.',
+    intro: 'A big, clear clock for your desk, classroom or second screen. It shows your local time, or any time zone you choose.',
+    steps: ['The clock shows your device time by default.', 'Switch between 12-hour and 24-hour time and show or hide seconds.', 'Pick another time zone to see the time somewhere else.', 'Press Full screen to fill the display. Your choices are remembered.'],
+    faq: [['Where does the time come from?', 'From your device\'s clock. If your device clock is wrong, this clock will be wrong too.'], ['Can I see the time in another city?', 'Yes. Choose a time zone from the list, for example Asia/Tokyo or America/New York.'], ['Can I use it as a wall clock?', 'Yes. Use full screen and keep the tab open. Your screen may still turn off, depending on your device settings.']] },
+];

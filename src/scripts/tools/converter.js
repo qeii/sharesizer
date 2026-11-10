@@ -27,6 +27,7 @@ bindFilePicker("cvDrop", "cvFile", async (file) => {
     $("#cvOrig").textContent = `${data.img.naturalWidth} × ${data.img.naturalHeight}`;
     $("#cvPreview").innerHTML = `<img src="${data.url}" alt="Preview" />`;
     $("#cvResult").classList.add("hidden");
+    $("#cvButton").click(); // process right away
   } catch (error) {
     alert("Could not load image.");
   }

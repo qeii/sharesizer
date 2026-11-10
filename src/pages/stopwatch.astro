@@ -1,0 +1,19 @@
+---
+import ClockPage from '../layouts/ClockPage.astro';
+---
+<ClockPage slug="stopwatch">
+  <div id="stage" class="clock-stage">
+    <div id="t" class="lcd lcd-time">00:00<small>.00</small></div>
+  </div>
+  <div class="clock-controls">
+    <button id="go" class="btn" type="button">Start</button>
+    <button id="lap" class="btn secondary" type="button" disabled>Lap</button>
+    <button id="reset" class="btn secondary" type="button" disabled>Reset</button>
+    <button id="fs" class="btn secondary" type="button">Full screen</button>
+  </div>
+  <div class="clock-panel">
+    <ol id="laps" class="laps" aria-label="Lap times"></ol>
+    <p class="clock-note">Shortcuts: Space = start/stop, L = lap, R = reset.</p>
+  </div>
+</ClockPage>
+<script>import '../scripts/clock/stopwatch.js';</script>

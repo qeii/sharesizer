@@ -1,0 +1,45 @@
+@font-face{font-family:"DSEG7";src:url("/fonts/DSEG7Classic-Italic.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"DSEG14";src:url("/fonts/DSEG14Classic-Italic.woff2") format("woff2");font-display:swap}
+:root{--lcd:#575d69}
+:root[data-theme="dark"]{--lcd:#e8ecf4}
+.lcd{font-family:"DSEG7",ui-monospace,Consolas,monospace;color:var(--lcd);line-height:1;white-space:nowrap;display:inline-flex;align-items:baseline;justify-content:center}
+.lcd-time{font-size:clamp(2.5rem,12vw,8.5rem)}
+.lcd-time small{font-size:.42em}
+.lcd-ampm{font-family:"DSEG14",ui-monospace,monospace;font-size:clamp(1rem,3.2vw,2.2rem);margin-left:.45em;text-transform:uppercase}
+.lcd-date{font-family:"DSEG14",ui-monospace,monospace;color:var(--lcd);font-size:clamp(.85rem,2.4vw,1.5rem);letter-spacing:.06em;margin-top:1.1rem;text-transform:uppercase}
+.clock-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 12px}
+.clock-stage:fullscreen{background:var(--bg);min-height:100vh}
+.clock-stage:fullscreen .lcd-time{font-size:min(17vw,32vh)}
+.clock-stage:fullscreen .lcd-date{font-size:min(3.4vw,5vh)}
+.clock-stage.done .lcd-time{animation:lcdflash 1s steps(2) infinite}
+@keyframes lcdflash{50%{opacity:.15}}
+.home-clock{display:block;color:inherit;text-decoration:none;max-width:1040px;margin:22px auto 0}
+.home-clock .clock-stage{padding:18px 12px 6px}
+.clock-controls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:6px auto 0}
+.clock-controls select,.clock-controls input,.clock-panel input,.clock-panel select{font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0}
+.clock-controls .btn,.clock-panel .btn{width:auto;margin:0}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:7px 14px;cursor:pointer;font:inherit;font-size:14px}
+.chip:hover,.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--violet-text)}
+.clock-panel{max-width:760px;margin:22px auto 0}
+.hms{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.hms label{display:grid;gap:4px;font-size:13px;color:var(--muted);text-align:center}
+.hms input{width:88px;text-align:center;font-size:1.2rem}
+.alarm-form{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;justify-content:center}
+.alarm-form label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.alarm-list{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px}
+.alarm-list li{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.alarm-list .at{font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums}
+.alarm-list .am{color:var(--muted);font-size:13px}
+.alarm-list li.off .at{opacity:.4}
+.alarm-list .row-actions{display:flex;gap:8px;align-items:center}
+.ring{position:fixed;inset:0;z-index:100;background:rgba(5,7,13,.86);display:grid;place-items:center;padding:20px}
+.ring[hidden]{display:none}
+.ring-box{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:30px;text-align:center;max-width:460px;width:100%}
+.ring-box .lcd-time{font-size:3.4rem;margin-bottom:12px;animation:lcdflash 1s steps(2) infinite}
+.ring-box p{margin:0 0 18px;font-size:1.1rem}
+.ring-box .btn{margin:4px}
+.laps{list-style:none;margin:16px 0 0;padding:0;font-variant-numeric:tabular-nums}
+.laps li{display:grid;grid-template-columns:48px 1fr 1fr;gap:8px;padding:8px 6px;border-bottom:1px solid var(--line)}
+.laps li:first-child{border-top:1px solid var(--line)}
+.laps .fast{color:var(--success)}.laps .slow{color:var(--danger)}
+.clock-note{font-size:13px;color:var(--muted);text-align:center;margin:12px 0 0}

@@ -12,7 +12,7 @@ const ld = [
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Sharesizer', item: new URL('/', Astro.site).href }, { '@type': 'ListItem', position: 2, name: info.h1, item: url }] },
 ];
 const strip = (s) => s.replace(/<[^>]+>/g, '');
-const others = TOOL_LIST.filter((t) => t.id !== id).slice(0, 4);
+const others = TOOL_LIST.filter((t) => t.id !== id && t.group !== 'clock').slice(0, 4);
 ---
 <Base title={info.title} description={info.description} ld={ld}>
   <section class="hero">

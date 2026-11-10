@@ -27,6 +27,7 @@ bindFilePicker("cpDrop", "cpFile", async (file) => {
     $("#cpOrig").textContent = `${data.img.naturalWidth} × ${data.img.naturalHeight}`;
     $("#cpPreview").innerHTML = `<img src="${data.url}" alt="Preview" />`;
     $("#cpResult").classList.add("hidden");
+    $("#cpButton").click(); // process right away
   } catch (error) {
     alert("Could not load image.");
   }
