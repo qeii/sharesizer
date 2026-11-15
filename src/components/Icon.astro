@@ -1,0 +1,6 @@
+---
+// Lucide outline icon painted with the brand gradient (see #ss-grad in layouts/Base.astro).
+import { ICONS } from '../data/icons.js';
+const { name, size = 26 } = Astro.props;
+---
+<svg class="ss-icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="url(#ss-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={ICONS[name]} />

@@ -11,22 +11,22 @@ const fromPage = (slug, name, does) => {
   return { href: `/${slug}`, name, sizes, does };
 };
 export const PLATFORMS = [
-  { name: 'YouTube', icon: '▶', cards: [
+  { name: 'YouTube', icon: 'youtube', cards: [
     fromPage('youtube-thumbnail-size', 'YouTube Thumbnail', 'Resize, crop and compress'),
     fromPage('youtube-banner-size', 'Channel Banner', 'Resize with a safe-area preview'),
   ] },
-  { name: 'Instagram', icon: '◎', cards: [
+  { name: 'Instagram', icon: 'instagram', cards: [
     fromPage('instagram-post-size', 'Instagram Post', 'Resize and crop for the feed'),
     fromPage('instagram-story-size', 'Story / Reel', 'Resize with app-button guides'),
   ] },
-  { name: 'TikTok', icon: '♪', cards: [fromPage('tiktok-image-size', 'TikTok Image', 'Resize and preview')] },
-  { name: 'Facebook', icon: 'f', 
+  { name: 'TikTok', icon: 'tiktok', cards: [fromPage('tiktok-image-size', 'TikTok Image', 'Resize and preview')] },
+  { name: 'Facebook', icon: 'facebook', 
      cards: [
        fromPage('facebook-cover-photo-size', 'Cover Photo', 'Resize for desktop and mobile'),
        fromPage('facebook-post-size', 'Post Image', 'Resize for the feed'),
      ] },
-  { name: 'LinkedIn', icon: 'in', cards: [fromPage('linkedin-banner-size', 'LinkedIn Banner', 'Resize for profile or company page')] },
-     { name: 'X (Twitter)', icon: 'X', cards: [fromPage('x-twitter-image-size', 'X Post and Header', 'Resize for posts and the header')] },
-     { name: 'Pinterest', icon: 'P', cards: [fromPage('pinterest-pin-size', 'Pinterest Pin', 'Resize to the standard pin')] },
-     { name: 'Image Converter', icon: '⇄', cards: converterCards },
+  { name: 'LinkedIn', icon: 'linkedin', cards: [fromPage('linkedin-banner-size', 'LinkedIn Banner', 'Resize for profile or company page')] },
+     { name: 'X (Twitter)', icon: 'x', cards: [fromPage('x-twitter-image-size', 'X Post and Header', 'Resize for posts and the header')] },
+     { name: 'Pinterest', icon: 'pinterest', cards: [fromPage('pinterest-pin-size', 'Pinterest Pin', 'Resize to the standard pin')] },
+     { name: 'Image Converter', icon: 'converter', cards: converterCards },
 ];

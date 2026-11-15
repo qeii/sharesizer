@@ -1,0 +1,26 @@
+---
+import { PROMO, promoUrl } from "../data/site.js";
+const { placement = "home" } = Astro.props;
+---
+<aside class="promo" aria-label={`From the maker: ${PROMO.name}`}>
+  <div class="promo-copy">
+    <span class="promo-eyebrow">{PROMO.eyebrow}</span>
+    <strong>{PROMO.title}</strong>
+    <span class="promo-text">{PROMO.text}</span>
+  </div>
+  <a class="promo-btn" href={promoUrl(placement)} target="_blank" rel="noopener">{PROMO.cta} <b aria-hidden="true">→</b></a>
+</aside>
+
+<style>
+  /* Fixed height reserved by the layout, so the page never jumps when it loads. */
+  .promo { max-width:1040px; margin:28px auto 0; display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; padding:18px 22px; border-radius:18px; border:1px dashed var(--line); background:var(--panel); }
+  :global(:root[data-theme="light"]) .promo { background:#fff; }
+  .promo-copy { display:flex; flex-direction:column; gap:3px; min-width:0; flex:1 1 320px; }
+  .promo-eyebrow { font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .promo strong { font-size:1.05rem; color:var(--text); }
+  .promo-text { font-size:14px; color:var(--text-2); }
+  .promo-btn { flex:none; font-weight:700; font-size:14px; padding:10px 16px; border-radius:12px; border:1px solid var(--accent); color:var(--violet-text); text-decoration:none; transition:background .15s,transform .15s; }
+  .promo-btn:hover, .promo-btn:focus-visible { background:var(--panel-2); outline:none; }
+  .promo-btn b { display:inline-block; transition:transform .15s; }
+  .promo-btn:hover b { transform:translateX(4px); }
+</style>

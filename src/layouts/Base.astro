@@ -6,6 +6,7 @@ import '../styles/blog.css';
 import '../styles/thumb.css';
 import '../styles/hub.css';
 const { title = 'Sharesizer — Free Image Tools for Creators', description = 'Resize, crop, compress, convert and check social media image sizes in your browser. Files never leave your device.', ld = [] } = Astro.props;
+import { PROMO, promoUrl } from '../data/site.js';
 ---
 <!doctype html>
 <html lang="en" data-theme="light">
@@ -28,6 +29,15 @@ const { title = 'Sharesizer — Free Image Tools for Creators', description = 'R
   </script>
 </head>
 <body>
+  <!-- Shared gradient used by every <Icon>. userSpaceOnUse so straight lines in an icon still get colour. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="ss-grad" gradientUnits="userSpaceOnUse" x1="3" y1="3" x2="21" y2="21">
+        <stop offset="0" style="stop-color:var(--accent)" />
+        <stop offset="1" style="stop-color:var(--accent-2)" />
+      </linearGradient>
+    </defs>
+  </svg>
   <header>
     <div class="container header-inner">
       <a class="logo" href="/" style="text-decoration:none;color:inherit">
@@ -45,7 +55,7 @@ const { title = 'Sharesizer — Free Image Tools for Creators', description = 'R
   <footer>
     <div class="container">
       <strong>Sharesizer</strong>
-      <nav class="nav" aria-label="Footer"><a href="/about">About</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a></nav>
+      <nav class="nav" aria-label="Footer"><a href="/about">About</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a><a href={promoUrl('footer')} target="_blank" rel="noopener">{PROMO.footer}</a></nav>
       <span>All processing happens locally in your browser. Social specs are recommendations and may change.</span>
     </div>
   </footer>

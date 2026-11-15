@@ -3,6 +3,8 @@ import Base from "../layouts/Base.astro";
 import { TOOL_LIST } from "../data/tool-list.js";
 import HomeClock from "../components/HomeClock.astro";
 import SizeHub from "../components/SizeHub.astro";
+import PromoCard from "../components/PromoCard.astro";
+import Icon from "../components/Icon.astro";
 ---
 
 <Base>
@@ -27,6 +29,8 @@ import SizeHub from "../components/SizeHub.astro";
     }
   </nav>
 
+  <PromoCard placement="home" />
+
   <SizeHub />
 
   <section class="tool-about" aria-labelledby="about-h">
@@ -35,7 +39,7 @@ import SizeHub from "../components/SizeHub.astro";
       TOOL_LIST.map((t) => (
         <article class="ta-item" id={t.id}>
           <div class="ta-head">
-            <span class="ta-icon" aria-hidden="true">{t.icon}</span>
+            <span class="ta-icon" aria-hidden="true"><Icon name={t.id} size={28} /></span>
             <h3>{t.name}</h3>
           </div>
           <p set:html={t.long} />
@@ -52,7 +56,7 @@ import SizeHub from "../components/SizeHub.astro";
   .ti-card { display:flex; flex-direction:column; gap:6px; padding:18px; border-radius:18px; border:1px solid var(--line); background:var(--panel); color:inherit; text-decoration:none; transition:transform .15s,border-color .15s,box-shadow .15s; }
   :global(:root[data-theme="light"]) .ti-card, :global(:root[data-theme="light"]) .ta-item { background:#fff; }
   .ti-card:hover, .ti-card:focus-visible { transform:translateY(-3px); border-color:var(--accent); box-shadow:var(--shadow); outline:none; }
-  .ta-icon { display:inline-grid; place-items:center; width:38px; height:38px; border-radius:12px; font-size:18px; font-weight:800; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent-2)); }
+  .ta-icon { display:inline-grid; place-items:center; width:30px; height:30px; flex:none; }
   .ti-name { font-weight:700; font-size:1.05rem; color:var(--text); }
   .ti-short { font-size:14px; color:var(--muted); }
   .ti-short b { display:inline-block; color:var(--violet-text); font-weight:700; transition:transform .15s; }

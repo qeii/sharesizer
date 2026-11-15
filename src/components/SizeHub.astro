@@ -1,5 +1,6 @@
 ---
 import { PLATFORMS } from "../data/hub.js";
+import Icon from "./Icon.astro";
 ---
 
 <section class="size-hub" id="size-tools" aria-labelledby="size-hub-h">
@@ -13,7 +14,7 @@ import { PLATFORMS } from "../data/hub.js";
       PLATFORMS.map((p) => (
         <section class={`hub-group span-${Math.min(4, p.cards.length)}`} aria-labelledby={`h-${p.name}`}>
           <div class="hub-head">
-            <span class="hub-badge" aria-hidden="true">{p.icon}</span>
+            <span class="hub-badge" aria-hidden="true"><Icon name={p.icon} size={28} /></span>
             <h3 id={`h-${p.name}`}>{p.name}</h3>
           </div>
           <div class="hub-grid">
@@ -46,7 +47,6 @@ import { PLATFORMS } from "../data/hub.js";
   .span-1 { grid-column: span 1; } .span-2 { grid-column: span 2; } .span-3 { grid-column: span 3; } .span-4 { grid-column: span 4; }
   .hub-head { margin-bottom: 10px; gap: 10px; }
   .hub-head h3 { margin: 0; font-size: 1.1rem; letter-spacing: -.02em; }
-  .hub-badge { width: 34px; height: 34px; font-size: 15px; }
   .hub-grid { gap: 12px; grid-template-columns: repeat(1, minmax(0, 1fr)); }
   .span-2 .hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .span-3 .hub-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
