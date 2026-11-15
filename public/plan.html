@@ -458,6 +458,9 @@ body{overflow-y:auto}
 .calbtn{width:30px;height:30px;border-radius:10px;border:1.5px solid var(--pill-border);background:var(--btn-bg);font-size:16px;cursor:pointer;
   transition:.15s;box-shadow:0 2px 0 color-mix(in srgb,var(--shadow) 10%,transparent)}
 .calbtn:hover{background:var(--cream);transform:translateY(-1px) rotate(-4deg)}
+.homebtn{flex:none;align-self:center;width:30px;height:30px;border-radius:10px;border:1.5px solid var(--pill-border);background:var(--btn-bg);color:var(--ink);
+  display:inline-grid;place-items:center;text-decoration:none;transition:.15s;box-shadow:0 2px 0 color-mix(in srgb,var(--shadow) 10%,transparent)}
+.homebtn:hover{background:var(--cream);transform:translateY(-1px) rotate(4deg)}
 .calpop{display:none;position:absolute;left:0;top:calc(100% + 8px);z-index:60;width:244px;padding:10px 12px 12px;
   background:var(--white);border:1.5px solid var(--pill-border);border-radius:16px;box-shadow:0 14px 32px color-mix(in srgb,var(--shadow) 30%,transparent);white-space:normal}
 .calwrap.open .calpop{display:block}
@@ -548,6 +551,9 @@ body{overflow-y:auto}
   <section class="page left">
     <div class="mast">
       <div class="mast-l">
+        <a class="homebtn" href="/" title="back to Sharesizer" aria-label="Back to Sharesizer">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        </a>
         <div class="calwrap" id="calWrap">
           <button class="calbtn" id="calBtn" title="pick a date · jump to its week" aria-haspopup="true">📅</button>
           <div class="calpop" id="calPop"></div>
