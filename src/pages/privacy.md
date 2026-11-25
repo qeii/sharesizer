@@ -2,7 +2,7 @@
 layout: ../layouts/Page.astro
 title: "Privacy Policy"
 description: "How Sharesizer handles your images and data. Your files are processed in your browser and are never uploaded."
-updated: "2026-10-08"
+updated: "2026-11-25"
 ---
 ## Your images stay on your device
 
@@ -11,6 +11,14 @@ Sharesizer's tools resize, crop, compress, convert and analyze images **in your 
 ## What is stored on your device
 
 If you switch between light and dark mode, your choice is saved in your browser's local storage so the site remembers it. Nothing else is stored.
+
+## Tools that contact other services
+
+A few tools need data from outside your browser. Your text, screenshots, calculations and speech are not sent to our servers.
+
+- **Calculator + USD Rates** requests current exchange rates from ExchangeRate-API (with the European Central Bank's Frankfurter service as a backup). No amounts are sent, only the request for the rates.
+- **Snip to Text** loads its text-reading software and the language data you choose from a public code delivery network (jsDelivr). The image itself is read in your browser.
+- **Speak English** uses your browser's built-in speech features. In Chrome and Edge, speech checking is performed by the browser vendor's speech service, so your recorded voice may be processed by them. Both tools load their fonts from Google Fonts.
 
 ## Hosting and technical logs
 

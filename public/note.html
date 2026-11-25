@@ -1155,7 +1155,7 @@ let sidebarWasCollapsedBeforeSplit = false;
 const $ = id => document.getElementById(id);
 
 // ── Theme ──
-function getStoredTheme() { return localStorage.getItem('notepad_theme') || 'light'; }
+function getStoredTheme() { return localStorage.getItem('notepad_theme') || 'dark'; }
 function applyTheme(t) {
   t === 'dark'
     ? document.documentElement.setAttribute('data-theme', 'dark')

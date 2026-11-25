@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculator + USD Exchange Rates | Sharesizer</title>
+<meta name="description" content="A calculator beside live US dollar exchange rates. Do the sum, send the result to the converter, see it in any currency. Free and private.">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("theme")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
+<style>
+:root{
+  --bg:#0B0F17; --panel:#131A26; --panel2:#0F1520; --line:#26324A; --text:#EAF0F7; --muted:#93A1B5;
+  --key:#1C2638; --keyHover:#27344D; --op:#2B2250; --opHover:#382C66; --opText:#CDBDFF;
+  --accent:#7C3AED; --accentHover:#8B52F5; --accent2:#22D3EE; --ok:#86EFAC; --bad:#FCA5A5; --focus:#FFC857;
+  --font:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#F3F5F9; --panel:#FFFFFF; --panel2:#F3F5F9; --line:#D9DFE8; --text:#0F172A; --muted:#566275;
+  --key:#EEF1F6; --keyHover:#E1E6EF; --op:#EDE7FB; --opHover:#DFD5F8; --opText:#5B21B6;
+  --accent:#6D28D9; --accentHover:#5B21B6; --accent2:#0E7490; --ok:#15803D; --bad:#B91C1C;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:radial-gradient(circle at top left,rgba(124,58,237,.14),transparent 34%),radial-gradient(circle at top right,rgba(6,182,212,.10),transparent 30%),var(--bg);
+  color:var(--text);font:400 16px/1.5 var(--font);min-height:100vh}
+main{max-width:1040px;margin:0 auto;padding:28px 20px 64px}
+button,select,input{font:inherit;color:inherit}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
+.topbar a{color:var(--muted);text-decoration:none;font-size:15px;font-weight:500}
+.topbar a:hover{color:var(--text);text-decoration:underline}
+#themeBtn{width:40px;height:40px;border-radius:10px;font-size:17px;background:var(--panel);border:1px solid var(--line);cursor:pointer}
+#themeBtn:hover{border-color:var(--accent)}
+h1{font-size:clamp(30px,5vw,44px);line-height:1.08;letter-spacing:-.025em;margin:0 0 8px}
+.lede{color:var(--muted);margin:0 0 26px;max-width:60ch}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px}
+.card h2{font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+
+/* ---------- calculator ---------- */
+.screen{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-bottom:14px;text-align:right;min-height:96px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+#expr{color:var(--muted);font-size:15px;min-height:22px;word-break:break-all;font-variant-numeric:tabular-nums}
+#big{font-size:clamp(34px,6vw,46px);font-weight:700;letter-spacing:-.02em;line-height:1.15;font-variant-numeric:tabular-nums;word-break:break-all}
+#big.err{font-size:20px;color:var(--bad);font-weight:600}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.k{height:58px;border-radius:14px;border:0;background:var(--key);font-size:21px;font-weight:600;cursor:pointer;transition:background .12s,transform .06s}
+.k:hover{background:var(--keyHover)}
+.k:active{transform:scale(.96)}
+.k.op{background:var(--op);color:var(--opText);font-size:24px}
+.k.op:hover{background:var(--opHover)}
+.k.eq{background:var(--accent);color:#fff}
+.k.eq:hover{background:var(--accentHover)}
+.k.fn{color:var(--muted);font-size:18px}
+.hist{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.hist-h{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:6px}
+.linkbtn{background:none;border:0;color:var(--muted);cursor:pointer;font-size:13px;text-decoration:underline;padding:4px}
+.linkbtn:hover{color:var(--text)}
+#histList{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+#histList button{width:100%;display:flex;justify-content:space-between;gap:12px;background:none;border:0;border-radius:8px;padding:6px 8px;cursor:pointer;text-align:left;font-size:14px;font-variant-numeric:tabular-nums}
+#histList button:hover{background:var(--key)}
+#histList span:first-child{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#histList span:last-child{font-weight:600;white-space:nowrap}
+.empty{color:var(--muted);font-size:14px;padding:4px 8px}
+
+/* ---------- converter ---------- */
+.ratebar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-4px 0 14px;font-size:13.5px;color:var(--muted)}
+#rateStatus.bad{color:var(--bad)}
+#refresh{flex:none;background:var(--key);border:0;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13.5px}
+#refresh:hover{background:var(--keyHover)}
+#refresh:disabled{opacity:.5;cursor:default}
+label.f{display:block;font-size:13.5px;color:var(--muted);margin:0 0 5px}
+.amtrow{display:flex;gap:8px}
+.amt{flex:1;min-width:0;display:flex;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:0 14px}
+.amt:focus-within{border-color:var(--accent)}
+#amt{flex:1;min-width:0;background:none;border:0;outline:0;font-size:24px;font-weight:700;padding:11px 0;font-variant-numeric:tabular-nums}
+#amtCur{color:var(--muted);font-weight:600;padding-left:10px}
+#useCalc{flex:none;background:var(--op);color:var(--opText);border:0;border-radius:12px;padding:0 14px;font-weight:600;font-size:14px;cursor:pointer;line-height:1.2}
+#useCalc:hover{background:var(--opHover)}
+.pair{display:flex;align-items:center;gap:10px;margin:14px 0}
+.pair.rev{flex-direction:row-reverse}
+.usd{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-weight:600}
+.usd small{display:block;font-weight:400;color:var(--muted);font-size:12.5px}
+#cur{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 10px;font-weight:600;height:100%;cursor:pointer}
+#swap{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--key);cursor:pointer;font-size:18px}
+#swap:hover{background:var(--keyHover);border-color:var(--accent)}
+.out{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:6px}
+#outFrom{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}
+#outBig{font-size:clamp(26px,4.6vw,34px);font-weight:700;letter-spacing:-.02em;line-height:1.2;font-variant-numeric:tabular-nums;word-break:break-word;color:var(--text)}
+#outBig b{color:var(--accent2);font-weight:700}
+#rateLine{color:var(--muted);font-size:13.5px;margin-top:4px;font-variant-numeric:tabular-nums}
+.tablewrap{margin-top:16px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14.5px;font-variant-numeric:tabular-nums}
+th{font-weight:500;color:var(--muted);text-align:right;padding:6px 8px;border-bottom:1px solid var(--line);font-size:13px}
+th:first-child,td:first-child{text-align:left}
+td{padding:7px 8px;text-align:right;border-bottom:1px solid var(--line)}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--key)}
+tbody tr.sel{background:var(--op)}
+td small{color:var(--muted);margin-left:6px}
+tr:last-child td{border-bottom:0}
+.msg{color:var(--muted);padding:18px 4px;text-align:center}
+.fine{margin-top:24px;font-size:13.5px;color:var(--muted);max-width:76ch}
+.fine a{color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <div class="topbar"><a href="/">&larr; Sharesizer</a><button id="themeBtn" type="button" aria-label="Switch light or dark theme">&#9680;</button></div>
+  <h1>Calculator + USD rates</h1>
+  <p class="lede">Do the sum on the left, then send the answer to the dollar converter on the right.</p>
+
+  <div class="grid">
+    <!-- ============ calculator ============ -->
+    <section class="card" aria-label="Calculator">
+      <h2>Calculator</h2>
+      <div class="screen">
+        <div id="expr"></div>
+        <div id="big">0</div>
+      </div>
+      <div class="sr" id="sr" role="status" aria-live="polite"></div>
+      <div class="keys" id="keys">
+        <button class="k fn" data-k="clear" aria-label="Clear">C</button>
+        <button class="k fn" data-k="back" aria-label="Backspace">&#9003;</button>
+        <button class="k fn" data-k="%" aria-label="Percent">%</button>
+        <button class="k op" data-k="/" aria-label="Divide">&divide;</button>
+        <button class="k" data-k="7">7</button><button class="k" data-k="8">8</button><button class="k" data-k="9">9</button>
+        <button class="k op" data-k="*" aria-label="Multiply">&times;</button>
+        <button class="k" data-k="4">4</button><button class="k" data-k="5">5</button><button class="k" data-k="6">6</button>
+        <button class="k op" data-k="-" aria-label="Subtract">&minus;</button>
+        <button class="k" data-k="1">1</button><button class="k" data-k="2">2</button><button class="k" data-k="3">3</button>
+        <button class="k op" data-k="+" aria-label="Add">+</button>
+        <button class="k fn" data-k="sign" aria-label="Plus or minus">&plusmn;</button>
+        <button class="k" data-k="0">0</button>
+        <button class="k" data-k="." aria-label="Decimal point">.</button>
+        <button class="k eq" data-k="=" aria-label="Equals">=</button>
+      </div>
+      <div class="hist">
+        <div class="hist-h"><span>History</span><button class="linkbtn" id="histClear" hidden>Clear</button></div>
+        <ul id="histList"></ul>
+      </div>
+    </section>
+
+    <!-- ============ dollar exchange rates ============ -->
+    <section class="card" aria-label="US dollar exchange rates">
+      <h2>US dollar exchange rates</h2>
+      <div class="ratebar"><span id="rateStatus">Loading rates&hellip;</span><button id="refresh" type="button">Refresh</button></div>
+
+      <label class="f" for="amt">Amount</label>
+      <div class="amtrow">
+        <div class="amt"><input id="amt" inputmode="decimal" autocomplete="off" spellcheck="false" value="100"><span id="amtCur">USD</span></div>
+        <button id="useCalc" type="button" title="Use the calculator's current answer as the amount">&larr; Use<br>calculator</button>
+      </div>
+
+      <div class="pair" id="pair">
+        <div class="usd">USD<small>US dollar</small></div>
+        <button id="swap" type="button" aria-label="Swap direction">&#8645;</button>
+        <select id="cur" aria-label="Currency"></select>
+      </div>
+
+      <div class="out" aria-live="polite">
+        <div id="outFrom">&nbsp;</div>
+        <div id="outBig">&nbsp;</div>
+        <div id="rateLine"></div>
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th scope="col">Currency</th><th scope="col">1 USD =</th><th scope="col" id="thAmt">Amount</th></tr></thead>
+          <tbody id="rows"><tr><td colspan="3" class="msg">Loading&hellip;</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <p class="fine">Only the exchange rates are fetched from the internet. Your calculations stay in your browser. Rates are daily reference rates and may differ from what a bank, card or money-transfer service gives you. Rates by <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">ExchangeRate-API</a>, with the European Central Bank (via Frankfurter) as backup.</p>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+             set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* theme: dark by default, shared with the rest of Sharesizer */
+$('themeBtn').onclick=()=>{
+  const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
+  document.documentElement.dataset.theme=next;
+  try{localStorage.setItem('theme',next)}catch(e){}
+};
+
+/* =====================================================================
+   CALCULATOR
+   ===================================================================== */
+const isOp=c=>c!==''&&'+-*/'.includes(c);
+const TOK=/\d+\.?\d*%?|\.\d+%?|[+\-*/]/g;
+let expr='', done=false, shown='', hist=store.get('calc.hist',[]);
+
+/* tiny recursive-descent evaluator (no eval) */
+let toks=[],pos=0;
+function parseFactor(){
+  let neg=1;
+  while(toks[pos]==='-'||toks[pos]==='+'){ if(toks[pos]==='-')neg=-neg; pos++; }
+  const t=toks[pos++];
+  if(t===undefined||isOp(t))throw new Error('syntax');
+  const pct=t.endsWith('%'), n=parseFloat(t);
+  if(isNaN(n))throw new Error('syntax');
+  return {v:neg*(pct?n/100:n),pct};
+}
+function parseTerm(){
+  const f=parseFactor(); let v=f.v, pctOnly=f.pct;
+  while(toks[pos]==='*'||toks[pos]==='/'){
+    const op=toks[pos++], g=parseFactor(); pctOnly=false;
+    if(op==='*')v*=g.v; else{ if(g.v===0)throw new Error('div0'); v/=g.v; }
+  }
+  return {v,pctOnly};
+}
+function parseExpr(){
+  let left=parseTerm().v;
+  while(toks[pos]==='+'||toks[pos]==='-'){
+    const op=toks[pos++], r=parseTerm();
+    const rv=r.pctOnly?left*r.v:r.v;            /* 200 + 10%  =  200 + 20 */
+    left=op==='+'?left+rv:left-rv;
+  }
+  return left;
+}
+function compute(src){
+  const clean=src.replace(/[+\-*/]+$/,'');
+  if(clean===''||clean==='-')return null;
+  toks=clean.match(TOK)||[]; pos=0;
+  if(toks.join('')!==clean)throw new Error('syntax');
+  const v=parseExpr();
+  if(pos<toks.length)throw new Error('syntax');
+  const r=parseFloat(v.toPrecision(12));
+  if(!isFinite(r))throw new Error('math');
+  return r;
+}
+
+/* formatting */
+const NF=new Intl.NumberFormat('en-US',{maximumFractionDigits:10});
+function fmt(v){
+  if(v===0)return '0';
+  const a=Math.abs(v);
+  if(a>=1e15||a<1e-9)return v.toExponential(6).replace(/\.?0+e/,'e').replace('e+','e');
+  return NF.format(v);
+}
+function plain(v){
+  let s=String(v);
+  if(/e/i.test(s))s=Math.abs(v)<1?v.toFixed(15).replace(/0+$/,'').replace(/\.$/,''):BigInt(Math.round(v)).toString();
+  return s;
+}
+const group=n=>n.replace(/^(-?)(\d+)/,(m,s,d)=>s+d.replace(/\B(?=(\d{3})+(?!\d))/g,','));
+function pretty(e){
+  return e.replace(/\d+\.?\d*%?|\.\d+%?/g,m=>group(m))
+          .replace(/([\d%.])([+\-*/])/g,'$1 $2 ')
+          .replace(/\*/g,'\u00d7').replace(/\//g,'\u00f7').replace(/-/g,'\u2212');
+}
+const lastNum=e=>(e.match(/[\d.]*%?$/)||[''])[0];
+const hasOp=e=>/[\d.%][+\-*/]/.test(e);
+
+function press(k){
+  $('big').classList.remove('err');
+  if(/^\d$/.test(k)){
+    if(done){expr='';done=false;}
+    const n=lastNum(expr);
+    if(n.endsWith('%'))return;
+    if(n==='0')expr=expr.slice(0,-1)+k; else expr+=k;
+  }else if(k==='.'){
+    if(done){expr='';done=false;}
+    const n=lastNum(expr);
+    if(n.endsWith('%')||n.includes('.'))return;
+    expr+=n===''?'0.':'.';
+  }else if(isOp(k)){
+    done=false;
+    if(expr===''){ if(k==='-')expr='-'; render(); return; }
+    if(expr==='-'){ render(); return; }
+    const last=expr.slice(-1);
+    if(isOp(last)){
+      if(k==='-'&&'*/'.includes(last)&&!/[*/]-$/.test(expr))expr+='-';
+      else expr=expr.replace(/[+\-*/]+$/,'')+k;
+    }else expr+=k;
+  }else if(k==='%'){
+    done=false;
+    const n=lastNum(expr);
+    if(n!==''&&!n.endsWith('%'))expr+='%';
+  }else if(k==='back'){
+    done=false; expr=expr.slice(0,-1);
+  }else if(k==='clear'){
+    expr=''; done=false; shown=''; $('sr').textContent='Cleared';
+  }else if(k==='sign'){
+    done=false; toggleSign();
+  }else if(k==='='){
+    equals(); return;
+  }
+  render();
+}
+function toggleSign(){
+  const n=lastNum(expr), before=expr.slice(0,expr.length-n.length);
+  const unary=before.endsWith('-')&&(before.length===1||isOp(before.slice(-2,-1)));
+  if(n===''){
+    if(before==='')expr='-';
+    else if(unary)expr=before.slice(0,-1);
+    else expr=before+'-';
+    return;
+  }
+  expr=unary?before.slice(0,-1)+n:before+'-'+n;
+}
+function equals(){
+  if(!hasOp(expr)&&!expr.endsWith('%'))return;
+  try{
+    const r=compute(expr);
+    if(r===null)return;
+    shown=expr; expr=plain(r); done=true;
+    hist.unshift({e:pretty(shown),r:fmt(r),v:plain(r)}); hist=hist.slice(0,8); store.set('calc.hist',hist);
+    $('sr').textContent='Result '+fmt(r);
+    render();
+  }catch(err){
+    $('expr').textContent=pretty(expr);
+    const b=$('big'); b.classList.add('err');
+    b.textContent=err.message==='div0'?'Cannot divide by zero':'Check the calculation';
+    $('sr').textContent=b.textContent;
+  }
+}
+function render(){
+  $('expr').textContent=done?pretty(shown)+' =':pretty(expr);
+  let big;
+  if(expr==='')big='0';
+  else if(done){ try{big=fmt(compute(expr));}catch(e){big=group(expr);} }
+  else if(hasOp(expr)){
+    try{const r=compute(expr); big=r===null?group(lastNum(expr)||'0'):fmt(r);}
+    catch(e){big=group(lastNum(expr)||'0');}
+  }else if(expr==='-')big='-0';
+  else if(/%$/.test(expr)){ try{big=fmt(compute(expr));}catch(e){big=group(expr);} }
+  else big=group(expr);
+  $('big').textContent=big;
+  renderHist();
+}
+function renderHist(){
+  const ul=$('histList'); ul.innerHTML='';
+  $('histClear').hidden=!hist.length;
+  if(!hist.length){ const li=document.createElement('li'); li.className='empty'; li.textContent='Your answers will appear here.'; ul.appendChild(li); return; }
+  hist.forEach(h=>{
+    const li=document.createElement('li'), b=document.createElement('button'); b.type='button';
+    const a=document.createElement('span'), c=document.createElement('span');
+    a.textContent=h.e; c.textContent='= '+h.r; b.append(a,c);
+    b.title='Use this answer';
+    b.onclick=()=>{ expr=h.v; done=false; shown=''; render(); };
+    li.appendChild(b); ul.appendChild(li);
+  });
+}
+$('keys').addEventListener('click',e=>{const b=e.target.closest('.k'); if(b)press(b.dataset.k);});
+$('histClear').onclick=()=>{hist=[];store.set('calc.hist',hist);renderHist();};
+
+document.addEventListener('keydown',e=>{
+  if(e.target.closest('input,select,textarea')||e.ctrlKey||e.metaKey||e.altKey)return;
+  const k=e.key;
+  if(/^\d$/.test(k)||'+-*/%'.includes(k))press(k);
+  else if(k==='x'||k==='X')press('*');
+  else if(k==='.'||k===',')press('.');
+  else if(k==='Enter'||k==='='){e.preventDefault();press('=');}
+  else if(k==='Backspace'){e.preventDefault();press('back');}
+  else if(k==='Escape'||k==='Delete')press('clear');
+  else return;
+  if(k==='/')e.preventDefault();
+});
+
+/* the calculator's current answer as a plain number (or null) */
+function calcValue(){
+  try{ const v=compute(expr); return v; }catch(e){ return null; }
+}
+
+/* =====================================================================
+   DOLLAR EXCHANGE RATES
+   ===================================================================== */
+const POP=['EUR','GBP','JPY','CAD','AUD','CHF','CNY','INR','MXN','BRL','KRW','TRY'];
+const SOURCES=[
+  {name:'ExchangeRate-API',url:'https://open.er-api.com/v6/latest/USD',
+   parse:j=>{ if(j.result!=='success'||!j.rates)throw new Error('bad'); return {rates:j.rates,asOf:j.time_last_update_utc}; }},
+  {name:'European Central Bank',url:'https://api.frankfurter.dev/v1/latest?base=USD',
+   parse:j=>{ if(!j.rates)throw new Error('bad'); return {rates:Object.assign({USD:1},j.rates),asOf:j.date}; }}
+];
+let R=store.get('calc.rates',null);                 /* {rates,asOf,source,fetched} */
+let conv=Object.assign({cur:'EUR',dir:'from',amt:'100'},store.get('calc.conv',{}));
+let names=null; try{names=new Intl.DisplayNames(['en'],{type:'currency'});}catch(e){}
+const cname=c=>{try{return (names&&names.of(c))||c;}catch(e){return c;}};
+
+async function getJSON(url){
+  const ctl=new AbortController(), t=setTimeout(()=>ctl.abort(),9000);
+  try{ const r=await fetch(url,{signal:ctl.signal,cache:'no-store'}); if(!r.ok)throw new Error('http '+r.status); return await r.json(); }
+  finally{ clearTimeout(t); }
+}
+const fmtDate=s=>{ const d=new Date(s); return isNaN(d)?'':d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric',timeZone:'UTC'}); };
+
+async function loadRates(force){
+  const btn=$('refresh'); btn.disabled=true;
+  if(R)paintRates();                                /* show saved rates straight away */
+  const fresh=R&&Date.now()-R.fetched<30*60*1000;
+  if(fresh&&!force){ btn.disabled=false; return; }
+  setStatus(R?'Updating rates…':'Loading rates…');
+  let ok=false;
+  for(const s of SOURCES){
+    try{
+      const p=s.parse(await getJSON(s.url));
+      R={rates:p.rates,asOf:p.asOf,source:s.name,fetched:Date.now()};
+      store.set('calc.rates',R); ok=true; break;
+    }catch(e){ /* try the next source */ }
+  }
+  btn.disabled=false;
+  if(ok){ paintRates(); return; }
+  if(R){ paintRates(); setStatus('Could not update. Showing saved rates from '+fmtDate(R.asOf)+'.',true); }
+  else{
+    setStatus('Rates could not be loaded. Check your connection and press Refresh.',true);
+    $('rows').innerHTML='<tr><td colspan="3" class="msg">No rates yet. The calculator still works.</td></tr>';
+    $('outBig').textContent='\u00a0'; $('outFrom').textContent='\u00a0'; $('rateLine').textContent='';
+  }
+}
+function setStatus(t,bad){ const e=$('rateStatus'); e.textContent=t; e.className=bad?'bad':''; }
+
+const NUM=new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const NUM0=new Intl.NumberFormat('en-US',{maximumFractionDigits:0});
+const SIG=new Intl.NumberFormat('en-US',{maximumSignificantDigits:6});
+function money(v){
+  if(!isFinite(v))return '-';
+  const a=Math.abs(v);
+  if(a>=1e12)return v.toExponential(3);
+  return a>=1000?NUM0.format(v):NUM.format(v);
+}
+function parseAmt(s){ const n=parseFloat(String(s).replace(/[,\s]/g,'')); return isNaN(n)?null:n; }
+
+function fillSelect(){
+  const sel=$('cur'), codes=Object.keys(R.rates).filter(c=>c!=='USD').sort();
+  if(!codes.includes(conv.cur))conv.cur=codes.includes('EUR')?'EUR':codes[0];
+  const opt=c=>`<option value="${c}">${c} · ${cname(c).replace(/</g,'')}</option>`;
+  const pop=POP.filter(c=>codes.includes(c));
+  sel.innerHTML='<optgroup label="Popular">'+pop.map(opt).join('')+'</optgroup><optgroup label="All currencies">'+codes.filter(c=>!pop.includes(c)).map(opt).join('')+'</optgroup>';
+  sel.value=conv.cur;
+}
+function paintRates(){
+  if(!R)return;
+  setStatus('Rates as of '+fmtDate(R.asOf)+' · '+R.source);
+  fillSelect(); paintConvert();
+}
+function paintConvert(){
+  if(!R)return;
+  const rate=c=>R.rates[c], cur=conv.cur, from=conv.dir==='from'?'USD':cur, to=conv.dir==='from'?cur:'USD';
+  $('pair').classList.toggle('rev',conv.dir==='to');
+  $('amtCur').textContent=from;
+  const amt=parseAmt(conv.amt);
+  const usd=amt===null?null:(conv.dir==='from'?amt:amt/rate(cur));
+  const out=usd===null?null:usd*rate(to);
+  $('outFrom').innerHTML=amt===null?'Type an amount':money(amt)+' '+from+' ='; 
+  $('outBig').innerHTML=out===null?'&nbsp;':money(out)+' <b>'+to+'</b>';
+  $('rateLine').textContent='1 USD = '+SIG.format(rate(cur))+' '+cur+'  ·  1 '+cur+' = '+SIG.format(1/rate(cur))+' USD';
+  $('thAmt').textContent=amt===null?'Amount':money(amt)+' '+from+' in…';
+  const list=POP.filter(c=>rate(c)&&c!==from);
+  if(cur!==from&&!list.includes(cur)&&rate(cur))list.unshift(cur);
+  if(conv.dir==='to'&&!list.includes('USD'))list.unshift('USD');
+  $('rows').innerHTML=list.map(c=>{
+    const v=usd===null?'-':money(usd*rate(c));
+    return `<tr data-c="${c}" class="${c===cur?'sel':''}" tabindex="0" role="button" aria-label="Convert to ${c}"><td>${c}<small>${cname(c).replace(/</g,'')}</small></td><td>${SIG.format(rate(c))}</td><td>${v}</td></tr>`;
+  }).join('');
+}
+function save(){ store.set('calc.conv',conv); }
+
+$('amt').addEventListener('input',e=>{ conv.amt=e.target.value; save(); paintConvert(); });
+$('cur').addEventListener('change',e=>{ conv.cur=e.target.value; save(); paintConvert(); });
+$('swap').onclick=()=>{ conv.dir=conv.dir==='from'?'to':'from'; save(); paintConvert(); };
+$('refresh').onclick=()=>loadRates(true);
+$('useCalc').onclick=()=>{
+  const v=calcValue();
+  if(v===null){ $('amt').focus(); return; }
+  conv.amt=String(parseFloat(v.toFixed(6))); $('amt').value=conv.amt; save(); paintConvert();
+};
+function pickRow(e){
+  const tr=e.target.closest('tr[data-c]'); if(!tr)return;
+  if(e.type==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;
+  e.preventDefault();
+  const c=tr.dataset.c;
+  if(c==='USD'){ conv.dir='from'; } else conv.cur=c;
+  $('cur').value=conv.cur; save(); paintConvert();
+}
+$('rows').addEventListener('click',pickRow);
+$('rows').addEventListener('keydown',pickRow);
+
+$('amt').value=conv.amt;
+render();
+if(R)paintRates();
+loadRates(false);
+</script>
+</body>
+</html>

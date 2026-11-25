@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paper Days Planner | Sharesizer</title>
+<title>Planner | Sharesizer</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E🍿%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Gochi+Hand&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("theme")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
 <style>
 /* ═══════════════════════════════════════════════════════════════
    COLOR PALETTE — change any hex below (copy-paste #RRGGBB).
@@ -19,7 +20,8 @@
   --ink:#453D5F;          /* main text */
   --ink2:#9A92B4;         /* soft text, labels */
   --line:#EADFC4;         /* thin dotted lines */
-  --white:#FFFFFF;
+  --white:#FFFFFF;        /* text on coloured buttons */
+  --surface:#FFFFFF;      /* cards, menus, pills, tints */
 
   /* accents */
   --coral:#FF7460;        /* selected day, alerts */
@@ -65,7 +67,7 @@
   --now-ink:#DE8B00;
   --row-hover:#FFE196;
   --hl-lilac:#BEA0FF;     /* marker under "to-do & schedule" */
-  --hl-sun:#FFB43C;       /* marker under "paper days" */
+  --hl-sun:#FFB43C;       /* marker under the planner title */
   --quote:#C77E2E;
 
   /* washi tape stripes */
@@ -82,6 +84,17 @@
   --row:clamp(21px,2.9vh,28px);
   --mrow:calc(var(--row) - 2px);
   --hand:'Lobster Two',cursive; --cute:'Gochi Hand',cursive; --body:'Nunito',sans-serif;
+}
+
+/* ── dark theme (default). Print always switches back to light, see the beforeprint handler. ── */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#1E1B2B; --ink:#EDE9F7; --ink2:#A59EC0; --line:#3A3552; --surface:#262236;
+  --bg:#13111C; --glow-sun:#4A3A12; --glow-pink:#4A1F38; --glow-sky:#12384F; --bg-dot:#FF965A; --paper-dot:#5C5675;
+  --cream:#38314F; --pill-border:#413A5C; --btn-bg:#2A2640; --card-bg:#242034; --card-border:#3E3858;
+  --idle:#5A5478; --spine-line:#4A4466; --placeholder:#6E6888; --placeholder-2:#5E5878; --hx:#8C6B7A; --done-ink:#6F688A;
+  --now:#5C4A12; --now-ink:#FFC857; --row-hover:#4A3F14; --quote:#E0A050; --shadow:#000000; --overlay:#05040A;
+  --tape1b:#6B5A20; --tape2b:#1F4A5E; --tape3b:#5E2A42; --tape4b:#1F5040;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;min-height:100dvh}
@@ -107,7 +120,7 @@ button{font-family:inherit}
 
 /* ---------- week nav & tools ---------- */
 @keyframes drop{from{opacity:0;transform:translateY(-10px)}}
-.weeknav{display:flex;align-items:center;gap:6px;background:color-mix(in srgb,var(--white) 72%,transparent);border:1.5px solid var(--pill-border);
+.weeknav{display:flex;align-items:center;gap:6px;background:color-mix(in srgb,var(--surface) 72%,transparent);border:1.5px solid var(--pill-border);
   border-radius:999px;padding:4px 8px;box-shadow:0 2px 0 color-mix(in srgb,var(--shadow) 8%,transparent)}
 .nav{width:26px;height:26px;border-radius:50%;border:0;background:var(--cream);color:var(--ink);
   font-weight:800;cursor:pointer;transition:.15s}
@@ -159,8 +172,8 @@ button{font-family:inherit}
 .sec{display:flex;flex-direction:column;gap:5px;min-height:0;animation:rise .55s both;animation-delay:var(--d,0s)}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}}
 .chip{align-self:flex-start;font-family:var(--cute);font-size:clamp(12.5px,1.8vh,14.5px);letter-spacing:.5px;
-  color:var(--c);background:color-mix(in srgb,var(--c) 14%, var(--white));
-  border:1.5px solid color-mix(in srgb,var(--c) 42%, var(--white));
+  color:var(--c);background:color-mix(in srgb,var(--c) 14%, var(--surface));
+  border:1.5px solid color-mix(in srgb,var(--c) 42%, var(--surface));
   padding:1px 10px 2px;border-radius:9px;transform:rotate(-1.4deg);transition:.15s}
 .chip:hover{transform:rotate(1.2deg) scale(1.04)}
 .sub{font:italic 600 10.5px var(--body);color:var(--ink2)}
@@ -169,7 +182,7 @@ button{font-family:inherit}
 .fline{display:flex;align-items:center;gap:9px;height:calc(var(--row) + 7px)}
 .fline .star{color:var(--c);font-size:13px;flex:none;transform:rotate(-8deg)}
 .fline input{flex:1;min-width:0;border:0;background:transparent;outline:0;padding:0 2px;
-  border-bottom:2px dotted color-mix(in srgb,var(--c) 52%, var(--white));
+  border-bottom:2px dotted color-mix(in srgb,var(--c) 52%, var(--surface));
   font-family:var(--hand);font-weight:400;font-size:clamp(14px,2vh,17px);color:var(--ink)}
 .fline input::placeholder{color:var(--placeholder);font-weight:400}
 .fline input:focus{border-bottom:2px solid var(--c)}
@@ -179,9 +192,9 @@ button{font-family:inherit}
 /* big three */
 .bline{display:flex;align-items:center;gap:10px;height:calc(var(--row) + 8px)}
 .ring{flex:none;width:24px;height:24px;border-radius:50%;border:2.5px solid var(--c);color:var(--c);
-  display:grid;place-items:center;font:800 12px var(--body);background:var(--white)}
+  display:grid;place-items:center;font:800 12px var(--body);background:var(--surface)}
 .bline input{flex:1;min-width:0;border:0;outline:0;background:transparent;padding:0 3px;
-  border-bottom:2.5px dashed color-mix(in srgb,var(--c) 46%, var(--white));
+  border-bottom:2.5px dashed color-mix(in srgb,var(--c) 46%, var(--surface));
   font:700 clamp(12.5px,1.9vh,15px) var(--body);color:var(--ink)}
 .bline input:focus{border-bottom-color:var(--c)}
 
@@ -216,7 +229,7 @@ button{font-family:inherit}
 .rhead h2{font-family:var(--hand);font-weight:400;font-size:clamp(19px,2.8vh,25px);line-height:1;
   background:linear-gradient(transparent 58%, color-mix(in srgb,var(--hl-lilac) 55%,transparent) 58% 94%, transparent 94%)}
 .count{font-family:var(--cute);font-size:13.5px;color:var(--lilac);white-space:nowrap;
-  background:color-mix(in srgb,var(--lilac) 12%, var(--white));border:1.5px solid color-mix(in srgb,var(--lilac) 38%, var(--white));
+  background:color-mix(in srgb,var(--lilac) 12%, var(--surface));border:1.5px solid color-mix(in srgb,var(--lilac) 38%, var(--surface));
   padding:2px 11px;border-radius:999px}
 .count.popa{animation:cpop .3s}
 @keyframes cpop{40%{transform:scale(1.18) rotate(-3deg)}}
@@ -228,7 +241,7 @@ button{font-family:inherit}
 .slot input{border:0;outline:0;background:transparent;min-width:0;padding:0 4px;height:100%;
   border-bottom:1.8px dotted var(--line);font:600 12.5px var(--body);color:var(--ink)}
 .slot input:focus{border-bottom:1.8px solid var(--sky)}
-.cb{width:16px;height:16px;border-radius:5px;border:2px solid var(--lilac);background:var(--white);cursor:pointer;
+.cb{width:16px;height:16px;border-radius:5px;border:2px solid var(--lilac);background:var(--surface);cursor:pointer;
   display:grid;place-items:center;padding:0;transition:.15s}
 .cb::after{content:'✓';font:800 10.5px var(--body);color:var(--white);opacity:0;transform:scale(.2);transition:.15s}
 .cb:hover{transform:scale(1.2) rotate(-6deg)}
@@ -245,12 +258,12 @@ button{font-family:inherit}
   display:grid;place-items:center;font:800 8.5px var(--body);transform:rotate(-6deg);box-shadow:0 2px 0 color-mix(in srgb,var(--shadow) 14%,transparent)}
 .tok.g{border-radius:50% 50% 50% 4px;font-size:10px;background:none;color:var(--tc);box-shadow:none;border:0}
 .mrow input{flex:1;min-width:0;border:0;outline:0;background:transparent;padding:0 2px;
-  border-bottom:2px dotted color-mix(in srgb,var(--c) 45%, var(--white));font:600 12px var(--body);color:var(--ink)}
+  border-bottom:2px dotted color-mix(in srgb,var(--c) 45%, var(--surface));font:600 12px var(--body);color:var(--ink)}
 .mrow input::placeholder{color:var(--placeholder-2)}
 .mrow input:focus{border-bottom-color:var(--c)}
 
 #notes,#extra{flex:1;min-height:56px;width:100%;border:0;outline:0;resize:none;background-attachment:local;padding:0 5px;
-  background:repeating-linear-gradient(transparent 0 calc(32px - 1.5px), color-mix(in srgb,var(--lilac) 32%, var(--white)) calc(32px - 1.5px) 32px);
+  background:repeating-linear-gradient(transparent 0 calc(32px - 1.5px), color-mix(in srgb,var(--lilac) 32%, var(--surface)) calc(32px - 1.5px) 32px);
   font:400 clamp(14px,2vh,16px)/32px var(--hand);color:var(--ink)}
 #notes:focus,#extra:focus{box-shadow:0 0 0 2.5px color-mix(in srgb,var(--lilac) 25%, transparent);border-radius:8px}
 .grow{flex:1}
@@ -284,7 +297,7 @@ button{font-family:inherit}
 .dbtn.sel{background:var(--coral);border-color:var(--coral);color:var(--white)}
 .dbtn.sel.today{box-shadow:inset 0 0 0 2px var(--white)}
 .dbtn::after{content:attr(data-tip);position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);
-  white-space:nowrap;background:var(--ink);color:var(--white);font:700 10px var(--body);letter-spacing:.3px;
+  white-space:nowrap;background:var(--ink);color:var(--surface);font:700 10px var(--body);letter-spacing:.3px;
   padding:3px 8px;border-radius:7px;opacity:0;pointer-events:none;transition:opacity .12s;z-index:30}
 .dbtn:hover::after,.dbtn:focus-visible::after{opacity:1}
 .dbtn.tl::after{left:0;transform:none}
@@ -309,7 +322,7 @@ button{font-family:inherit}
 .more{position:relative}
 .more .btn{display:inline-flex;align-items:center;gap:5px}
 .menu{position:absolute;right:0;top:calc(100% + 6px);min-width:150px;z-index:40;display:none;flex-direction:column;gap:2px;padding:5px;
-  background:var(--white);border:1.5px solid var(--pill-border);border-radius:14px;box-shadow:0 12px 28px color-mix(in srgb,var(--shadow) 28%,transparent)}
+  background:var(--surface);border:1.5px solid var(--pill-border);border-radius:14px;box-shadow:0 12px 28px color-mix(in srgb,var(--shadow) 28%,transparent)}
 .more.open .menu{display:flex}
 .menu button{border:0;background:transparent;color:var(--ink);font:800 11px var(--body);text-align:left;padding:8px 11px;border-radius:9px;cursor:pointer;white-space:nowrap}
 .menu button:hover{background:var(--cream)}
@@ -317,7 +330,7 @@ button{font-family:inherit}
 .menu a:hover{background:var(--cream);color:var(--ink)}
 .menu hr{border:0;border-top:1.5px dotted var(--line);margin:3px 4px}
 .menu button.danger{color:var(--danger)}
-.menu button.danger:hover{background:color-mix(in srgb,var(--coral) 14%,var(--white))}
+.menu button.danger:hover{background:color-mix(in srgb,var(--coral) 14%,var(--surface))}
 
 /* ---------- left page: the month in days ---------- */
 .mtitle{display:flex;align-items:baseline;gap:4px 12px;flex-wrap:wrap}
@@ -327,15 +340,15 @@ button{font-family:inherit}
 .wk{display:flex;flex-direction:column;flex:var(--g,1) 0 auto}
 .whead{display:flex;align-items:center;justify-content:flex-end;gap:8px;height:17px}
 .wchip{font-family:var(--cute);font-size:13px;letter-spacing:.5px;line-height:1.25;color:var(--c);
-  background:color-mix(in srgb,var(--c) 14%, var(--white));border:1.5px solid color-mix(in srgb,var(--c) 42%, var(--white));
+  background:color-mix(in srgb,var(--c) 14%, var(--surface));border:1.5px solid color-mix(in srgb,var(--c) 42%, var(--surface));
   padding:0 9px 1px;border-radius:9px;transform:rotate(-1.2deg)}
 .wrange{font:italic 600 10px var(--body);color:var(--ink2)}
 .wk .wt{flex:1 0 calc(var(--mrow) + 3px);height:auto;min-height:calc(var(--mrow) + 3px)}
-.wk .wt input{border-bottom:2.5px dashed color-mix(in srgb,var(--c) 62%, var(--white));font:700 clamp(12.5px,1.9vh,15px) var(--body)}
+.wk .wt input{border-bottom:2.5px dashed color-mix(in srgb,var(--c) 62%, var(--surface));font:700 clamp(12.5px,1.9vh,15px) var(--body)}
 .drow{flex:1 0 var(--mrow);min-height:var(--mrow);display:flex;align-items:center;gap:7px;border-radius:6px;transition:background .15s}
 .drow:hover{background:color-mix(in srgb,var(--row-hover) 30%,transparent)}
 .dn{flex:none;width:24px;height:17px;border-radius:6px;border:0;padding:0;cursor:pointer;display:grid;place-items:center;
-  background:color-mix(in srgb,var(--c) 16%, var(--white));color:var(--c);font:800 10.5px var(--body);transition:.15s}
+  background:color-mix(in srgb,var(--c) 16%, var(--surface));color:var(--c);font:800 10.5px var(--body);transition:.15s}
 .dn:hover{background:var(--c);color:var(--white);transform:rotate(-5deg) scale(1.1)}
 .drow.sel .dn{background:var(--coral);color:var(--white)}
 .drow.today .dn{box-shadow:0 0 0 2px var(--paper),0 0 0 3.5px var(--coral)}
@@ -395,7 +408,7 @@ button{font-family:inherit}
 @media (max-width:1060px){.rbody{grid-template-columns:1fr}}
 @media print{
   .weeknav,.actions,.sky,.tape,.modal{display:none!important}
-  body{overflow:visible;background:var(--white)}
+  body{overflow:visible;background:var(--surface)}
   .spread{width:100%;filter:none}
   .page{overflow:visible;box-shadow:none}
 }
@@ -428,7 +441,7 @@ body{overflow-x:auto}
 .col .mrow input{font-size:11.5px}
 .col .tok{width:16px;height:16px}
 textarea.ev{width:100%;height:84px;border:0;outline:0;resize:none;padding:0 4px;overflow:hidden;
-  background:repeating-linear-gradient(transparent 0 26.5px,color-mix(in srgb,var(--coral) 48%,var(--white)) 26.5px 28px);
+  background:repeating-linear-gradient(transparent 0 26.5px,color-mix(in srgb,var(--coral) 48%,var(--surface)) 26.5px 28px);
   font:400 clamp(14px,2vh,16px)/28px var(--hand);color:var(--ink)}
 textarea.ev:focus{box-shadow:0 0 0 2.5px color-mix(in srgb,var(--coral) 22%,transparent);border-radius:8px}
 .p1 .fline{height:calc(var(--row) + 3px);gap:7px}
@@ -462,7 +475,7 @@ body{overflow-y:auto}
   display:inline-grid;place-items:center;text-decoration:none;transition:.15s;box-shadow:0 2px 0 color-mix(in srgb,var(--shadow) 10%,transparent)}
 .homebtn:hover{background:var(--cream);transform:translateY(-1px) rotate(4deg)}
 .calpop{display:none;position:absolute;left:0;top:calc(100% + 8px);z-index:60;width:244px;padding:10px 12px 12px;
-  background:var(--white);border:1.5px solid var(--pill-border);border-radius:16px;box-shadow:0 14px 32px color-mix(in srgb,var(--shadow) 30%,transparent);white-space:normal}
+  background:var(--surface);border:1.5px solid var(--pill-border);border-radius:16px;box-shadow:0 14px 32px color-mix(in srgb,var(--shadow) 30%,transparent);white-space:normal}
 .calwrap.open .calpop{display:block}
 .calhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;font:800 12px var(--body);color:var(--ink)}
 .calhd button{width:24px;height:24px;border-radius:50%;border:0;background:var(--cream);color:var(--ink);font-weight:800;cursor:pointer}
@@ -471,7 +484,7 @@ body{overflow-y:auto}
 .cdw{font:11px var(--cute);color:var(--ink2);padding-bottom:2px}
 .cd{width:29px;height:26px;border:0;border-radius:8px;background:transparent;color:var(--ink);font:700 11.5px var(--body);cursor:pointer}
 .cd:hover{background:var(--cream)}
-.cd.inwk{background:color-mix(in srgb,var(--sun) 35%,var(--white))}
+.cd.inwk{background:color-mix(in srgb,var(--sun) 35%,var(--surface))}
 .cd.today{box-shadow:inset 0 0 0 2px var(--coral)}
 .calt{display:block;margin:8px auto 0;border:1.5px dashed var(--coral);background:transparent;color:var(--coral);font:800 10.5px var(--body);border-radius:999px;padding:2px 12px;cursor:pointer}
 .calt:hover{background:var(--coral);color:var(--white)}
@@ -521,7 +534,7 @@ body{overflow-y:auto}
 .labcol .slot.now{background:none}
 .labcol .slot.now .tlabel::before{content:none}
 .labcol .slot.now .tlabel{align-self:center;text-align:center;padding:0 3px;line-height:1.55;border-radius:7px;
-  background:var(--now);color:var(--now-ink);box-shadow:0 0 0 1.5px color-mix(in srgb,var(--now-ink) 28%,var(--white))}
+  background:var(--now);color:var(--now-ink);box-shadow:0 0 0 1.5px color-mix(in srgb,var(--now-ink) 28%,var(--surface))}
 
 /* ═════════ v4: 3 priorities, roomier lines for priorities + hours ═════════ */
 .col .bline,.labcol .bline{height:calc(var(--row) + 10px);gap:8px}        /* ← priority line height */
@@ -588,6 +601,7 @@ body{overflow-y:auto}
           <button class="btn ghost" id="moreBtn" aria-haspopup="true" aria-expanded="false">⋯ more ▾</button>
           <div class="menu" id="moreMenu" role="menu">
             <button id="printBtn" role="menuitem">⎙ print</button>
+            <button id="themeBtn" role="menuitem">◐ light / dark</button>
             <hr>
             <a href="https://kitpaper.com/?utm_source=sharesizer&amp;utm_medium=tool&amp;utm_campaign=plan" target="_blank" rel="noopener" role="menuitem">✿ printable planner kits</a>
             <hr>
@@ -789,6 +803,16 @@ moreBtn.onclick=e=>{e.stopPropagation();setMore(!moreWrap.classList.contains('op
 document.addEventListener('click',e=>{if(!moreWrap.contains(e.target))setMore(false);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){setMore(false);setCal(false);}});
 $('printBtn').onclick=()=>{setMore(false);window.print();};
+/* theme: dark by default, shared with the rest of Sharesizer; paper is always printed in light colours */
+$('themeBtn').onclick=()=>{
+  const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
+  document.documentElement.dataset.theme=next;
+  try{localStorage.setItem('theme',next)}catch(e){}
+  setMore(false);
+};
+let themeBeforePrint=null;
+window.addEventListener('beforeprint',()=>{themeBeforePrint=document.documentElement.dataset.theme;document.documentElement.dataset.theme='light';});
+window.addEventListener('afterprint',()=>{if(themeBeforePrint)document.documentElement.dataset.theme=themeBeforePrint;themeBeforePrint=null;});
 $('resetBtn').onclick=()=>{
   setMore(false);
   if(!confirm('Clear the hours for all 7 days of this week?\n(priorities, everest & notes are not touched)'))return;

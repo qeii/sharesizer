@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Speak English | Sharesizer</title>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("theme")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F5F7; --card:#FFFFFF; --ink:#1B2A3A; --ink2:#5F6E7E; --line:#D9DFE6;
+  --navy:#243B57; --steel:#2F5D8C; --amber:#FFC857; --amberDeep:#8A5F00;
+  --ok:#2F7D5B; --okBg:#E4F2EA; --near:#8A5F00; --nearBg:#FFF1CC; --bad:#A8402C; --badBg:#F8E3DD;
+  --soft:#EEF1F4; --navyHover:#1B2E46; --steelHover:#264D75;
+  --font:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0F1722; --card:#17212F; --ink:#E8EEF5; --ink2:#9AA9BA; --line:#2A3A4D; --soft:#1F2C3D; --ph:#6E7E90;
+  --navy:#2F5D8C; --navyHover:#3A6BA0; --steel:#3F77B0; --steelHover:#4B86C2; --amber:#FFC857;
+  --amberDeep:#FFC857; --ok:#6FD3A4; --okBg:#143427; --near:#F0C45A; --nearBg:#3A2E0E; --bad:#F29A86; --badBg:#3D1D17;}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--font);min-height:100vh}
+main{max-width:800px;margin:0 auto;padding:44px 22px 72px}
+header{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:26px}
+h1{font-size:clamp(34px,6vw,50px);line-height:1;letter-spacing:-.02em;font-weight:700;margin:0}
+.sub{margin:8px 0 0;color:var(--ink2);max-width:46ch}
+.voice{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--ink2)}
+select,textarea{font:400 15px var(--font);color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px}
+button{font:700 16px var(--font);border-radius:10px;cursor:pointer;padding:12px 20px;border:1.5px solid transparent;transition:background .15s,border-color .15s}
+button:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+button:disabled{opacity:.45;cursor:default}
+
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:22px}
+.tab{background:none;color:var(--ink2);border-radius:8px 8px 0 0;padding:10px 18px;margin-bottom:-2px;border-bottom:3px solid transparent}
+.tab[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--navy)}
+.tab:hover{color:var(--ink)}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{background:var(--card);color:var(--ink);border-color:var(--line);font-weight:400;font-size:14.5px;padding:6px 12px;border-radius:999px}
+.chip:hover{border-color:var(--steel)}
+.chip[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+.editor{margin-bottom:16px;display:none}
+.editor.on{display:block}
+.editor textarea{width:100%;min-height:110px;resize:vertical}
+.editor .row{display:flex;gap:10px;align-items:center;margin-top:8px;color:var(--ink2);font-size:14px}
+.use{background:var(--navy);color:#fff;padding:9px 16px;font-size:15px}
+
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:26px 26px 20px}
+.label{font-size:14.5px;color:var(--ink2);margin-bottom:12px}
+.words{display:flex;flex-wrap:wrap;gap:10px 8px;margin-bottom:14px}
+.w{display:inline-flex;flex-direction:column;align-items:flex-start;background:none;color:var(--ink);
+   font:700 clamp(26px,5.2vw,38px)/1.15 var(--font);padding:2px 8px 4px;border-radius:8px;border:0;border-bottom:4px solid var(--line)}
+.w:hover{background:var(--soft)}
+.w small{font:400 13px/1.2 var(--font);color:inherit;margin-top:3px;min-height:15px}
+.w.ok{background:var(--okBg);color:var(--ok);border-bottom-color:var(--ok)}
+.w.near{background:var(--nearBg);color:var(--near);border-bottom-color:var(--amber)}
+.w.miss{background:var(--badBg);color:var(--bad);border-bottom-color:var(--bad);text-decoration:underline wavy var(--bad) 1.5px;text-underline-offset:6px}
+.tip{background:var(--soft);border-radius:10px;padding:11px 14px;color:var(--ink);font-size:15.5px;margin-bottom:18px}
+.tip:empty{display:none}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px}
+.listen{background:var(--navy);color:#fff}
+.listen:hover{background:var(--navyHover)}
+.slow{background:var(--card);color:var(--ink);border-color:var(--line)}
+.slow:hover{border-color:var(--steel)}
+.mic{background:var(--steel);color:#fff;display:inline-flex;gap:9px;align-items:center}
+.mic:hover{background:var(--steelHover)}
+.mic i{width:11px;height:11px;border-radius:50%;background:#fff;display:inline-block}
+.mic.on{background:#B4432E}
+.mic.on i{animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.5);opacity:.5}}
+@media (prefers-reduced-motion:reduce){.mic.on i{animation:none}}
+
+.result{margin-top:20px;padding-top:18px;border-top:1.5px solid var(--line);display:none}
+.result.on{display:block}
+.live{color:var(--ink2);min-height:26px;margin-bottom:6px}
+.scoreRow{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+.score{font-size:44px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.verdict{font-size:17px}
+.heard{color:var(--ink2);font-size:15px;margin:8px 0 12px}
+.after{display:flex;gap:10px;flex-wrap:wrap}
+.after button{background:var(--card);color:var(--ink);border-color:var(--line);padding:9px 16px;font-size:15px}
+.after button:hover{border-color:var(--steel)}
+.note{font-size:13.5px;color:var(--ink2);margin-top:12px;max-width:62ch}
+
+.nav{display:flex;align-items:center;gap:12px;margin-top:16px}
+.nav button{background:var(--card);color:var(--ink);border-color:var(--line);padding:9px 16px}
+.nav button:hover:not(:disabled){border-color:var(--steel)}
+.count{color:var(--ink2);font-size:15px}
+.best{margin-left:auto;color:var(--ink2);font-size:15px}
+
+.stats{margin-top:30px;display:flex;flex-wrap:wrap;gap:8px 28px;color:var(--ink2);font-size:15px}
+.stats b{color:var(--ink)}
+.warn{background:var(--nearBg);border-radius:10px;padding:11px 14px;margin-bottom:18px;font-size:15px;display:none}
+.warn.on{display:block}
+
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
+.topbar a{color:var(--ink2);text-decoration:none;font-size:15px;font-weight:500}
+.topbar a:hover{color:var(--ink);text-decoration:underline}
+.topbar a:focus-visible,#themeBtn:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+#themeBtn{width:40px;height:40px;padding:0;border-radius:10px;font-size:17px;background:var(--card);color:var(--ink);border:1.5px solid var(--line);cursor:pointer}
+#themeBtn:hover{border-color:var(--steel)}
+</style>
+</head>
+<body>
+<main>
+  <div class="topbar"><a href="/">&larr; Sharesizer</a><button id="themeBtn" type="button" aria-label="Switch light or dark theme">&#9680;</button></div>
+  <header>
+    <div>
+      <h1>Speak English</h1>
+      <p class="sub">Listen to a model, say it yourself, and see which words came out clearly.</p>
+    </div>
+    <label class="voice">Voice and accent
+      <select id="voice"></select>
+    </label>
+  </header>
+
+  <div class="warn" id="warn">Checking your speech needs Chrome or Edge on a computer or Android phone. You can still listen to every phrase in this browser.</div>
+
+  <div class="tabs" role="group" aria-label="Practice type">
+    <button class="tab" data-mode="sounds" aria-pressed="true">Sounds</button>
+    <button class="tab" data-mode="sentences" aria-pressed="false">Sentences</button>
+    <button class="tab" data-mode="mine" aria-pressed="false">My text</button>
+  </div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="editor" id="editor">
+    <textarea id="mineText" placeholder="Paste your own script or sentences here. Each sentence becomes one practice card."></textarea>
+    <div class="row"><button class="use" id="useMine">Practice this text</button><span id="mineInfo"></span></div>
+  </div>
+
+  <section class="card" id="card" aria-live="off">
+    <div class="label" id="label"></div>
+    <div class="words" id="words"></div>
+    <div class="tip" id="tip"></div>
+    <div class="controls">
+      <button class="listen" id="listen">Listen</button>
+      <button class="slow" id="slow">Listen slowly</button>
+      <button class="mic" id="mic"><i></i><span id="micText">Speak</span></button>
+    </div>
+
+    <div class="result" id="result">
+      <div class="live" id="live" role="status" aria-live="polite"></div>
+      <div class="scoreRow" id="scoreRow" hidden>
+        <span class="score" id="score"></span><span class="verdict" id="verdict"></span>
+      </div>
+      <div class="heard" id="heard"></div>
+      <div class="after" id="after" hidden>
+        <button id="mine">Hear yourself</button>
+        <button id="compare">Compare: model, then you</button>
+      </div>
+      <p class="note" id="note" hidden>Tap any word to hear it slowly. The score shows how clearly the computer understood you. It is a guide, not a verdict on your accent.</p>
+    </div>
+
+    <div class="nav">
+      <button id="prev" aria-label="Previous phrase">‹ Back</button>
+      <span class="count" id="count"></span>
+      <button id="next" aria-label="Next phrase">Next ›</button>
+      <span class="best" id="best"></span>
+    </div>
+  </section>
+
+  <div class="stats" id="stats"></div>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+
+/* ---------------- content ---------------- */
+const SOUNDS=[
+ {label:'th as in think',text:'Thank you for thinking about the three things.',tip:'Put your tongue lightly between your teeth and push air out. Do not say “t” or “s”.'},
+ {label:'th as in this',text:'This is the weather that they like together.',tip:'Same tongue position as “think”, but turn your voice on. You should feel a buzz.'},
+ {label:'r and l',text:'The red light is really long.',tip:'For “r”, pull your tongue back and do not touch the roof of your mouth. For “l”, touch the tip of your tongue just behind your top teeth.'},
+ {label:'ship and sheep',text:'The sheep is on the ship.',tip:'“sheep” has a long, tense “ee”, like a smile. “ship” has a short, relaxed “i”.'},
+ {label:'v and b',text:'Victor bought a very big vase.',tip:'For “v”, touch your top teeth to your lower lip and use your voice. For “b”, press both lips together, then release.'},
+ {label:'w and v',text:'We will visit Vienna in winter.',tip:'For “w”, round your lips and keep your teeth away from them. For “v”, your top teeth touch your lower lip.'},
+ {label:'-ed endings',text:'I worked, played and wanted to stay.',tip:'“worked” ends with a “t” sound, “played” ends with a “d” sound, and “wanted” adds a syllable: want-id.'},
+ {label:'the h sound',text:'Harry hopes his horse is healthy.',tip:'Breathe out softly from your throat. Do not drop the “h”, and do not make it harsh.'},
+ {label:'short and long vowels',text:'Look at the cool pool.',tip:'“look” is short and relaxed. “cool” and “pool” are long, with rounded lips.'},
+ {label:'word stress',text:'I took a photograph with a photographer.',tip:'The loud syllable moves: PHO-to-graph, pho-TO-gra-pher. Say the stressed syllable longer and clearer.'},
+ {label:'sentence rhythm',text:'I want to be better than I was yesterday.',tip:'Stress the important words (want, better, was, yesterday). Say small words (to, be, than, I) quickly and lightly.'}
+];
+const SENTENCES=[
+ 'Hi, my name is Sam. Nice to meet you.',
+ 'Could I have a coffee with milk, please?',
+ 'Excuse me, how do I get to the train station?',
+ 'I would like to book a table for two at seven.',
+ 'What do you do for work?',
+ 'Sorry, could you say that again more slowly?',
+ 'I have been learning English for six months.',
+ 'Let me think about it and get back to you.',
+ 'Thanks for your help. I really appreciate it.',
+ 'Can you tell me what time the meeting starts?',
+ 'I am working on improving my speaking every day.',
+ 'Small steps every day lead to big results.',
+ 'Discipline means choosing what you want most over what you want now.',
+ 'It was great talking to you. Have a good day!'
+].map(t=>({text:t}));
+
+
+/* theme: dark by default, shared with the rest of Sharesizer */
+document.getElementById('themeBtn').onclick=()=>{
+  const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
+  document.documentElement.dataset.theme=next;
+  try{localStorage.setItem('theme',next)}catch(e){}
+};
+
+/* ---------------- storage ---------------- */
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+          set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const todayStr=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+
+/* ---------------- state ---------------- */
+let mode='sounds', idx=0, voices=[], voice=null, listening=false;
+let recog=null, mediaRec=null, mediaStream=null, chunks=[], myUrl=null;
+let results=null;                         /* last evaluation, for tapping words */
+const audioEl=new Audio();
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!SR)$('warn').classList.add('on');
+
+function splitSentences(raw){
+  return raw.split(/\n+/).flatMap(l=>l.trim().split(/(?<=[.!?])\s+/)).map(s=>s.trim()).filter(Boolean).map(t=>({text:t}));
+}
+let mineDeck=splitSentences(ls.get('se.mine',''));
+const deck=()=>mode==='sounds'?SOUNDS:mode==='sentences'?SENTENCES:mineDeck;
+const cur=()=>deck()[idx];
+
+/* ---------------- voices ---------------- */
+function loadVoices(){
+  voices=speechSynthesis.getVoices().filter(v=>/^en[-_]/i.test(v.lang));
+  const sel=$('voice');
+  if(!voices.length){sel.innerHTML='<option>Default voice</option>';return;}
+  const saved=ls.get('se.voice',null);
+  sel.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name.replace(/</g,'')} (${v.lang})</option>`).join('');
+  let i=voices.findIndex(v=>v.voiceURI===saved);
+  if(i<0)i=Math.max(0,voices.findIndex(v=>/en[-_]US/i.test(v.lang)));
+  sel.value=i; voice=voices[i];
+}
+$('voice').onchange=e=>{voice=voices[+e.target.value]; if(voice)ls.set('se.voice',voice.voiceURI);};
+if('speechSynthesis' in window){loadVoices(); speechSynthesis.onvoiceschanged=loadVoices;}
+
+function speak(text,rate){
+  return new Promise(res=>{
+    if(!('speechSynthesis' in window)){res();return;}
+    speechSynthesis.cancel(); audioEl.pause();
+    const u=new SpeechSynthesisUtterance(text);
+    if(voice){u.voice=voice;u.lang=voice.lang;} else u.lang='en-US';
+    u.rate=rate; u.onend=u.onerror=()=>res();
+    speechSynthesis.speak(u);
+  });
+}
+
+/* ---------------- word matching ---------------- */
+const NUM=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+function normWord(w){
+  w=w.toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9']/g,'').replace(/^'+|'+$/g,'');
+  return /^\d+$/.test(w)&&+w<=20?NUM[+w]:w;
+}
+function tokens(text){
+  const disp=text.split(/\s+/).filter(Boolean).map(w=>({d:w,n:normWord(w)})).filter(t=>t.n);
+  return disp;
+}
+function lev(a,b){
+  const m=a.length,n=b.length; if(!m)return n; if(!n)return m;
+  let prev=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){
+    const row=[i];
+    for(let j=1;j<=n;j++)row[j]=Math.min(prev[j]+1,row[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    prev=row;
+  }
+  return prev[n];
+}
+const sim=(a,b)=>1-lev(a,b)/Math.max(a.length,b.length);
+
+function align(T,H){
+  const n=T.length,m=H.length,D=Array.from({length:n+1},()=>Array(m+1).fill(0));
+  for(let i=0;i<=n;i++)D[i][0]=i; for(let j=0;j<=m;j++)D[0][j]=j;
+  for(let i=1;i<=n;i++)for(let j=1;j<=m;j++)
+    D[i][j]=Math.min(D[i-1][j]+1,D[i][j-1]+1,D[i-1][j-1]+1-sim(T[i-1],H[j-1]));
+  const res=Array(n).fill(null); let i=n,j=m;
+  while(i>0||j>0){
+    if(i>0&&j>0&&Math.abs(D[i][j]-(D[i-1][j-1]+1-sim(T[i-1],H[j-1])))<1e-9){res[i-1]={h:H[j-1],s:sim(T[i-1],H[j-1])};i--;j--;}
+    else if(i>0&&Math.abs(D[i][j]-(D[i-1][j]+1))<1e-9){i--;}
+    else j--;
+  }
+  return res;
+}
+function classify(r){ if(!r)return 'miss'; return r.s===1?'ok':r.s>=.6?'near':'miss'; }
+function scoreOf(al){
+  const n=al.length; if(!n)return 0;
+  return al.reduce((s,r)=>s+(classify(r)==='ok'?1:classify(r)==='near'?.5:0),0)/n*100;
+}
+
+/* ---------------- rendering ---------------- */
+function render(){
+  document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===mode));
+  const d=deck();
+  $('editor').classList.toggle('on',mode==='mine');
+  $('chips').innerHTML=mode==='sounds'?SOUNDS.map((s,i)=>`<button class="chip" data-i="${i}" aria-pressed="${i===idx}">${s.label}</button>`).join(''):'';
+  clearResult();
+  if(!d.length){
+    $('label').textContent='';
+    $('words').innerHTML='';
+    $('tip').textContent='Paste some text above and press “Practice this text” to start.';
+    ['listen','slow','mic','prev','next'].forEach(id=>$(id).disabled=true);
+    $('count').textContent=''; $('best').textContent=''; stats(); return;
+  }
+  ['listen','slow','mic'].forEach(id=>$(id).disabled=false);
+  const it=d[idx];
+  $('label').textContent=it.label?it.label:(mode==='mine'?'Your text':'Everyday English');
+  $('tip').textContent=it.tip||'';
+  paintWords(tokens(it.text).map(t=>({t,state:'',hint:''})));
+  $('count').textContent=(idx+1)+' of '+d.length;
+  $('prev').disabled=idx===0; $('next').disabled=idx===d.length-1;
+  const best=ls.get('se.best',{})[it.text];
+  $('best').textContent=best!=null?'Best: '+best+'%':'';
+  stats();
+}
+function paintWords(list){
+  $('words').innerHTML=list.map((x,i)=>{
+    const mark=x.state==='ok'?'✓ ':x.state==='near'?'≈ ':x.state==='miss'?'✗ ':'';
+    return `<button class="w ${x.state}" data-i="${i}" aria-label="${x.t.n}${x.state?' ('+({ok:'clear',near:'close',miss:'not clear'}[x.state])+')':''}">${mark}${x.t.d}<small>${x.hint}</small></button>`;
+  }).join('');
+}
+function clearResult(){
+  $('result').classList.remove('on'); $('scoreRow').hidden=true; $('after').hidden=true; $('note').hidden=true;
+  $('live').textContent=''; $('heard').textContent=''; results=null;
+}
+
+/* ---------------- speaking & checking ---------------- */
+function setMic(on){ listening=on; $('mic').classList.toggle('on',on); $('micText').textContent=on?'Stop':'Speak'; }
+
+async function startRecording(){
+  mediaRec=null; chunks=[];
+  try{
+    mediaStream=await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaRec=new MediaRecorder(mediaStream);
+    mediaRec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+    mediaRec.onstop=()=>{
+      mediaStream.getTracks().forEach(t=>t.stop());
+      if(myUrl)URL.revokeObjectURL(myUrl);
+      myUrl=chunks.length?URL.createObjectURL(new Blob(chunks,{type:mediaRec.mimeType})):null;
+      $('after').hidden=!myUrl||!results;
+    };
+    mediaRec.start();
+  }catch(e){mediaRec=null;}
+}
+function stopRecording(){ if(mediaRec&&mediaRec.state!=='inactive')mediaRec.stop(); }
+
+async function toggleMic(){
+  if(!SR){$('live').textContent='';$('result').classList.add('on');$('live').textContent='Speech checking needs Chrome or Edge.';return;}
+  if(listening){recog&&recog.stop();return;}
+  if(!cur())return;
+  speechSynthesis.cancel(); audioEl.pause(); clearResult(); $('result').classList.add('on');
+  $('live').textContent='Getting your microphone ready…';
+  await startRecording();
+  recog=new SR();
+  recog.lang=voice?voice.lang.replace('_','-'):'en-US';
+  recog.interimResults=true; recog.maxAlternatives=3; recog.continuous=false;
+  let final=null, err=null;
+  recog.onstart=()=>{setMic(true);$('live').textContent='Listening… say the phrase now.';};
+  recog.onresult=e=>{
+    const r=e.results[e.results.length-1];
+    if(r.isFinal)final=[...r].map(a=>a.transcript); else $('live').textContent='Listening… '+r[0].transcript;
+  };
+  recog.onerror=e=>{err=e.error;};
+  recog.onend=()=>{
+    setMic(false); stopRecording();
+    if(final)evaluate(final);
+    else{
+      $('live').textContent=err==='not-allowed'||err==='service-not-allowed'?'Microphone is blocked. Allow microphone access for this page and try again.'
+        :err==='audio-capture'?'No microphone was found.'
+        :err==='network'?'Speech checking needs an internet connection.'
+        :'I did not hear anything. Move closer to the microphone and try again.';
+    }
+  };
+  try{recog.start();}catch(e){setMic(false);stopRecording();$('live').textContent='Could not start listening. Try again.';}
+}
+
+function evaluate(alts){
+  const it=cur(), T=tokens(it.text), Tn=T.map(t=>t.n);
+  let best=null;
+  for(const a of alts){
+    const H=a.split(/\s+/).map(normWord).filter(Boolean);
+    const al=align(Tn,H), sc=scoreOf(al);
+    if(!best||sc>best.sc)best={al,sc,a};
+  }
+  results=best;
+  const list=T.map((t,i)=>{
+    const r=best.al[i], st=classify(r);
+    return {t,state:st,hint:st!=='ok'&&r?'heard: '+r.h:(st==='miss'?'not heard':'')};
+  });
+  paintWords(list);
+  const pct=Math.round(best.sc);
+  $('live').textContent='';
+  $('score').textContent=pct+'%'; $('score').style.color=pct>=85?'var(--ok)':pct>=60?'var(--near)':'var(--bad)';
+  const allOk=list.every(x=>x.state==='ok');
+  $('verdict').textContent=pct>=90&&allOk?'Clear and easy to follow.':pct>=70?'Good. Practice the highlighted words.':pct>=40?'Getting there. Listen slowly, then try again.':'Try again more slowly, one word at a time.';
+  $('scoreRow').hidden=false;
+  $('heard').textContent='I heard: “'+best.a+'”';
+  $('note').hidden=false;
+  $('after').hidden=!myUrl;
+  log(it.text,pct);
+}
+function log(text,pct){
+  const b=ls.get('se.best',{}); if(b[text]==null||pct>b[text])b[text]=pct; ls.set('se.best',b);
+  const l=ls.get('se.log',[]); l.push({d:todayStr(),s:pct}); ls.set('se.log',l.slice(-3000));
+  $('best').textContent='Best: '+b[text]+'%'; stats();
+}
+function stats(){
+  const l=ls.get('se.log',[]), t=todayStr(), today=l.filter(x=>x.d===t);
+  const days=new Set(l.map(x=>x.d)); let streak=0; const d=new Date();
+  if(!days.has(todayStr()))d.setDate(d.getDate()-1);
+  for(;;){const k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); if(days.has(k)){streak++;d.setDate(d.getDate()-1);}else break;}
+  const avg=today.length?Math.round(today.reduce((s,x)=>s+x.s,0)/today.length):null;
+  $('stats').innerHTML=`<span>Today: <b>${today.length}</b> ${today.length===1?'try':'tries'}</span>`+
+    (avg!=null?`<span>Average: <b>${avg}%</b></span>`:'')+`<span>Practice streak: <b>${streak}</b> ${streak===1?'day':'days'}</span>`;
+}
+
+/* ---------------- events ---------------- */
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;idx=0;speechSynthesis.cancel();render();});
+$('chips').onclick=e=>{const c=e.target.closest('.chip');if(c){idx=+c.dataset.i;render();}};
+$('prev').onclick=()=>{if(idx>0){idx--;render();}};
+$('next').onclick=()=>{if(idx<deck().length-1){idx++;render();}};
+$('listen').onclick=()=>speak(cur().text,.95);
+$('slow').onclick=()=>speak(cur().text,.6);
+$('mic').onclick=toggleMic;
+$('words').onclick=e=>{const w=e.target.closest('.w');if(!w)return;speak(tokens(cur().text)[+w.dataset.i].n,.65);};
+$('mine').onclick=()=>{if(myUrl){speechSynthesis.cancel();audioEl.src=myUrl;audioEl.play();}};
+$('compare').onclick=async()=>{await speak(cur().text,.95); if(myUrl){audioEl.src=myUrl;audioEl.play();}};
+$('useMine').onclick=()=>{
+  const raw=$('mineText').value; ls.set('se.mine',raw); mineDeck=splitSentences(raw); idx=0;
+  $('mineInfo').textContent=mineDeck.length+(mineDeck.length===1?' sentence':' sentences')+' ready'; render();
+};
+$('mineText').value=ls.get('se.mine','');
+if(mineDeck.length)$('mineInfo').textContent=mineDeck.length+(mineDeck.length===1?' sentence':' sentences')+' ready';
+document.addEventListener('keydown',e=>{
+  if(e.target.matches('textarea,select'))return;
+  if(e.key==='ArrowRight'&&!$('next').disabled)$('next').click();
+  if(e.key==='ArrowLeft'&&!$('prev').disabled)$('prev').click();
+});
+render();
+</script>
+</body>
+</html>

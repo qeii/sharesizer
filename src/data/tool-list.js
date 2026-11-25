@@ -74,10 +74,22 @@ export const TOOL_LIST = [
     short: 'Notes on blank, lined or quadrant paper.',
     long: 'A distraction-free notepad with three paper styles: plain blank, ruled lines, and a quadrant sheet with four sections and checkbox lines for goals or priorities. Search your notes, compare two side by side, switch to dark mode, and import or export as text, Markdown or a backup file. Notes stay in your browser, and you can optionally autosave them into a folder on your computer.',
     points: ['Blank, lined and quadrant paper', 'Search, compare and export', 'Optional autosave to a folder', 'Stays in your browser'] },
-  { id: 'plan', name: 'Paper Days Planner', href: '/plan',
+  { id: 'plan', name: 'Planner', href: '/plan',
     short: 'A printable two-page weekly planner.',
     long: 'A two-page planner you fill in on screen: a monthly focus, daily priorities, an hour-by-hour schedule, habits and a free-write notes page. Pick a date to jump to its week, tick things off as you go, then print it on paper. Everything is saved in your browser, and you can optionally autosave to a folder on your computer.',
     points: ['Monthly focus, priorities and hourly slots', 'Jump to any week by date', 'Print-ready pages', 'Optional autosave to a folder'] },
+  { id: 'calculator', name: 'Calculator + USD Rates', href: '/calculator',
+    short: 'Calculator beside live dollar exchange rates.',
+    long: 'A calculator and a US dollar exchange-rate converter side by side. Work out a sum, send the result to the converter with one click, and see it in your own currency. Rates update automatically and the last ones are kept for when you are offline.',
+    points: ['Calculator with keyboard support', 'Live USD rates, 160+ currencies', 'Use the result as the amount', 'Last rates saved for offline use'] },
+  { id: 'snip-to-text', name: 'Snip to Text', href: '/snip-to-text',
+    short: 'Drag a box around text to copy it.',
+    long: 'Drag a box around any text on your screen or in an image. It is read in your browser, shown for editing, and copied to your clipboard. Works with 16 languages, and light text on a dark background is flipped automatically before reading.',
+    points: ['Capture a screen area or open an image', 'Paste or drop a screenshot', '16 languages', 'Reads in your browser'] },
+  { id: 'speak-english', name: 'Speak English', href: '/speak-english',
+    short: 'Listen, say it, see which words were clear.',
+    long: 'Practice spoken English: listen to a model phrase, say it yourself, and see which words the computer understood clearly. Work through tricky sounds, everyday sentences, or paste your own script. Your best scores and practice streak are kept in your browser. Speech checking works in Chrome and Edge.',
+    points: ['Sounds, sentences and your own text', 'Word-by-word feedback', 'Choose the voice and accent', 'Streak and best scores'] },
 ];
 
 // Tools that used to live only as tabs on the old home page now get their own page.

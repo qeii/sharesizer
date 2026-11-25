@@ -224,3 +224,7 @@ During development the assistant checked tools with a temporary simulated-browse
 - Use affiliate disclosures wherever affiliate links appear.
 - Do not copy text from other sites. Write original explanations and cite sources in your own words.
 - YouTube rules for the channel: label realistic AI content that could be mistaken for real; avoid mass-produced repetitive videos; check music and AI-tool licenses for commercial use.
+
+
+## Standalone tools (public/*.html)
+`note`, `plan` (Planner), `pdf-viewer`, `calculator` (Calculator + USD Rates), `snip-to-text`, `speak-english` are single HTML files served as-is. They are listed in `src/data/tool-list.js`. Dark is the default theme everywhere; the choice is stored under the `theme` key (Notepad keeps its own `notepad_theme`).
