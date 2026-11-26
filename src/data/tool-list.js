@@ -90,6 +90,10 @@ export const TOOL_LIST = [
     short: 'Listen, say it, see which words were clear.',
     long: 'Practice spoken English: listen to a model phrase, say it yourself, and see which words the computer understood clearly. Work through tricky sounds, everyday sentences, or paste your own script. Your best scores and practice streak are kept in your browser. Speech checking works in Chrome and Edge.',
     points: ['Sounds, sentences and your own text', 'Word-by-word feedback', 'Choose the voice and accent', 'Streak and best scores'] },
+  { id: 'find-replace', name: 'Find & Replace', href: '/find-replace',
+    short: 'Ctrl+H for any text. Remove spaces, add words.',
+    long: 'Find and replace words in your text the way Ctrl+H works in Notepad, with match case, whole word and regular expressions. Remove spaces, collapse extra spaces, and add a word to the front or back of every line or word. Your text never leaves your browser.',
+    points: ['Find next, Replace and Replace all', 'Remove or collapse spaces', 'Add text in front or at the end', 'Undo and live match count'] },
 ];
 
 // Tools that used to live only as tabs on the old home page now get their own page.

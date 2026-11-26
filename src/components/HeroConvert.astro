@@ -1,0 +1,48 @@
+---
+// Quick convert box shown under the clock on the home page. Everything runs in the browser.
+---
+<section class="quick" aria-labelledby="quick-h">
+  <div class="qc" id="qc">
+    <div class="qc-head">
+      <h2 id="quick-h">Quick convert</h2>
+      <p>Drop an image, pick a format, download it. Nothing is uploaded.</p>
+    </div>
+
+    <label class="qc-drop" id="qcDrop" tabindex="0">
+      <input id="qcFile" type="file" accept="image/*" hidden />
+      <svg class="qc-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>
+      <strong>Drop an image here</strong>
+      <span>or click to choose a file · you can also paste with Ctrl+V</span>
+    </label>
+
+    <div class="qc-work" id="qcWork" hidden>
+      <div class="qc-thumb"><img id="qcImg" alt="Your image" /></div>
+      <div class="qc-info">
+        <div class="qc-name" id="qcName"></div>
+        <div class="qc-meta" id="qcMeta"></div>
+
+        <div class="qc-label" id="qcFmtLabel">Convert to</div>
+        <div class="qc-formats" id="qcFormats" role="group" aria-labelledby="qcFmtLabel">
+          <button type="button" class="qc-chip" data-f="png" aria-pressed="false">PNG</button>
+          <button type="button" class="qc-chip" data-f="jpg" aria-pressed="false">JPG</button>
+          <button type="button" class="qc-chip" data-f="webp" aria-pressed="false">WebP</button>
+        </div>
+
+        <div class="qc-q" id="qcQ">
+          <label for="qcQuality">Quality <output id="qcQv">90</output>%</label>
+          <input id="qcQuality" type="range" min="40" max="100" step="1" value="90" />
+        </div>
+
+        <div class="qc-result">
+          <span class="qc-out" id="qcOut" role="status" aria-live="polite"></span>
+          <a id="qcDl" class="qc-dl" href="#" download>Download</a>
+        </div>
+        <button type="button" class="qc-again" id="qcAgain">Choose another image</button>
+      </div>
+    </div>
+
+    <p class="qc-msg" id="qcMsg" role="alert"></p>
+    <p class="qc-more">Need more? <a href="/resize-image">Resize</a> · <a href="/compress-image">Compress</a> · <a href="/crop-image">Crop</a> · <a href="/image-converter">Full converter</a></p>
+  </div>
+</section>
+<script>import '../scripts/hero-convert.js';</script>

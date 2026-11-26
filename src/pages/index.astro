@@ -1,74 +1,211 @@
 ---
 import Base from "../layouts/Base.astro";
+import "../styles/home.css";
 import { TOOL_LIST } from "../data/tool-list.js";
+import { PLATFORMS } from "../data/hub.js";
+import { CONVERTERS } from "../data/tool-pages.js";
 import HomeClock from "../components/HomeClock.astro";
-import SizeHub from "../components/SizeHub.astro";
+import HeroConvert from "../components/HeroConvert.astro";
 import PromoCard from "../components/PromoCard.astro";
 import Icon from "../components/Icon.astro";
+
+const GROUPS = [
+  { cat: "time", title: "Time & focus", ids: ["alarm", "timer", "stopwatch", "time"] },
+  { cat: "image", title: "Image editing", ids: ["photo-editor", "resize-image", "compress-image", "crop-image", "image-converter", "color-picker"] },
+  { cat: "social", title: "Social & YouTube", ids: ["aspect-ratio-calculator", "social-image-maker", "social-size-checker", "youtube-thumbnail-tester", "youtube-image-sizes"] },
+  { cat: "util", title: "Everyday utilities", ids: ["qr-code-generator", "pdf-viewer", "note", "plan", "calculator", "snip-to-text", "speak-english", "find-replace"] },
+];
+const byId = Object.fromEntries(TOOL_LIST.map((t) => [t.id, t]));
+const grouped = new Set(GROUPS.flatMap((g) => g.ids));
+const leftovers = TOOL_LIST.filter((t) => !grouped.has(t.id)); // a new tool never goes missing
+if (leftovers.length) GROUPS[3].ids.push(...leftovers.map((t) => t.id));
+const catOf = Object.fromEntries(GROUPS.flatMap((g) => g.ids.map((id) => [id, g.cat])));
+const strip = (s) => s.replace(/<[^>]+>/g, "");
+const N = TOOL_LIST.length;
+
+const platforms = PLATFORMS.filter((p) => p.name !== "Image Converter");
+const copyVal = (s) => s.split(" · ")[0];
+const ratioOf = (c) => (c.sizes.length === 1 && (c.sizes[0].split(" · ")[1] || "").includes(":") ? c.sizes[0].split(" · ")[1] : "");
+const WHY = { png: "Lossless, keeps transparency", jpg: "Small files, opens everywhere", webp: "Smaller files for the web" };
+
+const FAQ = [
+  ["Are Sharesizer tools free to use?", "Yes. Every tool on this page is free, with no account, watermark or trial limit. The site is supported by optional paid planner kits at KitPaper, not by ads or selling data."],
+  ["Do my files get uploaded to a server?", "No. Images, PDFs and notes are processed locally in your browser. Nothing is transferred, stored or logged. Only a few tools fetch something from the internet, such as exchange rates or text-reading language data, and none of them send your files."],
+  ["Which image formats can I convert between?", "PNG, JPG (JPEG) and WebP in every combination, with a quality slider for lossy formats. The Quick convert box above also offers AVIF in browsers that can save it."],
+  ["What sizes should I use for YouTube, Instagram and TikTok?", "YouTube thumbnail 1280×720 (16:9) and channel banner 2560×1440; Instagram post 1080×1080 or 1080×1350 and Story/Reel 1080×1920; TikTok 1080×1920. The size tools on this page resize and crop to these specs in one click."],
+  ["Which browsers are supported?", "Any modern browser (Chrome, Edge, Firefox, Safari) runs the image tools. A few tools, such as PDF Folder Viewer, Snip to Text and speech checking in Speak English, work best in Chrome or Edge on desktop."],
+  ["Do the tools work on mobile and on a slow connection?", "Yes. All processing happens on your device and every layout is mobile-friendly, so once a page loads it keeps working even on a flaky connection. Notes and planner entries stay saved in your browser."],
+];
+const origin = new URL("/", Astro.site).href;
+const ld = [
+  { "@context": "https://schema.org", "@type": "WebSite", name: "Sharesizer", alternateName: "Image tools for creators", url: origin },
+  { "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Sharesizer", url: origin, applicationCategory: "MultimediaApplication", operatingSystem: "Any (web browser)",
+    description: "Free in-browser image tools for content creators: resize, crop, compress, convert, social media size checkers, YouTube thumbnail tester, QR code generator and more. No uploads, no sign-up.",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, featureList: TOOL_LIST.map((t) => t.name) },
+  { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQ.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) },
+];
 ---
 
-<Base>
-  <section class="hero">
-    <h1>Free image tools for content creators</h1>
-    <p>
-      Resize, crop, compress, convert and check social media sizes. Everything
-      runs in your browser, so your files never leave your device.
-    </p>
+<Base wide={true} ld={ld}>
+  <section class="home-hero wrap">
+    <span class="eyebrow">Free online tools · No sign-up</span>
+    <h1>Free image tools for <span class="grad">content creators</span></h1>
+    <p class="lede">Resize, crop, compress, convert and check social media sizes. Everything runs in your browser, so your files never leave your device.</p>
   </section>
 
-  <HomeClock />
+  <div class="hero-clock"><HomeClock /></div>
+  <HeroConvert />
 
-  <nav class="tool-index" aria-label="All tools">
-    {
-      TOOL_LIST.map((t) => (
-        <a class="ti-card" href={t.href}>
-          <span class="ti-name">{t.name}</span>
-          <span class="ti-short">{t.short} <b aria-hidden="true">→</b></span>
-        </a>
-      ))
-    }
-  </nav>
+  <section id="tools" class="band">
+    <div class="wrap">
+      <div class="h-head">
+        <div>
+          <span class="eyebrow">Toolbox</span>
+          <h2>Every tool, one page</h2>
+          <p>Search or scroll. Every card opens a free tool that runs locally on your device.</p>
+        </div>
+        <div class="tool-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="toolSearch" type="search" placeholder="Search tools… e.g. resize, QR, timer" aria-label="Search tools" autocomplete="off" />
+          <span class="t-count" id="toolCount" aria-live="polite"></span>
+        </div>
+      </div>
 
-  <PromoCard placement="home" />
-
-  <SizeHub />
-
-  <section class="tool-about" aria-labelledby="about-h">
-    <h2 id="about-h">What each tool does</h2>
-    {
-      TOOL_LIST.map((t) => (
-        <article class="ta-item" id={t.id}>
-          <div class="ta-head">
-            <span class="ta-icon" aria-hidden="true"><Icon name={t.id} size={28} /></span>
-            <h3>{t.name}</h3>
+      {GROUPS.map((g) => (
+        <div class="tool-group" data-cat={g.cat}>
+          <h3 class="group-t">{g.title}</h3>
+          <div class="hg tools">
+            {g.ids.map((id) => byId[id]).filter(Boolean).map((t) => (
+              <a class="t-card" href={t.href} data-tags={`${t.name} ${strip(t.short)} ${t.points.join(" ")}`.toLowerCase()}>
+                <span class="t-ico"><Icon name={t.id} size={20} /></span>
+                <span class="t-body"><strong>{t.name}</strong><small>{t.short}</small></span>
+                <b class="t-arrow" aria-hidden="true">→</b>
+              </a>
+            ))}
           </div>
-          <p set:html={t.long} />
-          <ul>{t.points.map((p) => <li>{p}</li>)}</ul>
-          <a class="ta-link" href={t.href}>Open {t.name} <b>→</b></a>
-        </article>
-      ))
-    }
+        </div>
+      ))}
+      <p class="no-res" id="noResults" hidden>No tool matches “<span id="noResQ"></span>”. Try “resize”, “convert” or “timer”.</p>
+      <div class="h-promo"><PromoCard placement="home" /></div>
+    </div>
   </section>
-</Base>
 
-<style>
-  .tool-index { max-width:1040px; margin:28px auto 0; display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
-  .ti-card { display:flex; flex-direction:column; gap:6px; padding:18px; border-radius:18px; border:1px solid var(--line); background:var(--panel); color:inherit; text-decoration:none; transition:transform .15s,border-color .15s,box-shadow .15s; }
-  :global(:root[data-theme="light"]) .ti-card, :global(:root[data-theme="light"]) .ta-item { background:#fff; }
-  .ti-card:hover, .ti-card:focus-visible { transform:translateY(-3px); border-color:var(--accent); box-shadow:var(--shadow); outline:none; }
-  .ta-icon { display:inline-grid; place-items:center; width:30px; height:30px; flex:none; }
-  .ti-name { font-weight:700; font-size:1.05rem; color:var(--text); }
-  .ti-short { font-size:14px; color:var(--muted); }
-  .ti-short b { display:inline-block; color:var(--violet-text); font-weight:700; transition:transform .15s; }
-  .ti-card:hover .ti-short b, .ti-card:focus-visible .ti-short b { transform:translateX(4px); }
-  .tool-about { max-width:1040px; margin:56px auto 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; }
-  .tool-about > h2 { grid-column:1 / -1; font-size:1.5rem; letter-spacing:-.02em; margin:0 0 4px; }
-  .ta-item { display:flex; flex-direction:column; padding:22px; border-radius:18px; border:1px solid var(--line); background:var(--panel); scroll-margin-top:90px; }
-  .ta-head { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
-  .ta-head h3 { margin:0; font-size:1.15rem; }
-  .ta-item p { margin:0 0 12px; color:var(--text-2); font-size:15px; }
-  .ta-item p :global(a) { color:var(--violet-text); }
-  .ta-item ul { margin:0 0 16px; padding-left:18px; color:var(--muted); font-size:14px; flex:1; }
-  .ta-link { align-self:flex-start; font-weight:600; font-size:14px; color:var(--violet-text); text-decoration:none; }
-  .ta-link:hover b { display:inline-block; transform:translateX(4px); }
-</style>
+  <section id="size-tools" class="band band-alt">
+    <div class="wrap">
+      <div class="h-head">
+        <div>
+          <span class="eyebrow">Cheatsheet + tools</span>
+          <h2>Size tools by platform</h2>
+          <p>Pick a platform, then an image type. Each one opens a free tool that resizes and crops your image for you. Tap any size to copy it.</p>
+        </div>
+      </div>
+      <div class="hg platforms">
+        {platforms.map((p) => (
+          <article class="p-card">
+            <div class="p-head"><span class="p-ico"><Icon name={p.icon} size={18} /></span><h3>{p.name}</h3></div>
+            <ul class="specs">
+              {p.cards.map((c) => (
+                <li class="spec">
+                  <div class="spec-top"><strong>{c.name}</strong>{ratioOf(c) && <span class="ratio">{ratioOf(c)}</span>}</div>
+                  <div class="spec-bot">
+                    <div class="dims">{c.sizes.map((s) => <button type="button" class="dim" data-copy={copyVal(s)} title="Copy dimensions">{c.sizes.length > 1 ? s : copyVal(s)}</button>)}</div>
+                    <a href={c.href}>Resize →</a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="converters" class="band">
+    <div class="wrap">
+      <div class="h-head">
+        <div>
+          <span class="eyebrow">Format converters</span>
+          <h2>Convert any image format</h2>
+          <p>Free, private, no upload. Every conversion happens on your device.</p>
+        </div>
+      </div>
+      <div class="hg conv">
+        {CONVERTERS.map((c) => (
+          <a class="c-card" href={`/${c.slug}`}>
+            <span class="c-fmt">{c.fromLabel} <b aria-hidden="true">→</b> {c.toLabel}</span>
+            <small>{WHY[c.to]}</small>
+          </a>
+        ))}
+        <a class="c-card" href="/image-converter">
+          <span class="c-fmt">Any format <b aria-hidden="true">→</b> any</span>
+          <small>Full converter with quality control</small>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="guides" class="band band-alt cv-auto">
+    <div class="wrap">
+      <div class="h-head">
+        <div>
+          <span class="eyebrow">Guides</span>
+          <h2>What each tool does</h2>
+          <p>Short, honest explanations, so you know exactly what you get before you open a tool.</p>
+        </div>
+      </div>
+      <div class="hg guides">
+        {TOOL_LIST.map((t) => (
+          <article class="g-card" id={t.id} data-cat={catOf[t.id]}>
+            <div class="g-head"><span class="t-ico"><Icon name={t.id} size={20} /></span><h3>{t.name}</h3></div>
+            <p set:html={t.long} />
+            <ul>{t.points.map((p) => <li>{p}</li>)}</ul>
+            <a class="t-link" href={t.href}>Open {t.name} <b>→</b></a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="band cv-auto">
+    <div class="wrap">
+      <div class="h-head" style="justify-content:center;text-align:center">
+        <div style="margin:0 auto"><span class="eyebrow">Good to know</span><h2>Frequently asked questions</h2></div>
+      </div>
+      <div class="faq-wrap">
+        {FAQ.map(([q, a]) => (
+          <details class="faq"><summary><h3>{q}</h3></summary><p>{a}</p></details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <button id="toTop" type="button" aria-label="Back to top">↑</button>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    // tool search
+    const cards = [...document.querySelectorAll(".t-card")], groups = [...document.querySelectorAll(".tool-group")];
+    const input = $("#toolSearch"), count = $("#toolCount"), none = $("#noResults");
+    function filter() {
+      const q = input.value.trim().toLowerCase(); let n = 0;
+      cards.forEach((c) => { const hit = !q || (c.dataset.tags + " " + c.textContent).toLowerCase().includes(q); c.hidden = !hit; if (hit) n++; });
+      groups.forEach((g) => { g.hidden = !g.querySelector(".t-card:not([hidden])"); });
+      count.textContent = q ? `${n} / ${cards.length}` : "";
+      $("#noResQ").textContent = input.value.trim();
+      none.hidden = n !== 0;
+    }
+    input.addEventListener("input", filter);
+    // copy dimensions
+    let tt; const toast = (m) => { const t = $("#toast"); t.textContent = m; t.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("show"), 1600); };
+    document.addEventListener("click", (e) => {
+      const b = e.target.closest(".dim"); if (!b) return;
+      const v = b.dataset.copy;
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(() => toast("Copied " + v), () => toast(v)); else toast(v);
+    });
+    // back to top
+    const top = $("#toTop");
+    addEventListener("scroll", () => top.classList.toggle("show", scrollY > 700), { passive: true });
+    top.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+  </script>
+</Base>

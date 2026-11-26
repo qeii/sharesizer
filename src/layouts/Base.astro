@@ -5,7 +5,8 @@ import '../styles/editor.css';
 import '../styles/blog.css';
 import '../styles/thumb.css';
 import '../styles/hub.css';
-const { title = 'Sharesizer — Free Image Tools for Creators', description = 'Resize, crop, compress, convert and check social media image sizes in your browser. Files never leave your device.', ld = [] } = Astro.props;
+import '../styles/ui.css';
+const { title = 'Sharesizer — Free Image Tools for Creators', description = 'Resize, crop, compress, convert and check social media image sizes in your browser. Files never leave your device.', ld = [], wide = false } = Astro.props;
 import { PROMO, promoUrl } from '../data/site.js';
 ---
 <!doctype html>
@@ -38,25 +39,46 @@ import { PROMO, promoUrl } from '../data/site.js';
       </linearGradient>
     </defs>
   </svg>
-  <header>
-    <div class="container header-inner">
-      <a class="logo" href="/" style="text-decoration:none;color:inherit">
-        <div class="logo-badge" style="color:#fff">SS</div>
-        <div>Sharesizer<span class="logo-sub">Image tools for creators</span></div>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-head">
+    <div class="wrap head-in">
+      <a class="brand" href="/" aria-label="Sharesizer home">
+        <span class="logo-mark">S</span>
+        <span class="brand-tx"><strong>Sharesizer</strong><small>Image tools for creators</small></span>
       </a>
-      <div class="header-actions">
-        <nav class="nav" aria-label="Main"><a href="/blog">Creator Guides</a></nav>
-        <div class="header-badge">Files stay in your browser</div>
+      <nav class="main-nav" aria-label="Main">
+        <a href="/#tools">Tools</a><a href="/#size-tools">Social sizes</a><a href="/#converters">Converters</a><a href="/#guides">Guides</a><a href="/#faq">FAQ</a><a href="/blog">Blog</a>
+      </nav>
+      <div class="head-actions">
+        <span class="pill-lock"><i aria-hidden="true"></i>Files stay in your browser</span>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch light/dark theme">◐</button>
       </div>
     </div>
   </header>
-  <main class="container"><slot /></main>
-  <footer>
-    <div class="container">
-      <strong>Sharesizer</strong>
-      <nav class="nav" aria-label="Footer"><a href="/about">About</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a><a href={promoUrl('footer')} target="_blank" rel="noopener">{PROMO.footer}</a></nav>
-      <span>All processing happens locally in your browser. Social specs are recommendations and may change.</span>
+  <main id="main" class={wide ? 'wide-main' : 'container'}><slot /></main>
+  <footer class="site-foot">
+    <div class="wrap">
+      <div class="f-grid">
+        <div>
+          <a class="brand" href="/"><span class="logo-mark">S</span><span class="brand-tx"><strong>Sharesizer</strong><small>Image tools for creators</small></span></a>
+          <p class="f-blurb">Free, private tools that run entirely in your browser. Resize, compress, convert and check sizes, without ever uploading a file.</p>
+        </div>
+        <div><h4>Popular tools</h4><ul>
+          <li><a href="/resize-image">Image Resizer</a></li><li><a href="/compress-image">Image Compressor</a></li>
+          <li><a href="/image-converter">Image Converter</a></li><li><a href="/photo-editor">Photo Editor</a></li>
+          <li><a href="/qr-code-generator">QR Code Generator</a></li></ul></div>
+        <div><h4>Platform sizes</h4><ul>
+          <li><a href="/youtube-thumbnail-size">YouTube thumbnail</a></li><li><a href="/instagram-post-size">Instagram post</a></li>
+          <li><a href="/tiktok-image-size">TikTok image</a></li><li><a href="/facebook-cover-photo-size">Facebook cover</a></li>
+          <li><a href="/#size-tools">All platforms</a></li></ul></div>
+        <div><h4>Company</h4><ul>
+          <li><a href="/about">About</a></li><li><a href="/privacy">Privacy</a></li><li><a href="/contact">Contact</a></li>
+          <li><a href="/blog">Blog</a></li><li><a href={promoUrl('footer')} target="_blank" rel="noopener">{PROMO.footer}</a></li></ul></div>
+      </div>
+      <div class="f-bottom">
+        <span>© {new Date().getFullYear()} Sharesizer</span>
+        <span>All processing happens locally in your browser. Social specs are recommendations and may change.</span>
+      </div>
     </div>
   </footer>
   <script>

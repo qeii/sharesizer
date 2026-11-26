@@ -1,18 +1,20 @@
 :root{
-  --ink:255 255 255;--bg:#05070d;--text:#f8fafc;--text-2:#cbd5e1;--muted:#94a3b8;
-  --accent:#7c3aed;--accent-2:#06b6d4;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;
-  --radius:24px;--shadow:0 20px 60px rgba(0,0,0,.35);--header-bg:rgba(5,7,13,.72);--preview-bg:rgba(15,23,42,.5);
-  --ok-text:#86efac;--warn-text:#fcd34d;--bad-text:#fca5a5;--violet-text:#c4b5fd;--cyan-text:#67e8f9;
+  --ink:255 255 255;--bg:#0b0d12;--bg2:#0e1118;--surface:#141822;--surface2:#1b2130;--border:#242b3a;--border2:#303a4e;--faint:#78849b;
+  --text:#e9edf5;--text-2:#c3ccdb;--muted:#a0aabb;
+  --accent:#8b7cff;--accent-2:#4cc2ff;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;
+  --radius:16px;--shadow:0 14px 34px -16px rgba(0,0,0,.55);--header-bg:rgba(11,13,18,.82);--preview-bg:rgba(15,23,42,.5);
+  --ok-text:#86efac;--warn-text:#fcd34d;--bad-text:#fca5a5;--violet-text:#b3a8ff;--cyan-text:#67e8f9;
   --panel:rgb(var(--ink)/.06);--panel-2:rgb(var(--ink)/.08);--line:rgb(var(--ink)/.1);
   color-scheme:dark;
 }
 :root[data-theme="light"]{
-  --ink:15 23 42;--bg:#f5f6fa;--text:#0f172a;--text-2:#334155;--muted:#5b6678;
-  --accent:#6d28d9;--accent-2:#0891b2;--shadow:0 10px 30px rgba(15,23,42,.08);--header-bg:rgba(255,255,255,.8);--preview-bg:#e9edf5;
-  --ok-text:#15803d;--warn-text:#b45309;--bad-text:#b91c1c;--violet-text:#6d28d9;--cyan-text:#0e7490;
+  --ink:15 23 42;--bg:#f6f7fb;--bg2:#eef0f6;--surface:#ffffff;--surface2:#f2f4f9;--border:#e2e6ef;--border2:#cfd6e4;--faint:#8a93a3;
+  --text:#151821;--text-2:#334155;--muted:#5b6472;
+  --accent:#5b4df0;--accent-2:#0284c7;--shadow:0 14px 30px -18px rgba(23,32,64,.25);--header-bg:rgba(246,247,251,.85);--preview-bg:#e9edf5;
+  --ok-text:#15803d;--warn-text:#b45309;--bad-text:#b91c1c;--violet-text:#5b4df0;--cyan-text:#0e7490;
   color-scheme:light;
 }
-body{background:radial-gradient(circle at top left,rgba(124,58,237,.18),transparent 32%),radial-gradient(circle at top right,rgba(6,182,212,.14),transparent 28%),var(--bg)}
+body{background:radial-gradient(circle at top left,rgba(139,124,255,.13),transparent 34%),radial-gradient(circle at top right,rgba(76,194,255,.09),transparent 30%),var(--bg)}
 :root[data-theme="light"] body{background:radial-gradient(circle at top left,rgba(124,58,237,.07),transparent 32%),radial-gradient(circle at top right,rgba(6,182,212,.07),transparent 28%),var(--bg)}
 :root[data-theme="light"] .card{background:#fff;border-color:rgb(15 23 42/.1)}
 :root[data-theme="light"] .tab:hover{color:var(--text)}

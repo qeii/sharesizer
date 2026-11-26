@@ -56,6 +56,21 @@ export const UTILITIES = [
     faq: [['What is the difference between aspect ratio and resolution?', 'Resolution is the number of pixels, like 1920×1080. Aspect ratio is the shape, like 16:9. Many different resolutions share one ratio.'], ['What if my image does not match the ratio I need?', 'You can crop it to the new shape or add padding. The <a href="/#size-tools">size guides</a> do this for each platform.'], ['Does changing the size change the ratio?', 'Not if you scale the width and height by the same factor. That is what this calculator does.']],
     related: [['/resize-image', 'Resize an image'], ['/crop-image', 'Crop an image'], ['/youtube-thumbnail-size', 'YouTube thumbnail size (16:9)'], ['/instagram-story-size', 'Instagram Story size (9:16)']],
   },
+  {
+    slug: 'find-replace', crumb: 'Find and replace',
+    title: 'Find and Replace Text Online: Ctrl+H, Remove Spaces, Add Text | Sharesizer', h1: 'Find and Replace Text Online',
+    description: 'Find and replace words in any text like Ctrl+H in Notepad. Match case, whole word and regex, remove spaces, and add text to the front or back of every line. Free and private.',
+    intro: 'Paste your text, then find and replace words the way Ctrl+H works in Notepad. You can also remove spaces and add a word to the front or back of every line. Your text stays in your browser and is never uploaded.',
+    steps: ['Paste or type your text in the box.', 'To replace a word, type it in Find what and its new version in Replace with. Press Find next, Replace or Replace all.', 'To tidy spaces, press Remove all spaces, Collapse extra spaces, Trim line edges or Remove blank lines.', 'To add a word at the start or end, fill in Add in front and Add at the end, choose every line, every word or whole text, then press Add.', 'Press Undo if you do not like a change, then Copy your text.'],
+    sections: [
+      { h: 'Match case, whole word and regular expressions', p: ['Match case treats Apple and apple as different words. Whole word skips matches inside longer words, so cat will not change category. Regular expressions let you search patterns, such as digits or a repeated word.'] },
+      { h: 'Useful regular expressions', ul: ['<code>\\d+</code> finds any number.', '<code>\\s{2,}</code> finds two or more spaces in a row.', '<code>(\\w+) (\\w+)</code> with <code>$2 $1</code> swaps two words.', '<code>^</code> matches the start of every line and <code>$</code> the end, so replacing <code>^</code> with <code>- </code> puts a dash in front of each line.'] },
+      { h: 'Remove spaces and clean up text', p: ['Remove all spaces deletes every space and tab but keeps your line breaks. Collapse extra spaces turns runs of spaces into one. Trim line edges removes spaces at the start and end of each line. Remove blank lines deletes empty lines.'] },
+      { h: 'Add a word in front or back', p: ['Choose every line to put text before and after each line, such as quotes or a bullet. Choose every word to wrap each word. Choose whole text to add something once at the very start or end.'] },
+    ],
+    faq: [['Is this the same as Ctrl+H in Notepad?', 'It works the same way. Type what to find, type what to put instead, and choose Replace or Replace all. It adds an Undo button and a live match count.'], ['Is my text uploaded anywhere?', 'No. Everything runs in your browser on your own device, so your text is never sent to a server.'], ['How do I replace a line break?', 'Turn on Use regular expression, type <code>\\n</code> in Find what, and type a space or any other text in Replace with. In regular expression mode, <code>\\n</code> and <code>\\t</code> in Replace with mean a new line and a tab.'], ['Can I undo Replace all?', 'Yes. Press Undo to go back one step. Up to 50 steps are kept while the page is open.'], ['What does Whole word do?', 'It only matches the word on its own, not inside a longer word. With it on, finding <code>art</code> will not match <code>party</code>.']],
+    related: [['/note', 'Notepad'], ['/snip-to-text', 'Snip to Text'], ['/calculator', 'Calculator + USD rates'], ['/resize-image', 'Resize an image']],
+  },
 ];
 export { PRIVATE };
 export const utilityCards = UTILITIES.map((u) => ({ href: `/${u.slug}`, name: u.h1.replace(' Online', ''), sizes: ['Free tool'], does: 'Private, no upload' }));

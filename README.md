@@ -228,3 +228,6 @@ During development the assistant checked tools with a temporary simulated-browse
 
 ## Standalone tools (public/*.html)
 `note`, `plan` (Planner), `pdf-viewer`, `calculator` (Calculator + USD Rates), `snip-to-text`, `speak-english` are single HTML files served as-is. They are listed in `src/data/tool-list.js`. Dark is the default theme everywhere; the choice is stored under the `theme` key (Notepad keeps its own `notepad_theme`).
+
+## Home page and design layer
+`src/pages/index.astro` is the home page (hero words, big clock, Quick convert box, tools, sizes, converters, guides, FAQ). Shared styles: `src/styles/ui.css` (header, footer, cards) and `src/styles/home.css` (home only). Quick convert: `src/components/HeroConvert.astro` + `src/scripts/hero-convert.js`. Find & Replace: `src/components/tools/FindReplace.astro` + `src/scripts/tools/findreplace.js`.
